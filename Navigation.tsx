@@ -186,13 +186,13 @@ function navigation() {
           }}
         />
 
-        <Tap.Screen
+        {/*<Tap.Screen
           name="submit"
           component={UploadFileComponent}
           options={{
             tabBarIcon: () => <Icon name="upload" color={'white'} size={25} />,
           }}
-        />
+        />*/}
 
         <Tap.Screen
           name="Settings"

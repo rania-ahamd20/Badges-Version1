@@ -40,13 +40,14 @@ function getTime(date: any) {
 const CourseDetailsTr = ({route, navigation}: any) => {
   const [Course, setCourse]: any = useState(route.params.course);
   const [Users, setUsers]: any = useState([]);
-  const [User, setUser]: any = useState([]);
+
   const [instructor, setinst]: any = useState({});
   const [UsersC, setCt]: any = useState([]);
   const [Check, setCheck] = useState(false);
+
+  const [User, setUser]: any = useState([]);
   const [Assignments, setAssignments]: any = useState([]);
   const [selectedAssignment, setSelectedAssignment]: any = useState(null);
-
   const [isVisible, setIsVisible] = useState(false);
   const [file, setFile]: any = useState(null);
 
@@ -64,6 +65,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       }
     }
   };
+
   const Upload = (assignment: any) => {
     setSelectedAssignment(assignment);
     setIsVisible(true);
@@ -125,6 +127,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       console.error('Error uploading file:', error);
     }
   };
+
   const fetchDataUsers = async () => {
     await axios
       .get('https://44b3-92-253-55-73.ngrok-free.app/api/User')
@@ -144,6 +147,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       })
       .catch(err => console.log(err));
   };
+
   const closeModal = () => {
     setIsVisible(false);
   };
@@ -159,6 +163,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       })
       .catch(err => console.log(err));
   };
+
   const getuserData = async () => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       await axios
@@ -173,6 +178,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
         });
     });
   };
+
   useEffect(() => {
     fetchDataUsers();
     getuserData();
