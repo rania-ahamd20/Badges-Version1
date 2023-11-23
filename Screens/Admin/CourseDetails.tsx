@@ -46,7 +46,7 @@ const CourseDetails = ({ route, navigation }: any) => {
     const [attendanceid, setattendance]: any = useState();
 
     const RemoveTr = async (ctid:any) => {
-      await axios.delete('https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
+      await axios.delete('https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
       .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
@@ -55,13 +55,13 @@ const CourseDetails = ({ route, navigation }: any) => {
     }
 
     const fetchDataUsers = async () => {
-        await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/User')
+        await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
+                await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -75,7 +75,7 @@ const CourseDetails = ({ route, navigation }: any) => {
 
     const fetchDataAt = async () => {
 
-        await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/Attendance')
+        await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid)
                 setattendance(id.attendanceid);
@@ -88,7 +88,6 @@ const CourseDetails = ({ route, navigation }: any) => {
 
     useEffect(() => {
         fetchDataUsers();
-        //  fetchDataUC();
         fetchDataAt();
 
     }, []);
@@ -104,8 +103,8 @@ const CourseDetails = ({ route, navigation }: any) => {
                     <Image
                         source={{ uri: Course.image }}
                         style={{
-                            width: '100%', // Adjust the width as needed
-                            height: 200, // Adjust the height as needed
+                            width: '100%',
+                            height: 200,
                             marginBottom: Spacing * 2,
                             resizeMode: 'cover'
                         }}
@@ -251,8 +250,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   button1: {
-    borderWidth: 2, // Adjust the border width as needed
-    borderColor: Colors.secondary, // Set the default border color here
+    borderWidth: 2,
+    borderColor: Colors.secondary,
     padding: 8,
     borderRadius: 15,
     alignItems: 'center',
@@ -261,7 +260,7 @@ const styles = StyleSheet.create({
   },
   buttonText1: {
     fontSize: FontSize.medium / 1.2,
-    color: Colors.secondary, // Set the text color to match the border color
+    color: Colors.secondary,
   },
 });
 

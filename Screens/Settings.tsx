@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,7 +14,7 @@ const SettingsScreen = ({ navigation }: any) => {
     const [user, setUser]: any = useState();
     const getuserData = async () => {
         await AsyncStorage.getItem('userid').then(async (id: any) => {
-            await axios.get(`https://2c7d-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
+            await axios.get(`https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
                 .then(async (res: any) => {
 
                     console.log('User : ', res.data);

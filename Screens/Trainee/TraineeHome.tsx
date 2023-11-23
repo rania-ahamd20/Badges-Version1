@@ -14,7 +14,7 @@ const HomeTrainee = ({navigation, route}: any) => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       await axios
         .get(
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
+          'https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
             parseInt(id, 10),
         )
         .then(async result => {
@@ -40,8 +40,6 @@ const HomeTrainee = ({navigation, route}: any) => {
     fetchDataCourses();
   }, []);
 
- 
-  // Render your courses
   return (
     <ScrollView>
       <CardsTr

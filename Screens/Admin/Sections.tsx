@@ -17,7 +17,7 @@ const Sections = ({ route , navigation}: any) => {
     const fetchUserData = async (id: any) => {
       try {
         const response = await axios.get(
-          ` https://2c7d-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
+          ` https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
         );
         return response.data;
       } catch (error) {
@@ -42,7 +42,7 @@ const Sections = ({ route , navigation}: any) => {
 
 
     axios
-      .get(' https://2c7d-92-253-55-73.ngrok-free.app/api/Course')
+      .get(' https://44b3-92-253-55-73.ngrok-free.app/api/Course')
       .then(async response => {
         const filteredCourse = response.data.filter(
           (item:any) => item.coursenum === route.params.coursenum,
@@ -75,7 +75,7 @@ const Sections = ({ route , navigation}: any) => {
     if (selectedCourseId) {
       axios
         .delete(
-          `https://2c7d-92-253-55-73.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
+          `https://44b3-92-253-55-73.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
         )
         .then(() => {
           Alert.alert('Section Deleted Successfully');
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //backgroundColor: '#fff',
-    backgroundColor: '#EFF7FA',
+    backgroundColor: '#f0f0f0',
     alignItems: 'center',
   },
   heading: {

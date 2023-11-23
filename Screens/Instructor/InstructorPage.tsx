@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react';
@@ -17,7 +18,7 @@ const InstrctorPage = ({navigation}: any) => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       axios
 
-        .get('https://2c7d-92-253-55-73.ngrok-free.app/api/Course')
+        .get('https://44b3-92-253-55-73.ngrok-free.app/api/Course')
         .then(async (result) => {
          
           const userCourses = result.data.filter((course:any) => course.userid == id);

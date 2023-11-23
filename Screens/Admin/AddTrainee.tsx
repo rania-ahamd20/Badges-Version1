@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { StyleSheet, TextInput, View ,Button, Text, Alert,ScrollView, TouchableOpacity} from 'react-native';
 import React ,{useState, useEffect} from 'react';
 import axios from 'axios';
@@ -66,7 +68,7 @@ const AddTrainee = async()=>{
     const { isValid, errorMessage } = validateUser();
 
     if (isValid) {
-        axios.post('https://2c7d-92-253-55-73.ngrok-free.app/api/User/Create',{
+        axios.post('https://44b3-92-253-55-73.ngrok-free.app/api/User/Create',{
             "Firstname":Firstname,
             "Lastname":Lastname,
             "Email":Email,
@@ -207,6 +209,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
         marginLeft:15,
+        textAlign:'center',
+        
       },
       label: {
         marginTop:10,

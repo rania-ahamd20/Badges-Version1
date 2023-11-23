@@ -43,7 +43,7 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
   const addUsers = async (userid: any) => {
     await axios
       .post(
-        'https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/Create',
+        'https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/Create',
         {
           mark: 0,
           courseid: route.params.courseid,

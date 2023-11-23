@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState,useCallback} from 'react';
 import {
   ScrollView,
@@ -43,7 +44,7 @@ const Assignments = ({route , navigation}:any) => {
   const handleAddAssignment = () => {
     axios
       .post(
-        'https://2c7d-92-253-55-73.ngrok-free.app/api/Assignment',
+        'https://44b3-92-253-55-73.ngrok-free.app/api/Assignment',
         newAssignment,
       )
       .then((response) => {
@@ -67,7 +68,7 @@ const Assignments = ({route , navigation}:any) => {
   };
 
   const fetchAssignments = useCallback(() => {
-    fetch('https://2c7d-92-253-55-73.ngrok-free.app/api/Assignment')
+    fetch('https://44b3-92-253-55-73.ngrok-free.app/api/Assignment')
       .then((response) => response.json())
       .then((responseJson) => {
         const filteredAssignments = responseJson.filter(
@@ -98,7 +99,7 @@ const Assignments = ({route , navigation}:any) => {
     if (selectedAssignment) {
       axios
         .put(
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/Assignment/Update',
+          'https://44b3-92-253-55-73.ngrok-free.app/api/Assignment/Update',
           selectedAssignment,
         )
         .then(response => {
@@ -131,7 +132,7 @@ const Assignments = ({route , navigation}:any) => {
       axios
         .delete(
 
-          `https://2c7d-92-253-55-73.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
+          `https://44b3-92-253-55-73.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
         )
         .then(() => {
           Alert.alert('Assignment Deleted Successfully');

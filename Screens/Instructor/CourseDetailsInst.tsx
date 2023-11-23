@@ -1,3 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
 import Spacing from '../../constants/Spacing';
 import { Alert, Button, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -5,8 +10,6 @@ import FontSize from '../../constants/FontSize';
 import Colors from '../../constants/Colors';
 import Font from '../../constants/Font';
 import axios from 'axios';
-
-
 
 function getdate(date: any) {
 
@@ -35,13 +38,13 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
 
     const fetchDataUsers = async () => {
-        await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/User')
+        await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
+                await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -52,25 +55,11 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
             })
             .catch((err) => console.log(err));
     };
-
-
-    /*const fetchDataUC = async () => {
-        await axios.get(' https://2c7d-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
-            .then(async (result) => {
-                setCt(result.data);
-                
-                const filtered :any = await Promise.all(Users.filter((user:any) => user.roleid == 3 &&!result.data.some((excludedUser:any) =>  excludedUser.userid == user.userid)))
-                console.log('filterd',filtered)
-                setUR(filtered);
-            })
-            .catch((err) => console.log(err));
-    };*/
-
     const fetchDataAt = async () => {
 
-        await axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/Attendance')
+        await axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/Attendance')
             .then(async (result) => {
-                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid)
+                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);
             })
             .catch((err) => console.log(err));
@@ -81,7 +70,6 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
     useEffect(() => {
         fetchDataUsers();
-        //  fetchDataUC();
         fetchDataAt();
 
     }, []);
@@ -94,25 +82,25 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
         if (startdate <= currentDate && currentDate <= enddate) {
             navigation.navigate('TakeAttendance', { users: UsersC, attendanceid: attendanceid });
         } else {
-            Alert.alert("Sorry this Course not Started yet or End")
+            Alert.alert('Sorry this Course not Started yet or End');
         }
-    }
+    };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{backgroundColor:'white',flex:1}}>
             <ScrollView>
                 <View
                     style={{
-                        alignItems: "center",
+                        alignItems: 'center',
                     }}
                 >
                     <Image
                         source={{ uri: Course.image }}
                         style={{
-                            width: '100%', // Adjust the width as needed
-                            height: 200, // Adjust the height as needed
+                            width: '100%',
+                            height: 200,
                             marginBottom: Spacing * 2,
-                            resizeMode: 'cover'
+                            resizeMode: 'cover',
                         }}
                     />
                     <Text style={styles.TitlePage}>{Course.name} ({Course.sectionnum})</Text>
@@ -122,7 +110,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
                             <Text style={[styles.buttonText, !Check ? { color: Colors.secondary } : { color: Colors.primary }]}>Details</Text>
                         </TouchableOpacity>
 
-                        <View style={styles.line}></View>
+                        <View style={styles.line} />
 
                         <TouchableOpacity style={styles.button} onPress={() => setCheck(true)}>
                             <Text style={[styles.buttonText, Check ? { color: Colors.secondary } : { color: Colors.primary }]}>Members</Text>
@@ -155,16 +143,14 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
                         <View key="header" style={styles.header}>
                             <Text style={styles.headerText}>FullName</Text>
                             <Text style={styles.headerText}>Email</Text>
-                            <Text style={styles.headerText}>Operation</Text>
                         </View>
                         {
 
                             UsersC.map((item: any, index: any) =>
                             (
                                 <View key={item.userid} style={styles.row}>
-                                    <Text style={styles.cell}>{item.firstname}</Text>
+                                    <Text style={styles.cell}>{item.firstname} {item.lastname}</Text>
                                     <Text style={styles.cell}>{item.email}</Text>
-                                    <Text style={styles.cell}>{item.username}</Text>
                                 </View>
                             ))
                         }
@@ -191,7 +177,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
         </SafeAreaView>
     );
 
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -205,13 +191,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: Spacing * 2,
         color: Colors.primary,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     containerb: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     button: {
         padding: 10,
@@ -227,19 +213,19 @@ const styles = StyleSheet.create({
         width: 1,
         backgroundColor: Colors.primary,
         marginVertical: 30,
-        marginHorizontal: 50
+        marginHorizontal: 50,
     },
     Text1: {
         fontSize: FontSize.large,
         fontFamily: Font['poppins-semiBold'],
         color: Colors.gray,
-        marginBottom: Spacing * 2.5
+        marginBottom: Spacing * 2.5,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 8,
-        padding: 10
+        padding: 10,
     },
     headerText: {
         fontWeight: 'bold',
@@ -256,22 +242,21 @@ const styles = StyleSheet.create({
     },
     cell: {
         fontSize: FontSize.medium / 1.2,
-        textAlign: 'left'
+        textAlign: 'left',
     },
     button1: {
-        borderWidth: 2, // Adjust the border width as needed
-        borderColor: Colors.gray, // Set the default border color here
+        borderWidth: 2,
+        borderColor: Colors.secondary,
         padding: 8,
         borderRadius: 15,
         alignItems: 'center',
         marginRight: 5,
         width: 150,
-
-    },
-    buttonText1: {
+      },
+      buttonText1: {
         fontSize: FontSize.medium / 1.2,
-        color: Colors.gray, // Set the text color to match the border color
-    }
+        color: Colors.secondary,
+      },
 
 });
 

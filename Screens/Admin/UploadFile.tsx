@@ -15,8 +15,8 @@ import axios from 'axios';
 import {Card, Icon} from 'react-native-elements';
 
 const UploadFile = ({route}:any) => {
-  const [file, setFile] :any = useState(null);
   const [Badge, setBadge] = useState(route.params.Badge);
+  const [file, setFile] :any = useState(null);
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.pick({
@@ -47,7 +47,7 @@ const UploadFile = ({route}:any) => {
       });
 
       const response = await axios.post(
-        'https://2c7d-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        'https://44b3-92-253-55-73.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -62,7 +62,7 @@ const UploadFile = ({route}:any) => {
 
         axios
         .put(
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/Badges/Update',
+          'https://44b3-92-253-55-73.ngrok-free.app/api/Badges/Update',
           {
             'badgesid':Badge.badgesid,
             'type': Badge.type,

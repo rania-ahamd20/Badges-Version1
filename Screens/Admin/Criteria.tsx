@@ -10,21 +10,104 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import Colors from '../../constants/Colors';
+import {Card, Icon} from 'react-native-elements';
+import DocumentPicker from 'react-native-document-picker';
 //import {withNavigation} from 'react-navigation';
 
-const Criteria = ({navigation}:any) => {
+const Criteria = ({navigation}: any) => {
   const [badges, setBadges] = useState([]);
   const [criteriaArray, setCriteriaArray] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const [activeCriterias, setActiveCriterias] :any = useState([]);
-  const [selectedBadge, setSelectedBadge]:any = useState(null);
+  const [activeCriterias, setActiveCriterias]: any = useState([]);
+  const [selectedBadge, setSelectedBadge]: any = useState(null);
 
+  const [file, setFile]: any = useState(null);
+  const Upload= (badge: any)=>{ setSelectedBadge(badge);
+    setIsVisible(true);};
 
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      setFile(result);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('Document picker cancelled');
+      } else {
+        console.error('Error picking document:', err);
+      }
+    }
+  };
+
+  const handleFileUpload = async badge => {
+    if (!file) {
+      Alert.alert('Please pick a file first.');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: file[0].uri,
+        type: file[0].type || 'application/octet-stream',
+        name: file[0].name || 'file',
+      });
+
+      const response = await axios.post(
+        'https://44b3-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      const responseData = response.data;
+      if (response.status === 200) {
+        //Alert.alert('File uploaded successfully!');
+
+        axios
+          .put(
+            'https://44b3-92-253-55-73.ngrok-free.app/api/Badges/Update',
+            {
+              badgesid: badge.badgesid,
+              type: badge.type,
+              text: badge.text,
+              image: responseData,
+              criteria: badge.criteria,
+              activecriteria: badge.activecriteria,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          .then(() => { 
+          navigation.navigate('Criteria');
+           Alert.alert('Updated Successfully');
+            setIsVisible(false);
+           
+          })
+          .catch(err => console.log(err));
+
+        await setFile(null);
+      } else {
+        Alert.alert('Error uploading file', responseData.message);
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
   const handleEstablishCriteria = (badge: any) => {
     const criteria: any = badge.criteria;
     const criteriaArray = criteria
@@ -35,6 +118,7 @@ const Criteria = ({navigation}:any) => {
     setIsModalVisible(true);
   };
 
+  
   const toggleCriteriaSelection = (criterion: any) => {
     let updatedCriterias = [...activeCriterias];
     if (updatedCriterias.includes(criterion)) {
@@ -54,9 +138,7 @@ const Criteria = ({navigation}:any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-
-
-        'https://2c7d-92-253-55-73.ngrok-free.app/api/Badges/Update',
+        'https://44b3-92-253-55-73.ngrok-free.app/api/Badges/Update',
 
         {
           badgesid: badge.badgesid,
@@ -77,12 +159,11 @@ const Criteria = ({navigation}:any) => {
     setIsModalVisible(false);
     setCriteriaArray([]);
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/Badges',
+          'https://44b3-92-253-55-73.ngrok-free.app/api/Badges',
         );
         const fetchedBadges = response.data;
         setBadges(fetchedBadges);
@@ -111,8 +192,7 @@ const Criteria = ({navigation}:any) => {
               <TouchableOpacity onPress={() => handleEstablishCriteria(badge)}>
                 <Text style={styles.button}>Establish Criteria</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                 onPress={() => navigation.navigate('UploadFile', { Badge: badge })}>
+              <TouchableOpacity onPress={() =>Upload(badge)}>
                 <Text style={styles.button}>Change Badge</Text>
               </TouchableOpacity>
             </View>
@@ -141,6 +221,31 @@ const Criteria = ({navigation}:any) => {
           </ScrollView>
           <TouchableOpacity onPress={() => saveActiveCriterias(selectedBadge)}>
             <Text style={styles.okButton}>save</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal isVisible={isVisible} onBackdropPress={closeModal}>
+        <View style={styles.card}>
+          {file && (
+            <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Icon
+                  name="file"
+                  type="font-awesome"
+                  size={30}
+                  style={{marginRight: 10}}
+                />
+                <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
+              </View>
+              <TouchableOpacity onPress={()=>handleFileUpload(selectedBadge)}>
+                <Text style={styles.button}>Upload</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <TouchableOpacity style={styles.button} onPress={pickDocument}>
+            <Text style={styles.ButtonText}>Pick a Badge</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -189,12 +294,10 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 10,
     paddingVertical: 5,
-    backgroundColor: '#0bda51',
+    backgroundColor: Colors.secondary,
     color: 'white',
     borderRadius: 5,
-    marginRight: 20,
-    marginLeft: 20,
-    marginBottom: 20,
+   margin:10,
   },
   modalContent: {
     backgroundColor: 'white',
@@ -217,7 +320,7 @@ const styles = StyleSheet.create({
   },
   okButton: {
     padding: 10,
-    backgroundColor: '#0bda51',
+    backgroundColor: Colors.secondary,
     color: 'white',
     borderRadius: 5,
     width: '50%',

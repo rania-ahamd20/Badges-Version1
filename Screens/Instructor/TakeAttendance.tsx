@@ -70,7 +70,7 @@ const TakeAttendance = ({route, navigation}: any) => {
     for (let i = 0; i < users.length; i++) {
       await axios
         .post(
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/AttendanceTr',
+          'https://44b3-92-253-55-73.ngrok-free.app/api/AttendanceTr',
           attendance[i],
           {
             headers: {
@@ -118,7 +118,7 @@ const TakeAttendance = ({route, navigation}: any) => {
           {checkboxValues[index] ? (
             <TouchableOpacity
               onPress={() => updateAttendance(index, !checkboxValues[index])}>
-              <Icon name="check-circle-o" size={30} color={Colors.gray} />
+              <Icon name="check-circle-o" size={30} color={'#0bda51'} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

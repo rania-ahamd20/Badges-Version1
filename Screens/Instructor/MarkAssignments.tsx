@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
@@ -28,7 +29,7 @@ function MarkAssignments({route}:any) {
       try {
         const response = await axios.get(
 
-          'https://2c7d-92-253-55-73.ngrok-free.app/api/AssignmentTr',
+          'https://44b3-92-253-55-73.ngrok-free.app/api/AssignmentTr',
         );
         const responseJson = response.data;
         const filteredData = responseJson.filter(
@@ -64,7 +65,7 @@ function MarkAssignments({route}:any) {
   const markAnswer = async (item:any) => {
     try {
       await axios.put(
-        'https://2c7d-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
+        'https://44b3-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
         {
           atid: item.atid,
           submitdate: item.submitdate,
@@ -88,7 +89,7 @@ function MarkAssignments({route}:any) {
   const GetUser = (id:any) => {
     return axios
       .get(
-        `https://2c7d-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
+        `https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
       )
       .then(response => {
         return response.data;

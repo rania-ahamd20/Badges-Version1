@@ -20,6 +20,7 @@ import {
   TextInput,
 } from 'react-native';
 import axios from 'axios';
+import Colors from '../../constants/Colors';
 import  Icon  from 'react-native-vector-icons/FontAwesome';
 import { Card,  PaperProvider, Portal } from 'react-native-paper';
 
@@ -72,7 +73,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     const handelGetAll = ()=>{
 
-    axios.get('https://2c7d-92-253-55-73.ngrok-free.app/api/User')
+    axios.get('https://44b3-92-253-55-73.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
@@ -85,7 +86,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(`https://2c7d-92-253-55-73.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(`https://44b3-92-253-55-73.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
@@ -95,7 +96,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
 
   const handelUpdate= async()=>{
-    axios.put('https://2c7d-92-253-55-73.ngrok-free.app/api/User/Update',{
+    axios.put('https://44b3-92-253-55-73.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,
@@ -117,13 +118,14 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   return (
 
-    <ScrollView>
+    <ScrollView style={{flex:1, backgroundColor:'white'}}>
             <View style={styles.buContainer}>
               <TouchableOpacity onPress={()=> navigation.navigate('AddTrainee',{trainee:data}) } style={styles.button}>
                   <Text style={styles.buttonText}>ADD Trainee</Text>
               </TouchableOpacity>
             </View>
     {data.map((item:any, index) => (
+      <View style={styles.card2}>
         <Card key={index} style={styles.card}>
             <Card.Content>
                 <View style={styles.tableRow}>
@@ -138,15 +140,16 @@ function GetAllTrainee({navigation}:any): JSX.Element {
                     </View>
                     <View  style={styles.buttonContainer}>
                         <TouchableOpacity onPress={() => handelDelete(item.userid)}>
-                            <Icon name="trash" size={30} color="#C81912" />
+                            <Icon style={{marginRight:20,}} name="times" size={30} color="red" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => showModal(item)}>
-                            <Icon name="retweet" size={30} color="#343c64" />
+                            <Icon name="edit" size={29} color={Colors.secondary} />
                         </TouchableOpacity>
                     </View>
                 </View>
             </Card.Content>
         </Card>
+        </View>
     ))}
 
     {/* Modal */}
@@ -209,13 +212,24 @@ const styles = StyleSheet.create({
       marginTop:15,
       marginBottom:10,
       alignItems:'flex-start',
+      
+    },
+    card2: {
+      backgroundColor: '#f0f0f0',
+      borderRadius:10 ,
+      marginTop:5,
+      marginBottom:15,
+      width:'90%',
+      alignSelf: 'center', 
     },
     buContainer: {
         flexDirection: 'row',
-        alignSelf: 'flex-end', 
-        alignItems: 'flex-end', 
+        alignSelf: 'center', 
+        alignItems: 'center', 
         paddingRight: 15, 
         paddingTop: 15,
+        margin:10,
+        marginBottom:15,
       },
     text: {
       marginBottom:15,
@@ -247,22 +261,19 @@ const styles = StyleSheet.create({
       },
       label: {
         fontWeight: 'bold',
-     
       },
       buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginTop: 10,
-        marginLeft:50,
-
       },
       button: {
-        backgroundColor: '#343c64',
+        backgroundColor:Colors.secondary,
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
         marginLeft:10,
         shadowColor:'#343c64',
+        alignSelf:'center',
       },
       buttonText: {
         color: 'white',
@@ -271,9 +282,9 @@ const styles = StyleSheet.create({
       },
       card: {
         marginVertical: 5,
-        padding: 10,
-        borderRadius: 5,
-        backgroundColor: '#f0f0f0',
+        margin: 10,
+        borderRadius: 10,
+        backgroundColor: 'white',
     },
     tableRow: {
         flexDirection:'column',
