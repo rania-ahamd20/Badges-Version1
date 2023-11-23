@@ -187,7 +187,7 @@ const Criteria = ({navigation}: any) => {
       <Text style={styles.header}>Badges</Text>
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.navigate('GenerateBadge' , { ba : genBadges})}>
-          <Text style={styles.button}>Generate a badge</Text>
+          <Text style={styles.button}>Generate Badge To Students</Text>
         </TouchableOpacity>
       </View>
       {badges.map((badge: any) => (
