@@ -20,7 +20,7 @@ const GenerateBadge = ({route, navigation}: any) => {
       );
       const filteredUsers = result.data.filter(user => user.roleid == '3');
       setUsers(filteredUsers);
-      console.log(filteredUsers);
+      //console.log(filteredUsers);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
