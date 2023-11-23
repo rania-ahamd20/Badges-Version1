@@ -78,7 +78,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
         setData(filteredData);
-        console.log('Filtered data:', filteredData);
+       // console.log('Filtered data:', filteredData);
 
     }).catch(err=>console.log(err));
 

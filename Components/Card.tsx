@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, ScrollView, FlatList, StyleSheet, Image, TouchableOpacity ,Button} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity ,Button} from 'react-native';
 import { Card  } from 'react-native-paper';
 import Colors from '../constants/Colors';
 import FontSize from '../constants/FontSize';

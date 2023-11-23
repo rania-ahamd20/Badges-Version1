@@ -170,19 +170,3 @@ const styles = StyleSheet.create({
 });
 
 export default UpdateSection;
-
-/*import DatePicker from 'react-native-date-picker';
-const [open, setOpen] = useState(false);
-<Button title="Open" onPress={() => setOpen(true)} />
-<DatePicker
-  modal
-  open={open}
-  datefrom={datefrom}
-  onConfirm={date => {
-    setOpen(false);
-    setDateFrom(date);
-  }}
-  onCancel={() => {
-    setOpen(false);
-  }}
-/>*/

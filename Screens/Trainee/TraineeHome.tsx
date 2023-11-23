@@ -25,7 +25,7 @@ const HomeTrainee = ({navigation, route}: any) => {
               const value = item.coursenum;
               if (!uniqueValues.has(value)) {
                 uniqueValues.add(value);
-                console.log('the value ', value);
+                //console.log('the value ', value);
                 return true;
               }
               return false;

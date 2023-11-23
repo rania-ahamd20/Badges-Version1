@@ -1,9 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import RNFS from 'react-native-fs';
@@ -36,13 +33,13 @@ function BadgeTemplate({route}:any): JSX.Element {
     const [badgeImage,setImage] = useState('');
     const [badgeCriteria,setCriteria] = useState('');
     const [badgeActivecriteria,setActivecriteria] = useState('');
-    const[selectedBadgeTemplate,setSelectedBadgeTemplate]=useState('');
- 
+    const [selectedBadgeTemplate,setSelectedBadgeTemplate] = useState('');
+
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [visible, setVisible] = useState(false);
 
     const [data,setData] = useState([]);
-    const [BadgesData,setBadgesData]= useState<any>('');
+    const [BadgesData,setBadgesData] = useState<any>('');
 
 
     useEffect(  () => {
@@ -55,12 +52,12 @@ function BadgeTemplate({route}:any): JSX.Element {
         axios.get('https://07ee-212-34-23-238.ngrok-free.app/api/Badges')
         .then(result=>{
             setBadgesData(result.data);
-          console.log("Badges.......",result.data)
+          //console.log("Badges.......",result.data)
         }).catch(err=>console.log(err));
-    
-        }
 
-        
+        };
+
+
  const handelUpdateBadges = async()=>{
             axios.put('https://07ee-212-34-23-238.ngrok-free.app/api/Badges/Update',{
                 'badgeid':badgeid,
@@ -69,11 +66,11 @@ function BadgeTemplate({route}:any): JSX.Element {
                 'image':badgeImage,
                 'criteria':badgeCriteria,
                 'activecriteria':badgeActivecriteria,
-          
+
             }).then(result=>{
-             
-              hideModal(); 
-              
+
+              hideModal();
+
               Alert.alert('Update...');
             }).catch(err=>{
                 console.log(err);
@@ -97,14 +94,14 @@ function BadgeTemplate({route}:any): JSX.Element {
 
     const hideModal = () =>{
         setVisible(false);
-     
-    } 
 
-    
+    };
+
+
     return (
-      BadgesData?(
+      BadgesData ? (
         <ScrollView>
-          
+
           {BadgesData.map((item: any, index:any) => {
         return (
           <Card key={index} style={styles.card}>
@@ -112,7 +109,7 @@ function BadgeTemplate({route}:any): JSX.Element {
               <View style={styles.imageContainer}>
                 <Text style={styles.text}>{item.type}</Text>
                 <Card.Cover source={{ uri: item.image }} style={styles.image} />
-               
+
                 {selectedBadgeTemplate && (
                   <Text style={styles.courseText}>{courseName}</Text>
                 )}
@@ -149,7 +146,7 @@ function BadgeTemplate({route}:any): JSX.Element {
             </PaperProvider>
 
         </ScrollView>
-      ):(
+      ) : (
         <View>
           <Loading/>
         </View>
@@ -160,16 +157,16 @@ const styles = StyleSheet.create({
     container: {
       marginTop:15,
       marginBottom:10,
-      alignItems:"flex-start",
+      alignItems:'flex-start',
     },
     buContainer: {
         flexDirection: 'row',
-        alignSelf: 'flex-end', 
-        alignItems: 'flex-end', 
-        paddingRight: 15, 
+        alignSelf: 'flex-end',
+        alignItems: 'flex-end',
+        paddingRight: 15,
         paddingTop: 15,
       },
- 
+
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -182,17 +179,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
       },
    text:{
-  
+
     bottom: 10, // Adjust the position of the course text as needed
     color:'black',
     fontSize: 18,
     fontWeight: 'bold',
-    zIndex: 1, 
+    zIndex: 1,
    },
-   
+
       label: {
         fontWeight: 'bold',
-     
+
       },
       buttonContainer: {
         flexDirection: 'row',

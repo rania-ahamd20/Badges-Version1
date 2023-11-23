@@ -22,7 +22,7 @@ import Spacing from '../constants/Spacing';
 
 const CardsTr = (props: any) => {
   useEffect(() => {
-    console.log('courses : ', props.courses);
+    //console.log('courses : ', props.courses);
   }, []);
   return (
     <ScrollView style={styles.container}>

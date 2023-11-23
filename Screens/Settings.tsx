@@ -14,15 +14,15 @@ const SettingsScreen = ({ navigation }: any) => {
     const [user, setUser]: any = useState();
     const getuserData = async () => {
         await AsyncStorage.getItem('userid').then(async (id: any) => {
-            await axios.get(`https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
+            await axios.get(`https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(id, 10)}`)
                 .then(async (res: any) => {
 
-                    console.log('User : ', res.data);
-                    await setUser(res.data)
+                    //console.log('User : ', res.data);
+                    await setUser(res.data);
 
-                })
-        })
-    }
+                });
+        });
+    };
 
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const SettingsScreen = ({ navigation }: any) => {
         await AsyncStorage.clear();
 
         navigation.replace('Login');
-    }
+    };
 
     return (
         user ? (
@@ -102,16 +102,16 @@ const styles = StyleSheet.create({
     },
 
     profilePicture: {
-        width: 80, // Adjust the size as needed
+        width: 80,
         height: 80,
-        borderRadius: 75, // Make it a circle
-        marginRight: 25
+        borderRadius: 75,
+        marginRight: 25,
     },
     horizontalLine: {
-        borderBottomColor: Colors.gray, // You can change the color
-        borderBottomWidth: 1,       // You can change the width
-        width: '100%',             // This makes the line span the width of the screen
-        marginVertical: 20,         // Adjust as needed
+        borderBottomColor: Colors.gray,
+        borderBottomWidth: 1,
+        width: '100%',
+        marginVertical: 20,
     },
 });
 

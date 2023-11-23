@@ -50,7 +50,7 @@ const AddTrainee = ({navigation,route}:any) => {
           setShow(true);
           setImg(fileName);
           
-          console.log("SelectedFile..............",res);
+          //console.log("SelectedFile..............",res);
          
         } catch (err) {
           if (DocumentPicker.isCancel(err)) {

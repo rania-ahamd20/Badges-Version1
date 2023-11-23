@@ -26,7 +26,7 @@ const ProfileScreen = ({navigation}: any) => {
           )}`,
         )
         .then(async (res: any) => {
-          console.log('User : ', res.data);
+          //console.log('User : ', res.data);
           await setUser(res.data);
         });
     });

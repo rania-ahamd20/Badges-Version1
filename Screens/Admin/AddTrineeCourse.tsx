@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -56,11 +55,9 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
         },
       )
       .then(function (response) {
-        //response
         Alert.alert('Add Successfully');
       })
       .catch(function (error) {
-        ///error
         Alert.alert(error.message);
       });
   };
@@ -112,8 +109,8 @@ const styles = StyleSheet.create({
     marginRight: 1,
   },
   button1: {
-    borderWidth: 2, // Adjust the border width as needed
-    borderColor: Colors.secondary, // Set the default border color here
+    borderWidth: 2,
+    borderColor: Colors.secondary,
     padding: 8,
     borderRadius: 15,
     alignItems: 'center',
@@ -122,6 +119,6 @@ const styles = StyleSheet.create({
   },
   buttonText1: {
     fontSize: FontSize.medium,
-    color: Colors.secondary, // Set the text color to match the border color
+    color: Colors.secondary,
   },
 });

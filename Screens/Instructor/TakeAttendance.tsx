@@ -19,7 +19,6 @@ import Spacing from '../../constants/Spacing';
 import axios from 'axios';
 
 const TakeAttendance = ({route, navigation}: any) => {
-  // Assuming you have a list of user objects and checkbox values
   const [users, setUsers]: any = useState(route.params.users);
   const [checkboxValues, setCheckboxValues]: any = useState(
     Array(route.params.users.length).fill(false),
@@ -37,7 +36,7 @@ const TakeAttendance = ({route, navigation}: any) => {
         userid: route.params.users[i].userid,
       });
     }
-    console.log('Attendance', newAttendance);
+   // console.log('Attendance', newAttendance);
     setattendance(newAttendance);
   };
 
@@ -45,7 +44,6 @@ const TakeAttendance = ({route, navigation}: any) => {
     getdata();
   }, [users]);
 
-  // Function to update the attendance property in the state
   const updateAttendance = (index: any, value: any) => {
     setCheckboxValues((prevValues: any) => {
       const newValues = [...prevValues];
@@ -59,11 +57,11 @@ const TakeAttendance = ({route, navigation}: any) => {
         ...newAttendance[index],
         checkat: value ? 1 : 0,
       };
-      console.log('new : ', newAttendance);
+      //console.log('new : ', newAttendance);
       return newAttendance;
     });
 
-    console.log('attendance : ', attendance);
+    //console.log('attendance : ', attendance);
   };
 
   const submit = async () => {
@@ -79,13 +77,11 @@ const TakeAttendance = ({route, navigation}: any) => {
           },
         )
         .then(function (response) {
-          //response
           if (i == users.length - 1) {
             Alert.alert('AttendanceTr Created Successfully');
           }
         })
         .catch(function (error) {
-          ///error
           Alert.alert(error.message);
         });
     }
@@ -150,8 +146,8 @@ const styles = StyleSheet.create({
     marginRight: 1,
   },
   button1: {
-    borderWidth: 2, // Adjust the border width as needed
-    borderColor: Colors.secondary, // Set the default border color here
+    borderWidth: 2,
+    borderColor: Colors.secondary,
     padding: 8,
     borderRadius: 15,
     alignItems: 'center',
@@ -160,6 +156,6 @@ const styles = StyleSheet.create({
   },
   buttonText1: {
     fontSize: FontSize.medium,
-    color: Colors.secondary, // Set the text color to match the border color
+    color: Colors.secondary,
   },
 });

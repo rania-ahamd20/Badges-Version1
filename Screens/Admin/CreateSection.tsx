@@ -43,8 +43,8 @@ const CreateSection = ({navigation}:any) => {
       const formData = new FormData();
       formData.append('file', {
         uri: file[0].uri,
-        type: file[0].type || 'application/octet-stream', // use a default type if not available
-        name: file[0].name || 'file', // use a default name if not available
+        type: file[0].type || 'application/octet-stream',
+        name: file[0].name || 'file',
       });
 
 
@@ -56,7 +56,7 @@ const CreateSection = ({navigation}:any) => {
 
       {
         const responseData = res.data;
-        console.log(responseData);
+       // console.log(responseData);
         axios
       .post(
         ' https://44b3-92-253-55-73.ngrok-free.app/api/Course/Create',

@@ -52,7 +52,7 @@ const UploadFileComponent = () => {
 
       const responseData = response.data;
       if (response.status === 200) {
-        console.log('Data', responseData);
+       // console.log('Data', responseData);
         await setimageurl(responseData);
         Alert.alert('File uploaded successfully!');
       } else {

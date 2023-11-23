@@ -88,7 +88,7 @@ const Login = ({navigation}: any) => {
           token = jwt_decode(res.data);
           Alert.alert('Login Successfully');
 
-          console.log('token : ', token);
+          //console.log('token : ', token);
 
           setUser(token.name, token.role, token.userid);
         } else {

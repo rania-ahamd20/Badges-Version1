@@ -46,7 +46,6 @@ const Courses = ({navigation}: any) => {
     fetchDataCourses();
   }, []);
 
-  // Render your courses
   return (
     <ScrollView>
       <Cards

@@ -50,7 +50,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [file, setFile]: any = useState(null);
-  
+
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.pick({
@@ -65,9 +65,10 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       }
     }
   };
-  const Upload = (assignment: any)=>{
+  const Upload = (assignment: any) => {
     setSelectedAssignment(assignment);
-    setIsVisible(true);};
+    setIsVisible(true);
+  };
 
   const handleFileUpload = async Assignment => {
     if (!file) {
@@ -102,7 +103,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
               submitdate: new Date(),
               mark: 0,
               assignmentsid: Assignment.assignmentsid,
-              userid:User.userid,
+              userid: User.userid,
               assignmenturl: responseData,
             },
             {
@@ -159,23 +160,25 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       })
       .catch(err => console.log(err));
   };
-
-  useEffect(() => {
-    fetchDataUsers();
-    getuserData();
-    getAllAssignments(Course.courseid);
-  }, []);
   const getuserData = async () => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       await axios
         .get(
-          `https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(id,10)}`,
+          `https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(
+            id,
+            10,
+          )}`,
         )
         .then(async (res: any) => {
           await setUser(res.data);
         });
     });
   };
+  useEffect(() => {
+    fetchDataUsers();
+    getuserData();
+    getAllAssignments(Course.courseid);
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -238,7 +241,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
                 <Text>Link of Submission: {'assignmenturl' || 'Unknown'}</Text>
                 <TouchableOpacity
                   style={styles.submitButton}
-                  onPress={() =>Upload(assignment)}>
+                  onPress={() => Upload(assignment)}>
                   <Text style={styles.submitButtonText}>Submit</Text>
                 </TouchableOpacity>
               </View>
@@ -262,7 +265,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       </ScrollView>
       <Modal isVisible={isVisible} onBackdropPress={closeModal}>
         <View style={styles.card}>
-        <TouchableOpacity style={styles.submitButton} onPress={pickDocument}>
+          <TouchableOpacity style={styles.submitButton} onPress={pickDocument}>
             <Text style={styles.submitButtonText}>Choose a file</Text>
           </TouchableOpacity>
           {file && (
@@ -276,12 +279,13 @@ const CourseDetailsTr = ({route, navigation}: any) => {
                 />
                 <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
               </View>
-              <TouchableOpacity style={styles.submitButton} onPress={()=>handleFileUpload(selectedAssignment)}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={() => handleFileUpload(selectedAssignment)}>
                 <Text style={styles.submitButtonText}>Upload</Text>
               </TouchableOpacity>
             </View>
           )}
-
         </View>
       </Modal>
     </SafeAreaView>

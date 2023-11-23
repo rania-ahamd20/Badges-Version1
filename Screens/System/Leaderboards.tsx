@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
@@ -49,10 +50,10 @@ function Leaderboards({ navigation }: any): JSX.Element {
             .then(result => {
                 setuserCourseData(result.data);
                 setShow(true);
-                console.log("course Trainee ", userCourseData)
+                //console.log("course Trainee ", userCourseData)
             }).catch(err => console.log(err));
 
-    }
+    };
 
 
     return (
@@ -64,7 +65,7 @@ function Leaderboards({ navigation }: any): JSX.Element {
             <View>
              
                 <TextInput style={styles.textInput}
-                    placeholder=' CourseID'
+                    placeholder=" CourseID"
                     value={courseId}
                     onChangeText={courseId => setCourseID(courseId)}
                 />
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: "@c0c0c0",
+        borderColor: '@c0c0c0',
         paddingLeft: 20,
     },
     label: {

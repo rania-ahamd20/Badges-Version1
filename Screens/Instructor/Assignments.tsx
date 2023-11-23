@@ -80,7 +80,7 @@ const Assignments = ({route , navigation}:any) => {
     }, [courseid]);
 
   useEffect(() => {
-    console.log('items ' , route.params.course);
+   // console.log('items ' , route.params.course);
     fetchAssignments();
   },[courseid, fetchAssignments]);
 

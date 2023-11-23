@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-shadow */
+
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -48,18 +49,18 @@ const AllCourse = ({navigation}:any) => {
 
             {/* Vertical Scroll View */}
            <View style={styles.section}>
-                 <Image source={require('../../../Assets/images/study.png')} style={[styles.image, styles.center]}></Image>
+                 <Image source={require('../../../Assets/images/study.png')} style={[styles.image, styles.center]} />
             {Courses.map((item: any, index) => (
                 <Card style={styles.card}>
                     <View style={{
                         flexDirection: 'row', justifyContent: 'space-between'
-                        , marginTop: 20, marginBottom: 10
+                        , marginTop: 20, marginBottom: 10,
                     }}>
                         <Text style={styles.sectionTitle}>{item.name}</Text>
                     </View>
                     <Card.Content>
                         <Card.Cover source={{ uri: item.image }} />
-    
+
                     </Card.Content>
                     <Card.Actions>
                         <TouchableOpacity
@@ -89,52 +90,52 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: Spacing * 2,
         color: Colors.active,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     sectionTitle: {
         fontSize: FontSize.large,
         fontWeight: 'bold',
         marginBottom: 8,
-        color: Colors.primary
+        color: Colors.primary,
     },
     title: {
         fontSize: FontSize.medium * 1.15,
         fontWeight: 'bold',
         color: Colors.primary, textAlign: 'left',
-        marginTop: 15
+        marginTop: 15,
     },
     Details: {
         fontSize: FontSize.medium,
         color: Colors.gray, textAlign: 'left',
-        marginTop: 15
+        marginTop: 15,
     },
     card: {
         width: 310, margin: 20,
         color: Colors.onPrimary,
-        backgroundColor: Colors.onPrimary
+        backgroundColor: Colors.onPrimary,
     },
     image: {
         width: '80%',
         height: 250,
         resizeMode: 'contain',
-        marginBottom: 20
+        marginBottom: 20,
     },
     center: {
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
     },
     button: {
-        borderWidth: 2, // Adjust the border width as needed
-        borderColor: Colors.secondary, // Set the default border color here
+        borderWidth: 2,
+        borderColor: Colors.secondary,
         padding: 8,
         borderRadius: 15,
         alignItems: 'center',
-        marginRight: 5
+        marginRight: 5,
     },
     buttonText: {
         fontSize: FontSize.medium,
-        color: Colors.secondary, // Set the text color to match the border color
-    }
+        color: Colors.secondary,
+    },
 });
 
 export default AllCourse;
