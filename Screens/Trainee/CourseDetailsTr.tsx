@@ -1,7 +1,11 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable radix */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Spacing from '../../constants/Spacing';
 import {
   Alert,
@@ -13,6 +17,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontSize from '../../constants/FontSize';
@@ -20,8 +25,11 @@ import Font from '../../constants/Font';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import Colors from '../../constants/Colors';
-import {Card, Icon} from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 import DocumentPicker from 'react-native-document-picker';
+const openURL = (url: string) => {
+  Linking.openURL(url).catch(err => console.error('Error opening URL'));
+};
 function getdate(date: any) {
   const dateTime = new Date(date);
 
@@ -37,15 +45,13 @@ function getTime(date: any) {
   return formattedTime;
 }
 
-const CourseDetailsTr = ({route, navigation}: any) => {
+const CourseDetailsTr = ({ route, navigation }: any) => {
   const [Course, setCourse]: any = useState(route.params.course);
-  const [Users, setUsers]: any = useState([]);
 
   const [instructor, setinst]: any = useState({});
-  const [UsersC, setCt]: any = useState([]);
   const [Check, setCheck] = useState(false);
 
-  const [User, setUser]: any = useState([]);
+  const [User, setUser]: any = useState();
   const [Assignments, setAssignments]: any = useState([]);
   const [selectedAssignment, setSelectedAssignment]: any = useState(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -71,7 +77,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
     setIsVisible(true);
   };
 
-  const handleFileUpload = async Assignment => {
+  const handleFileUpload = async (Assignment: any) => {
     if (!file) {
       Alert.alert('Please pick a file first.');
       return;
@@ -86,7 +92,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
       });
 
       const response = await axios.post(
-        'https://44b3-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -97,14 +103,16 @@ const CourseDetailsTr = ({route, navigation}: any) => {
 
       const responseData = response.data;
       if (response.status === 200) {
+        if(!Assignment.atid)
+        {
         axios
           .post(
-            'https://44b3-92-253-55-73.ngrok-free.app/api/AssignmentTr',
+            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr',
             {
               submitdate: new Date(),
-              mark: 0,
+              mark: -1,
               assignmentsid: Assignment.assignmentsid,
-              userid: User.userid,
+              userid: User,
               assignmenturl: responseData,
             },
             {
@@ -114,10 +122,36 @@ const CourseDetailsTr = ({route, navigation}: any) => {
             },
           )
           .then(() => {
-            Alert.alert('Updated Successfully');
+            Alert.alert('Submitted Successfully');
             setIsVisible(false);
           })
           .catch(err => console.log(err));
+        }
+        else 
+        {
+          axios
+          .put(
+            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr/Update',
+            {
+              atid: Assignment.atid,
+              submitdate: new Date(),
+              mark: -1,
+              assignmentsid: Assignment.assignmentsid,
+              userid: User,
+              assignmenturl: responseData,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          .then(() => {
+            Alert.alert('ReSubmitted Successfully');
+            setIsVisible(false);
+          })
+          .catch(err => console.log(err));
+        }
 
         await setFile(null);
       } else {
@@ -130,20 +164,10 @@ const CourseDetailsTr = ({route, navigation}: any) => {
 
   const fetchDataUsers = async () => {
     await axios
-      .get('https://44b3-92-253-55-73.ngrok-free.app/api/User')
+      .get('https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
       .then(async result1 => {
-        setUsers(result1.data);
-        setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
-        await axios
-          .get(
-            'https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' +
-              parseInt(Course.courseid, 10),
-          )
-          .then(async result => {
-            setCt(result.data);
-          })
-          .catch(err => console.log(err));
+        setinst(result1.data);
       })
       .catch(err => console.log(err));
   };
@@ -152,29 +176,17 @@ const CourseDetailsTr = ({route, navigation}: any) => {
     setIsVisible(false);
   };
 
-  const getAllAssignments = courseId => {
-    axios
-      .get('https://44b3-92-253-55-73.ngrok-free.app/api/Assignment')
-      .then(result => {
-        const assignments = result.data.filter(
-          assignment => assignment.courseid === courseId,
-        );
-        setAssignments(assignments);
-      })
-      .catch(err => console.log(err));
-  };
+
 
   const getuserData = async () => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
+      await setUser(id);
       await axios
         .get(
-          `https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${parseInt(
-            id,
-            10,
-          )}`,
+          `https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
         )
         .then(async (res: any) => {
-          await setUser(res.data);
+          setAssignments(res.data);
         });
     });
   };
@@ -182,7 +194,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
   useEffect(() => {
     fetchDataUsers();
     getuserData();
-    getAllAssignments(Course.courseid);
+
   }, []);
   return (
     <SafeAreaView>
@@ -192,7 +204,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
             alignItems: 'center',
           }}>
           <Image
-            source={{uri: Course.image}}
+            source={{ uri: Course.image }}
             style={{
               width: '100%',
               height: 200,
@@ -211,7 +223,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
               <Text
                 style={[
                   styles.buttonText,
-                  !Check ? {color: Colors.secondary} : {color: Colors.primary},
+                  !Check ? { color: Colors.secondary } : { color: Colors.primary },
                 ]}>
                 Details
               </Text>
@@ -225,7 +237,7 @@ const CourseDetailsTr = ({route, navigation}: any) => {
               <Text
                 style={[
                   styles.buttonText,
-                  Check ? {color: Colors.secondary} : {color: Colors.primary},
+                  Check ? { color: Colors.secondary } : { color: Colors.primary },
                 ]}>
                 Assignments
               </Text>
@@ -235,20 +247,47 @@ const CourseDetailsTr = ({route, navigation}: any) => {
 
         {Check ? (
           <ScrollView>
-            {Assignments.map(assignment => (
+            {Assignments.map((assignment: any) => (
               <View
                 key={assignment.assignmentsid}
                 style={styles.assignmentCard}>
                 <Text style={styles.assignmentTitle}>{assignment.name}</Text>
                 <Text>Deadline: {getdate(assignment.deadline)}</Text>
-                <Text>Mark out of: {assignment.mark}</Text>
+                <Text>Mark : {assignment.traineeMark == -1?<Text>Ungraded</Text>
+                :assignment.traineeMark < parseInt(assignment.traineeMark)*80/100? <Text style={{color:'red'}}>{assignment.traineeMark}</Text>
+                :<Text style={{color:'#0bda51'}}>{assignment.traineeMark} </Text>}
+                 / {assignment.assignmentMark}</Text>
                 <Text>Description: {assignment.description}</Text>
-                <Text>Link of Submission: {'assignmenturl' || 'Unknown'}</Text>
-                <TouchableOpacity
-                  style={styles.submitButton}
-                  onPress={() => Upload(assignment)}>
-                  <Text style={styles.submitButtonText}>Submit</Text>
-                </TouchableOpacity>
+
+
+                {!assignment.atid ? (
+                  <View>
+                    <TouchableOpacity
+                      style={styles.submitButton}
+                      onPress={() => Upload(assignment)}>
+                      <Text style={styles.submitButtonText}>Submit</Text>
+                    </TouchableOpacity>
+                  </View>)
+                  : (
+                    <View>
+                      <Text> Link of Submission:</Text>
+                      <Text
+                        style={{ color: Colors.secondary }}
+                        onPress={() =>
+                          openURL(assignment.assignmenturl || '')
+                        }>
+                        {assignment.assignmenturl || 'Unknown'}
+                      </Text>
+                      <TouchableOpacity
+                        style={styles.submitButton}
+                        onPress={() => Upload(assignment)}>
+                        <Text style={styles.submitButtonText}>ReSubmit</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
+
+
               </View>
             ))}
           </ScrollView>
@@ -258,7 +297,6 @@ const CourseDetailsTr = ({route, navigation}: any) => {
             <Text style={styles.Text1}>
               Instructor : {instructor.firstname} {instructor.lastname}
             </Text>
-            <Text style={styles.Text1}>Trainees Number : {UsersC.length}</Text>
             <Text style={styles.Text1}>
               Date : {getdate(Course.datefrom)} - {getdate(Course.dateto)}{' '}
             </Text>
@@ -274,15 +312,15 @@ const CourseDetailsTr = ({route, navigation}: any) => {
             <Text style={styles.submitButtonText}>Choose a file</Text>
           </TouchableOpacity>
           {file && (
-            <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ padding: 20, borderRadius: 10, marginBottom: 40 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Icon
                   name="file"
                   type="font-awesome"
                   size={30}
-                  style={{marginRight: 10}}
+                  style={{ marginRight: 10 }}
                 />
-                <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
+                <Text style={{ flex: 1 }}>{file[0].name || 'Unknown'}</Text>
               </View>
               <TouchableOpacity
                 style={styles.submitButton}

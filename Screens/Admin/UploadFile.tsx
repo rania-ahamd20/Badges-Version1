@@ -47,7 +47,7 @@ const UploadFile = ({route}:any) => {
       });
 
       const response = await axios.post(
-        'https://44b3-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        'https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -62,7 +62,7 @@ const UploadFile = ({route}:any) => {
 
         axios
         .put(
-          'https://44b3-92-253-55-73.ngrok-free.app/api/Badges/Update',
+          'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges/Update',
           {
             'badgesid':Badge.badgesid,
             'type': Badge.type,

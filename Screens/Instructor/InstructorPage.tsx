@@ -18,7 +18,7 @@ const InstrctorPage = ({navigation}: any) => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       axios
 
-        .get('https://44b3-92-253-55-73.ngrok-free.app/api/Course')
+        .get('https://d6c8-92-253-55-73.ngrok-free.app/api/Course')
         .then(async (result) => {
          
           const userCourses = result.data.filter((course:any) => course.userid == id);

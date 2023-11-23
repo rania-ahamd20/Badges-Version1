@@ -46,7 +46,7 @@ function Leaderboards({ navigation }: any): JSX.Element {
 
     const GetAllUserCourseTr = async (id: any) => {
 
-        await axios.get(`https://44b3-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/${id}`)
+        await axios.get(`https://d6c8-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/${id}`)
             .then(result => {
                 setuserCourseData(result.data);
                 setShow(true);

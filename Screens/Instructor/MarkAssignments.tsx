@@ -11,16 +11,17 @@ import {
   Button,
   TextInput,
   Alert,
+  Linking,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
-
+import Colors from '../../constants/Colors';
 function MarkAssignments({route}:any) {
   const [assignment, setAssignments] = useState(route.params.Assignment);
   const [assignmentsid] = useState(assignment.assignmentsid);
   const [dataSource, setDataSource] = useState([]);
-  const [userDetails, setUserDetails] :any = useState({});
-  const [mark, setMark] = useState('0');
+  const [userDetails,setUserDetails] :any = useState({});
+  const [mark, setMark] = useState('-1');
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -29,7 +30,7 @@ function MarkAssignments({route}:any) {
       try {
         const response = await axios.get(
 
-          'https://44b3-92-253-55-73.ngrok-free.app/api/AssignmentTr',
+          'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr',
         );
         const responseJson = response.data;
         const filteredData = responseJson.filter(
@@ -62,16 +63,29 @@ function MarkAssignments({route}:any) {
     };
   }, [assignmentsid, modalVisible, navigation]);
 
+  const openURL = (url: string) => {
+    Linking.openURL(url).catch(err => console.error('Error opening URL'));
+  };
+
   const markAnswer = async (item:any) => {
     try {
+      const getAss = await axios.get(
+        `https://d6c8-92-253-55-73.ngrok-free.app/api/Assignment/GetAssignmentById/${item.assignmentsid}`
+      );
+      const Assignment = getAss.data;
+  if (parseInt(mark, 10) > parseInt(Assignment.mark, 10)) {
+      Alert.alert('Input mark is More than existing mark!');
+      return;
+    }
       await axios.put(
-        'https://44b3-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
+        'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
         {
           atid: item.atid,
           submitdate: item.submitdate,
           mark: mark,
           assignmentsid: item.assignmentsid,
           userid: item.userid,
+          assignmenturl:item.assignmenturl,
         },
         {
           headers: {
@@ -89,7 +103,7 @@ function MarkAssignments({route}:any) {
   const GetUser = (id:any) => {
     return axios
       .get(
-        `https://44b3-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
+        `https://d6c8-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
       )
       .then(response => {
         return response.data;
@@ -120,6 +134,16 @@ function MarkAssignments({route}:any) {
                 {userDetails[item.userid]?.firstname}{' '}
                 {userDetails[item.userid]?.lastname}
               </Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Link:</Text>
+              <Text
+                  style={{color: Colors.secondary}}
+                  onPress={() =>
+                    openURL(item.assignmenturl || '')
+                  }>
+                  {item.assignmenturl || 'Unknown'}
+                </Text>
             </View>
           </View>
           <Button

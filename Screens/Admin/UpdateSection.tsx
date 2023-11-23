@@ -20,7 +20,7 @@ const UpdateSection = (props: any) => {
   const handleSaveChanges = () => {
     axios
       .put(
-        ' https://44b3-92-253-55-73.ngrok-free.app/api/Course/Update',
+        ' https://d6c8-92-253-55-73.ngrok-free.app/api/Course/Update',
         {
           courseid: courseid,
           datefrom: datefrom,
