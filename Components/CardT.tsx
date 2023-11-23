@@ -68,6 +68,11 @@ const CardsTr = (props: any) => {
                           }>
                           <Text style={styles.buttonText}>More</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>props.navigation.navigate('Leaderboards' , { course :item })}>
+                    <Text style={styles.buttonText}>Leaderboard</Text>
+                    </TouchableOpacity>
                       </Card.Actions>
                     </Card>
                   </View>

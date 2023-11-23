@@ -34,7 +34,8 @@ import CourseDetailsInst from './Screens/Instructor/CourseDetailsInst';
 import UploadFile from './Screens/Admin/UploadFile';
 import GenerateBadge from './Screens/Admin/GenerateBadge';
 import SimpleLineIconsI from 'react-native-vector-icons/SimpleLineIcons';
-
+import Leaderboards from './Screens/System/Leaderboards';
+import ManualBadges from './Screens/Admin/ManualBadges';
 function navigation() {
   const StackIns = createNativeStackNavigator();
   const StackAdmin = createNativeStackNavigator();
@@ -84,6 +85,7 @@ function navigation() {
         <StackIns.Screen name="Assignments" component={Assignments} />
         <StackIns.Screen name="TakeAttendance" component={TakeAttendance} />
         <StackIns.Screen name="MarkAssignments" component={MarkAssignments} />
+        <StackIns.Screen name="Leaderboards" component={Leaderboards} />
       </StackIns.Navigator>
     );
   };
@@ -98,6 +100,7 @@ function navigation() {
         }}>
         <StackTrainee.Screen name="HomeTrainee" component={HomeTrainee} />
         <StackTrainee.Screen name="CDetails" component={CourseDetailsTr} />
+        <StackTrainee.Screen name="Leaderboards" component={Leaderboards} />
       </StackTrainee.Navigator>
     );
   };
@@ -115,8 +118,8 @@ function navigation() {
           options={{title: 'Badges'}}
           component={Criteria}
         />
-        <StackAdmin.Screen name="UploadFile" component={UploadFile} />
         <StackAdmin.Screen name="GenerateBadge" component={GenerateBadge} />
+        <StackAdmin.Screen name="ManualBadges" component={ManualBadges} />
       </StackAdmin.Navigator>
     );
   };
@@ -139,6 +142,7 @@ function navigation() {
           name="AddTraineeToCourse"
           component={AddTraineeToCourse}
         />
+        <StackAdmin.Screen name="Leaderboards" component={Leaderboards} />
       </StackAdmin.Navigator>
     );
   };

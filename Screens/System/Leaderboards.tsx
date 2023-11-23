@@ -30,7 +30,7 @@ function Leaderboards({ navigation , route}: any): JSX.Element {
 
     const GetAllUserCourseTr = async () => {
 
-        await axios.get(`https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/CourseTrainee/GetUserCourse/${route.params.course.courseid}`)
+        await axios.get(`https://d6c8-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/${route.params.course.courseid}`)
             .then(result => {
                 
                 let filteredData = result.data.filter((dataItem: any) => dataItem.mark >= 80);

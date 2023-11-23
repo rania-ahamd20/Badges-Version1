@@ -125,8 +125,8 @@ function GetAllTrainee({navigation}:any): JSX.Element {
               </TouchableOpacity>
             </View>
     {data.map((item:any, index) => (
-      <View style={styles.card2}>
-        <Card key={index} style={styles.card}>
+      <View style={styles.card2} key={index}> 
+        <Card  style={styles.card}>
             <Card.Content>
                 <View style={styles.tableRow}>
                     <View style={styles.tableCell}>

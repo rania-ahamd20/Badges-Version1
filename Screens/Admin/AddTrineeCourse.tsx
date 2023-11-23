@@ -18,7 +18,6 @@ import Spacing from '../../constants/Spacing';
 import axios from 'axios';
 
 const AddTraineeToCourse = ({route, navigation}: any) => {
-  // Assuming you have a list of user objects and checkbox values
   const [users, setUsers]: any = useState([]);
 
   const getdata = async () => {

@@ -65,7 +65,7 @@ const Criteria = ({navigation}: any) => {
       });
 
       const response = await axios.post(
-        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Upload/upload',
+        'https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -80,7 +80,7 @@ const Criteria = ({navigation}: any) => {
 
         axios
           .put(
-            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges/Update',
+            'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -141,7 +141,7 @@ const Criteria = ({navigation}: any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges/Update',
+        'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges/Update',
         {
           badgesid: badge.badgesid,
           type: badge.type,
@@ -165,12 +165,13 @@ const Criteria = ({navigation}: any) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges',
+          'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges',
         );
         const fetchedBadges = response.data;
         setBadges(fetchedBadges);
-        const fetchedBadgesGen = fetchedBadges.find((b:any) => b.type == 3);
+        const fetchedBadgesGen = fetchedBadges.filter((b:any) => b.type == 'ByAdmin');
         setgenBadges(fetchedBadgesGen);
+        //console.log(fetchedBadgesGen);
       } catch (error) {
         console.error('Error fetching badges:', error);
       }
@@ -181,7 +182,6 @@ const Criteria = ({navigation}: any) => {
 
   return (
     badges && genBadges ? (
-    <ScrollView>
     <View style={styles.container}>
 
       <Text style={styles.header}>Badges</Text>
@@ -191,7 +191,7 @@ const Criteria = ({navigation}: any) => {
         </TouchableOpacity>
       </View>
       {badges.map((badge: any) => (
-        badge.type != '3' ? (
+        badge.type != 'ByAdmin' ? (
         <View style={styles.card} key={badge.badgesid}>
           <Text style={styles.cardHeader}>{badge.type}</Text>
           <View style={styles.badge}>
@@ -259,8 +259,7 @@ const Criteria = ({navigation}: any) => {
         </View>
       </Modal>
 
-    </View>
-    </ScrollView>) : (<Loading/>)
+    </View>) : (<Loading/>)
   );
 };
 

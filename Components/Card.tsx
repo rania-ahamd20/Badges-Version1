@@ -47,21 +47,20 @@ const Cards = (props:any) => {
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() =>props.navigation.navigate('CourseDetails' , {course: item})}>
-
                     <Text style={styles.buttonText}>Details</Text>
                     </TouchableOpacity>
-
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>props.navigation.navigate('Leaderboards' , {course: item})}>
+                    <Text style={styles.buttonText}>Leaderboard</Text>
+                    </TouchableOpacity>
                   </Card.Actions>
                   </Card>
                   </View>
-                  
                 ))}
-
-
             </ScrollView>
             </ScrollView>
           ))}
-        
       </View>
     </ScrollView>
   );

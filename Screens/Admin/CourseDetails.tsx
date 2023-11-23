@@ -133,7 +133,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                                 style={styles.button1}
                                 onPress={() => navigation.navigate('AddTraineeToCourse', {
                                     courseid: Course.courseid,
-                                    users: Users, usersR: UsersC
+                                    users: Users, usersR: UsersC,
                                 })}>
 
                                 <Text style={styles.buttonText1}>Add Trinees</Text>
