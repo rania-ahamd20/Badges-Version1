@@ -301,10 +301,6 @@ const styles = StyleSheet.create({
   badgeImage: {
     width: 100,
     height: 100,
-   // tintColor: 'blue',
-
-    backgroundColor: 'rgba(0, 0, 255, 0.3)', // 'rgba(R, G, B, opacity)'
-
   },
   button: {
     paddingHorizontal: 10,
