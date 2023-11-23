@@ -1,19 +1,16 @@
-/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Alert,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import DocumentPicker from 'react-native-document-picker';
-import axios from 'axios';
-import {Card, Icon} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
 
-const GenerateBadge = () => {return <></>;};
+const GenerateBadge = ({route}: any) => {
+  useEffect(() => {
+    console.log('Badges : ', route.params.ba);
+  }, []);
+
+  const badge: any = route.params;
+  return <View />;
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -22,8 +19,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#0bda51',
     color: 'white',
     borderRadius: 5,
-    margin:20,
-    marginTop:30,
+    margin: 20,
+    marginTop: 30,
     textAlign: 'center',
     fontSize: 16,
   },

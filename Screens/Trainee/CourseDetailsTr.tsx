@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 /* eslint-disable prettier/prettier */
 /* eslint-disable radix */
 /* eslint-disable space-infix-ops */
@@ -17,7 +18,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Linking
+  Linking,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontSize from '../../constants/FontSize';
@@ -92,7 +93,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       });
 
       const response = await axios.post(
-        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Upload/upload',
+        'https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -107,7 +108,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         {
         axios
           .post(
-            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr',
+            'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr',
             {
               submitdate: new Date(),
               mark: -1,
@@ -127,11 +128,11 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
           })
           .catch(err => console.log(err));
         }
-        else 
+        else
         {
           axios
           .put(
-            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr/Update',
+            'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
             {
               atid: Assignment.atid,
               submitdate: new Date(),
@@ -164,7 +165,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
   const fetchDataUsers = async () => {
     await axios
-      .get('https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
+      .get('https://d6c8-92-253-55-73.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
       .then(async result1 => {
 
         setinst(result1.data);
@@ -183,7 +184,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       await setUser(id);
       await axios
         .get(
-          `https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
+          `https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
         )
         .then(async (res: any) => {
           setAssignments(res.data);

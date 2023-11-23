@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -17,10 +18,12 @@ import Modal from 'react-native-modal';
 import Colors from '../../constants/Colors';
 import {Card, Icon} from 'react-native-elements';
 import DocumentPicker from 'react-native-document-picker';
+import Loading from '../../Components/Loading';
 //import {withNavigation} from 'react-navigation';
 
 const Criteria = ({navigation}: any) => {
   const [badges, setBadges] = useState([]);
+  const [genBadges , setgenBadges] : any = useState();
   const [criteriaArray, setCriteriaArray] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -29,7 +32,7 @@ const Criteria = ({navigation}: any) => {
   const [selectedBadge, setSelectedBadge]: any = useState(null);
 
   const [file, setFile]: any = useState(null);
-  const Upload= (badge: any)=>{ setSelectedBadge(badge);
+  const Upload = (badge: any)=>{ setSelectedBadge(badge);
     setIsVisible(true);};
 
   const pickDocument = async () => {
@@ -47,7 +50,7 @@ const Criteria = ({navigation}: any) => {
     }
   };
 
-  const handleFileUpload = async badge => {
+  const handleFileUpload = async(badge:any) => {
     if (!file) {
       Alert.alert('Please pick a file first.');
       return;
@@ -62,7 +65,7 @@ const Criteria = ({navigation}: any) => {
       });
 
       const response = await axios.post(
-        'https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -77,7 +80,7 @@ const Criteria = ({navigation}: any) => {
 
         axios
           .put(
-            'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges/Update',
+            'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -92,11 +95,11 @@ const Criteria = ({navigation}: any) => {
               },
             },
           )
-          .then(() => { 
+          .then(() => {
           navigation.navigate('Criteria');
            Alert.alert('Updated Successfully');
             setIsVisible(false);
-           
+
           })
           .catch(err => console.log(err));
 
@@ -118,7 +121,7 @@ const Criteria = ({navigation}: any) => {
     setIsModalVisible(true);
   };
 
-  
+
   const toggleCriteriaSelection = (criterion: any) => {
     let updatedCriterias = [...activeCriterias];
     if (updatedCriterias.includes(criterion)) {
@@ -138,8 +141,7 @@ const Criteria = ({navigation}: any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-        'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges/Update',
-
+        'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges/Update',
         {
           badgesid: badge.badgesid,
           type: badge.type,
@@ -163,10 +165,12 @@ const Criteria = ({navigation}: any) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://d6c8-92-253-55-73.ngrok-free.app/api/Badges',
+          'https://ad57-2a01-9700-1048-7100-c5bd-df30-14-5a5a.ngrok-free.app/api/Badges',
         );
         const fetchedBadges = response.data;
         setBadges(fetchedBadges);
+        const fetchedBadgesGen = fetchedBadges.find((b:any) => b.type == 3);
+        setgenBadges(fetchedBadgesGen);
       } catch (error) {
         console.error('Error fetching badges:', error);
       }
@@ -176,14 +180,18 @@ const Criteria = ({navigation}: any) => {
   }, []);
 
   return (
+    badges && genBadges ? (
+    <ScrollView>
     <View style={styles.container}>
+
       <Text style={styles.header}>Badges</Text>
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.navigate('GenerateBadge')}>
+        <TouchableOpacity onPress={() => navigation.navigate('GenerateBadge' , { ba : genBadges})}>
           <Text style={styles.button}>Generate a badge</Text>
         </TouchableOpacity>
       </View>
       {badges.map((badge: any) => (
+        badge.type != '3' ? (
         <View style={styles.card} key={badge.badgesid}>
           <Text style={styles.cardHeader}>{badge.type}</Text>
           <View style={styles.badge}>
@@ -198,6 +206,7 @@ const Criteria = ({navigation}: any) => {
             </View>
           </View>
         </View>
+        ) : (<View key={badge.badgesid} />)
       ))}
       <Modal isVisible={isModalVisible} onBackdropPress={closeModal}>
         <View style={styles.modalContent}>
@@ -245,11 +254,13 @@ const Criteria = ({navigation}: any) => {
           )}
 
           <TouchableOpacity style={styles.button} onPress={pickDocument}>
-            <Text style={styles.ButtonText}>Pick a Badge</Text>
+            <Text>Pick a Badge</Text>
           </TouchableOpacity>
         </View>
       </Modal>
+
     </View>
+    </ScrollView>) : (<Loading/>)
   );
 };
 
@@ -290,6 +301,10 @@ const styles = StyleSheet.create({
   badgeImage: {
     width: 100,
     height: 100,
+   // tintColor: 'blue',
+
+    backgroundColor: 'rgba(0, 0, 255, 0.3)', // 'rgba(R, G, B, opacity)'
+
   },
   button: {
     paddingHorizontal: 10,
