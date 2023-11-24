@@ -182,6 +182,7 @@ const Criteria = ({navigation}: any) => {
 
   return (
     badges && genBadges ? (
+      <ScrollView>
     <View style={styles.container}>
 
       <Text style={styles.header}>Badges</Text>
@@ -259,7 +260,8 @@ const Criteria = ({navigation}: any) => {
         </View>
       </Modal>
 
-    </View>) : (<Loading/>)
+    </View>
+    </ScrollView>) : (<Loading/>)
   );
 };
 
