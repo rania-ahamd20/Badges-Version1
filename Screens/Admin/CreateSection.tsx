@@ -218,68 +218,76 @@ const CreateSection = ({navigation, route}: any) => {
     <Provider>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Card style={styles.card}>
-          <Card.Title title="The Learning Hub" subtitle="Add a Section" />
+          <Card.Title style={{marginBottom:20}} title="The Learning Hub" subtitle="Add a Section" />
           <Card.Content>
-            <View>
-              <Text>Course Name</Text>
-              <TextInput
-                style={styles.input}
-                value={courseData[0].name}
-                editable={false}
-              />
+            <View style={styles.rowContainer}>
+              <View style={styles.halfInput}>
+                <Text>Course Name</Text>
+                <TextInput
+                  style={styles.input}
+                  value={courseData[0].name}
+                  editable={false}
+                />
+              </View>
+              <View style={styles.halfInput}>
+                <Text>Course Number</Text>
+                <TextInput
+                  style={styles.input}
+                  value={courseData[0].coursenum}
+                  editable={false}
+                />
+              </View>
             </View>
-            <View>
-              <Text>Course Number</Text>
-              <TextInput
-                style={styles.input}
-                value={courseData[0].coursenum}
-                editable={false}
-              />
+            <View style={styles.rowContainer}>
+              <View style={styles.halfInput}>
+                <Text>Start Date</Text>
+                <TextInput
+                  style={styles.input}
+                  value={getdate(courseData[0].datefrom)}
+                  editable={false}
+                />
+              </View>
+              <View style={styles.halfInput}>
+                <Text>End Date</Text>
+                <TextInput
+                  style={styles.input}
+                  value={getdate(courseData[0].dateto)}
+                  editable={false}
+                />
+              </View>
             </View>
-            <View>
-              <Text>Section Number</Text>
-              <TextInput
-                style={styles.input}
-                value={newSectionNum.toString()}
-                editable={false}
-              />
+            <View style={styles.rowContainer}>
+              <View style={styles.halfInput}>
+                <Text>Section Number</Text>
+                <TextInput
+                  style={styles.input}
+                  value={newSectionNum.toString()}
+                  editable={false}
+                />
+              </View>
+              <View style={styles.halfInput}>
+                <Button onPress={pickDocument}>Upload Image </Button>
+              </View>
             </View>
-            <View>
-              <Button onPress={pickDocument}>Upload Document</Button>
-            </View>
-            <View>
-              <Text>Start Date</Text>
-              <TextInput
-                style={styles.input}
-                value={getdate(courseData[0].datefrom)}
-                editable={false}
-              />
-            </View>
-            <View>
-              <Text>Start Time</Text>
-              <TextInput
-                style={styles.input}
-                value={datefrom}
-                onChangeText={text => setDateFrom(text)}
-                placeholder="Start Time"
-              />
-            </View>
-            <View>
-              <Text>End Date</Text>
-              <TextInput
-                style={styles.input}
-                value={getdate(courseData[0].dateto)}
-                editable={false}
-              />
-            </View>
-            <View>
-              <Text>End Time</Text>
-              <TextInput
-                style={styles.input}
-                value={dateto}
-                onChangeText={text => setDateTo(text)}
-                placeholder="End Time"
-              />
+            <View style={styles.rowContainer}>
+              <View style={styles.halfInput}>
+                <Text>Start Time</Text>
+                <TextInput
+                  style={styles.input}
+                  value={datefrom}
+                  onChangeText={text => setDateFrom(text)}
+                  placeholder="Start Time"
+                />
+              </View>
+              <View style={styles.halfInput}>
+                <Text>End Time</Text>
+                <TextInput
+                  style={styles.input}
+                  value={dateto}
+                  onChangeText={text => setDateTo(text)}
+                  placeholder="End Time"
+                />
+              </View>
             </View>
             <View>
               <Text>Select Instructor</Text>
@@ -313,6 +321,14 @@ const CreateSection = ({navigation, route}: any) => {
   );
 };
 const styles = StyleSheet.create({
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  halfInput: {
+    width: '48%',
+  },
   container: {
     flex: 1,
     backgroundColor: '#EFF7FA',
