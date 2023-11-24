@@ -46,13 +46,13 @@ const CourseDetails = ({ route, navigation }: any) => {
     const [attendanceid, setattendance]: any = useState();
 
     const RemoveTr = async (ctid:any) => {
-      await axios.delete('https://d199-92-253-117-43.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
+      await axios.delete('https://d199-92-253-117-43.ngrok-free.app/api/CourseTrainee/Delete/' + parseInt(ctid, 10))
       .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
 
 
-    }
+    };
 
     const fetchDataUsers = async () => {
         await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/User')
@@ -61,7 +61,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
+                await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -77,7 +77,7 @@ const CourseDetails = ({ route, navigation }: any) => {
 
         await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/Attendance')
             .then(async (result) => {
-                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid)
+                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);
             })
             .catch((err) => console.log(err));
@@ -97,7 +97,7 @@ const CourseDetails = ({ route, navigation }: any) => {
             <ScrollView >
                 <View
                     style={{
-                        alignItems: "center",
+                        alignItems: 'center',
                     }}
                 >
                     <Image
@@ -106,7 +106,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                             width: '100%',
                             height: 200,
                             marginBottom: Spacing * 2,
-                            resizeMode: 'cover'
+                            resizeMode: 'cover',
                         }}
                     />
                     <Text style={styles.TitlePage}>{Course.name} ({Course.sectionnum})</Text>
@@ -155,7 +155,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                                     <Text style={styles.cell}>{item.firstname}</Text>
                                     <Text style={styles.cell}>{item.email}</Text>
                                     <Text style={styles.cell}>
-                                    <Icon name="times" size={25} color='red' onPress={()=>RemoveTr(item.ctid)}/>
+                                    <Icon name="times" size={25} color="red" onPress={()=>RemoveTr(item.ctid)}/>
                                     </Text>
                                 </View>
                             ))
@@ -183,7 +183,7 @@ const CourseDetails = ({ route, navigation }: any) => {
         </SafeAreaView>
     );
 
-}
+};
 
 
 const styles = StyleSheet.create({

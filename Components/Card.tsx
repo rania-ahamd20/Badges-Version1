@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity ,Button} from 'react-native';
 import { Card  } from 'react-native-paper';
@@ -10,16 +11,16 @@ import Spacing from '../constants/Spacing';
 
 const Cards = (props:any) => {
 
-  
+
 
 
   return (
     <ScrollView style={styles.container}>
       {/* Vertical Scroll View */}
       <View style={styles.section}>
-        <Image source={require('../Assets/images/study.png')} style = {[styles.image,styles.center]}></Image>
-   
-        
+        <Image source={require('../Assets/images/study.png')} style = {[styles.image,styles.center]} />
+
+
           {props.coursesSec.map((Citem :any , index1 :any) => (
             <ScrollView key={index1} >
               <View style={{flexDirection:'row', justifyContent: 'space-between'
@@ -29,16 +30,16 @@ const Cards = (props:any) => {
                onPress={()=>props.navigation.navigate('ManageSections',{courses : props.courses , coursenum : Citem.coursenum })}/>
               </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} >
-              
+
                 {props.courses
                   .filter((c: any) => c.coursenum === Citem.coursenum)
-                  .map((item :any , index:any) => 
-                    
+                  .map((item :any , index:any) =>
+
                     (
-                    
+
                   <View key={index} style = {styles.center}>
                     <Card  style={styles.card} >
-                  <Card.Cover source={{ uri: item.image }}/>      
+                  <Card.Cover source={{ uri: item.image }}/>
                   <Card.Content>
                       <Text style={styles.title}>{item.name} - Sec {item.sectionnum}</Text>
                       <Text style={styles.Details}>CourseNum : {item.coursenum}</Text>
@@ -67,7 +68,7 @@ const Cards = (props:any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {    
+  container: {
     padding: 15,
   },
   section: {
@@ -78,39 +79,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: Spacing * 2,
     color:Colors.active ,
-    textAlign:'center'
+    textAlign:'center',
   },
   sectionTitle: {
     fontSize: FontSize.large,
     fontWeight: 'bold',
     marginBottom: 8,
-    color:Colors.primary
+    color:Colors.primary,
   },
   title: {
     fontSize: FontSize.medium * 1.15,
     fontWeight: 'bold',
-    color:Colors.primary, textAlign:'left', 
-    marginTop:15
+    color:Colors.primary, textAlign:'left',
+    marginTop:15,
   },
   Details:{
     fontSize: FontSize.medium ,
-    color:Colors.gray, textAlign:'left', 
-    marginTop:15
+    color:Colors.gray, textAlign:'left',
+    marginTop:15,
 },
   card: {
     width:310 ,margin:20 ,
      color:Colors.onPrimary,
-    backgroundColor:Colors.onPrimary
+    backgroundColor:Colors.onPrimary,
 } ,
 image : {
   width: '80%',
   height: 250,
   resizeMode: 'contain',
-  marginBottom: 20
+  marginBottom: 20,
 },
 center : {
   marginLeft:'auto',
-  marginRight:'auto'
+  marginRight:'auto',
 },
 button: {
   borderWidth: 2, // Adjust the border width as needed
@@ -118,12 +119,12 @@ button: {
   padding: 8,
   borderRadius: 15,
   alignItems: 'center',
-  marginRight:5
+  marginRight:5,
 },
 buttonText: {
   fontSize: FontSize.medium,
   color: Colors.secondary, // Set the text color to match the border color
-}
+},
 });
 
 export default Cards;
