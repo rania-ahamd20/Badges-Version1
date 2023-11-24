@@ -1,14 +1,33 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
-import { Provider, Card, Button } from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+} from 'react-native';
+import {Provider, Card, Button} from 'react-native-paper';
 import axios from 'axios';
 import Modal from 'react-native-modal';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+function getdate(date: any) {
+  const dateTime = new Date(date);
 
-const Sections = ({ route , navigation}: any) => {
+  const formattedDate = dateTime.toLocaleDateString();
+
+  return formattedDate;
+}
+
+function getTime(date: any) {
+  const dateTime = new Date(date);
+  const formattedTime = dateTime.toLocaleTimeString();
+
+  return formattedTime;
+}
+const Sections = ({route, navigation}: any) => {
   const [dataSource, setDataSource] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
@@ -26,36 +45,17 @@ const Sections = ({ route , navigation}: any) => {
       }
     };
 
-    const formatDate = (dateString: any) => {
-      const date = new Date(dateString);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
-
-
-
-
-
-
-
-
     axios
-      .get(' https://d199-92-253-117-43.ngrok-free.app/api/Course')
+      .get('https://d199-92-253-117-43.ngrok-free.app/api/Course')
       .then(async response => {
         const filteredCourse = response.data.filter(
-          (item:any) => item.coursenum === route.params.coursenum,
+          item => item.coursenum === route.params.coursenum,
         );
-        const formattedData :any = await Promise.all(
-          filteredCourse.map(async (item:any) => {
-            const formattedFromDate = formatDate(item.datefrom);
-            const formattedToDate = formatDate(item.dateto);
+        const formattedData = await Promise.all(
+          filteredCourse.map(async item => {
             const user = await fetchUserData(item.userid);
             return {
               ...item,
-              datefrom: formattedFromDate,
-              dateto: formattedToDate,
               user: user || {},
             };
           }),
@@ -63,7 +63,6 @@ const Sections = ({ route , navigation}: any) => {
         setDataSource(formattedData);
       })
       .catch(error => console.error('Error fetching course data:', error));
-
   }, []);
 
   const handleDelete = (id: any) => {
@@ -80,7 +79,9 @@ const Sections = ({ route , navigation}: any) => {
         .then(() => {
           Alert.alert('Section Deleted Successfully');
           setDataSource(prevDataSource =>
-            prevDataSource.filter((item: any) => item.courseid !== selectedCourseId),
+            prevDataSource.filter(
+              (item: any) => item.courseid !== selectedCourseId,
+            ),
           );
 
           setShowConfirmation(false);
@@ -100,27 +101,27 @@ const Sections = ({ route , navigation}: any) => {
         <Text style={styles.heading}>Course Sections</Text>
         <TouchableOpacity
           style={styles.addSectionButton}
-          onPress={() => navigation.navigate('CreateSection')}>
+          onPress={() =>
+            navigation.navigate('CreateSection', {courseData: dataSource})
+          }>
           <Text style={styles.addSectionText}>Add Section</Text>
         </TouchableOpacity>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={dataSource}
-          renderItem={({ item }: any) => (
+          renderItem={({item}: any) => (
             <Card style={styles.card}>
               <Card.Title title="The Learning Hub" subtitle="Beginner Level" />
               <Card.Content>
                 <Text style={styles.cardTitle}>
                   {item.name} Course - Sec.{item.sectionnum}
                 </Text>
-                <Card.Cover
-                  source={{ uri: item.image }}
-                />
+                <Card.Cover source={{uri: item.image}} />
                 <Text style={styles.cardContent}>
-                  Duration: {item.datefrom} - {item.dateto}
+                  Duration: {getdate(item.datefrom)} - {getdate(item.dateto)}
                 </Text>
                 <Text style={styles.cardContent}>
-                  Number of days: {item.duration}
+                  Time: {getTime(item.datefrom)} - {getTime(item.dateto)}
                 </Text>
                 <Text style={styles.cardContent}>
                   Instructor Name:{' '}
@@ -138,7 +139,7 @@ const Sections = ({ route , navigation}: any) => {
                 <Button
                   style={styles.btnSec}
                   mode="contained"
-                  onPress={() => navigation.navigate('UpdateSection', { item })}>
+                  onPress={() => navigation.navigate('UpdateSection', {item})}>
                   Edit
                 </Button>
               </Card.Actions>
