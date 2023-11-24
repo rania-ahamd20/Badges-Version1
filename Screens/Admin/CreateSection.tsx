@@ -48,7 +48,7 @@ const CreateSection = ({navigation}:any) => {
       });
 
 
-       await axios.post('https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload', formData, {
+       await axios.post('https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -59,7 +59,7 @@ const CreateSection = ({navigation}:any) => {
        // console.log(responseData);
         axios
       .post(
-        ' https://d6c8-92-253-55-73.ngrok-free.app/api/Course/Create',
+        ' https://d199-92-253-117-43.ngrok-free.app/api/Course/Create',
         {
           datefrom: datefrom,
           dateto: dateto,
@@ -96,7 +96,7 @@ const CreateSection = ({navigation}:any) => {
       axios
       .post(
 
-        ' https://d6c8-92-253-55-73.ngrok-free.app/api/Course/Create',
+        ' https://d199-92-253-117-43.ngrok-free.app/api/Course/Create',
         {
           datefrom: datefrom,
           dateto: dateto,

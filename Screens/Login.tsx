@@ -61,7 +61,7 @@ const Login = ({navigation}: any) => {
     }
   };
 
-  (globalThis as any).url = 'https://d6c8-92-253-55-73.ngrok-free.app/api';
+  (globalThis as any).url = 'https://d199-92-253-117-43.ngrok-free.app/api';
 
   const CheckValidation = async () => {
     axios

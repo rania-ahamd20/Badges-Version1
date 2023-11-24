@@ -30,7 +30,7 @@ function MarkAssignments({route}:any) {
       try {
         const response = await axios.get(
 
-          'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr',
+          'https://d199-92-253-117-43.ngrok-free.app/api/AssignmentTr',
         );
         const responseJson = response.data;
         const filteredData = responseJson.filter(
@@ -70,7 +70,7 @@ function MarkAssignments({route}:any) {
   const markAnswer = async (item:any) => {
     try {
       const getAss = await axios.get(
-        `https://d6c8-92-253-55-73.ngrok-free.app/api/Assignment/GetAssignmentById/${item.assignmentsid}`
+        `https://d199-92-253-117-43.ngrok-free.app/api/Assignment/GetAssignmentById/${item.assignmentsid}`
       );
       const Assignment = getAss.data;
   if (parseInt(mark, 10) > parseInt(Assignment.mark, 10)) {
@@ -78,7 +78,7 @@ function MarkAssignments({route}:any) {
       return;
     }
       await axios.put(
-        'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
+        'https://d199-92-253-117-43.ngrok-free.app/api/AssignmentTr/Update',
         {
           atid: item.atid,
           submitdate: item.submitdate,
@@ -103,7 +103,7 @@ function MarkAssignments({route}:any) {
   const GetUser = (id:any) => {
     return axios
       .get(
-        `https://d6c8-92-253-55-73.ngrok-free.app/api/User/GetUserById/${id}`,
+        `https://d199-92-253-117-43.ngrok-free.app/api/User/GetUserById/${id}`,
       )
       .then(response => {
         return response.data;

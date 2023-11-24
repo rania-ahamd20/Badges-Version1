@@ -38,13 +38,13 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
 
     const fetchDataUsers = async () => {
-        await axios.get('https://d6c8-92-253-55-73.ngrok-free.app/api/User')
+        await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get('https://d6c8-92-253-55-73.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
+                await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -57,7 +57,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     };
     const fetchDataAt = async () => {
 
-        await axios.get('https://d6c8-92-253-55-73.ngrok-free.app/api/Attendance')
+        await axios.get('https://d199-92-253-117-43.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);

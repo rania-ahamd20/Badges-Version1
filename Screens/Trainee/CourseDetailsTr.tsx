@@ -93,7 +93,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       });
 
       const response = await axios.post(
-        'https://d6c8-92-253-55-73.ngrok-free.app/api/Upload/upload',
+        'https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -108,7 +108,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         {
         axios
           .post(
-            'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr',
+            'https://d199-92-253-117-43.ngrok-free.app/api/AssignmentTr',
             {
               submitdate: new Date(),
               mark: -1,
@@ -132,7 +132,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         {
           axios
           .put(
-            'https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/Update',
+            'https://d199-92-253-117-43.ngrok-free.app/api/AssignmentTr/Update',
             {
               atid: Assignment.atid,
               submitdate: new Date(),
@@ -165,7 +165,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
   const fetchDataUsers = async () => {
     await axios
-      .get('https://d6c8-92-253-55-73.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
+      .get('https://d199-92-253-117-43.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
       .then(async result1 => {
 
         setinst(result1.data);
@@ -184,7 +184,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       await setUser(id);
       await axios
         .get(
-          `https://d6c8-92-253-55-73.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
+          `https://d199-92-253-117-43.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
         )
         .then(async (res: any) => {
           setAssignments(res.data);
