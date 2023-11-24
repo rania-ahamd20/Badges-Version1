@@ -14,6 +14,7 @@ import {Provider, Card, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import DocumentPicker from 'react-native-document-picker';
+import { Picker } from '@react-native-picker/picker';
 
 const CreateSection = ({navigation, route}: any) => {
   const [datefrom, setDateFrom] = useState('');
@@ -25,7 +26,19 @@ const CreateSection = ({navigation, route}: any) => {
   const [coursenum, setCourseNum] = useState('');
   const [file, setFile]: any = useState(null);
   const {courseData} = route.params;
-
+  const [instructors, setInstructors] = useState([]);
+  const [selectedInstructor, setSelectedInstructor] = useState(null);
+  const getUserByID = async userID => {
+    try {
+      const response = await axios.get(
+        `https://d199-92-253-117-43.ngrok-free.app/api/User/GetUserById/${userID}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      return null;
+    }
+  };
   const pickDocument = async () => {
     try {
       const result: any = await DocumentPicker.pick({
@@ -58,7 +71,7 @@ const CreateSection = ({navigation, route}: any) => {
   }
   const getMaxSectionNumber = () => {
     let maxSection = 0;
-    courseData.forEach((course) => {
+    courseData.forEach(course => {
       if (course.sectionnum > maxSection) {
         maxSection = course.sectionnum;
       }
@@ -68,10 +81,13 @@ const CreateSection = ({navigation, route}: any) => {
   const maxSection = getMaxSectionNumber();
   const newSectionNum = maxSection + 1;
   const handleCreate = async () => {
+    const startDate = new Date(
+      `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
+    );
 
-    const startDate = new Date(`${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`);
-
-    const endDate = new Date(`${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`);
+    const endDate = new Date(
+      `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
+    );
 
     if (file != null) {
       try {
@@ -103,9 +119,9 @@ const CreateSection = ({navigation, route}: any) => {
                   dateto: endDate,
                   name: courseData[0].name,
                   duration: parseInt(courseData[0].duration),
-                 sectionnum: newSectionNum,
+                  sectionnum: newSectionNum,
                   image: responseData,
-                  userid: parseInt(userid),
+                  userid:parseInt(selectedInstructor.userid),
                   coursenum: courseData[0].coursenum,
                 },
                 {
@@ -116,7 +132,6 @@ const CreateSection = ({navigation, route}: any) => {
               )
               .then(() => {
                 Alert.alert('Created Successfully');
-
               })
               .catch(err => console.log(err));
           });
@@ -135,7 +150,7 @@ const CreateSection = ({navigation, route}: any) => {
             sectionnum: newSectionNum,
             image:
               'https://ik.imagekit.io/bspelc5r6/6-convincing-reasons-take-elearning-course.jpg?updatedAt=1700505559366',
-            userid: parseInt(userid),
+            userid: parseInt(selectedInstructor.userid),
             coursenum: courseData[0].coursenum,
           },
           {
@@ -146,10 +161,32 @@ const CreateSection = ({navigation, route}: any) => {
         )
         .then(() => {
           Alert.alert('Created Successfully');
-
         })
         .catch(err => console.log(err));
     }
+  };
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        const fetchedInstructors = await axios.get(
+          'https://d199-92-253-117-43.ngrok-free.app/api/User'
+        );
+        const filteredInstructors = fetchedInstructors.data.filter(
+          instructor => instructor.roleid == '2'
+        );
+  
+        console.log('Filtered Instructors:', filteredInstructors);
+        setInstructors(filteredInstructors);
+      } catch (error) {
+        console.error('Error fetching instructors:', error);
+      }
+    };
+    fetchInstructors();
+  }, []);
+  
+  const handleInstructorSelect = async instructorID => {
+    const selectedUser = await getUserByID(instructorID);
+    setSelectedInstructor(selectedUser);
   };
   return (
     <Provider>
@@ -219,14 +256,19 @@ const CreateSection = ({navigation, route}: any) => {
               />
             </View>
             <View>
-              <Text>User id</Text>
-              <TextInput
-                style={styles.input}
-                value={userid.toString()}
-                onChangeText={text => setUserid(text)}
-                keyboardType="numeric"
-                placeholder="User id"
-              />
+              <Text>Select Instructor</Text>
+              <Picker
+                selectedValue={selectedInstructor ? selectedInstructor.userid : ''}
+                onValueChange={itemValue => handleInstructorSelect(itemValue)}
+                style={styles.picker} >
+                {instructors.map(instructor => (
+                  <Picker.Item
+                    key={instructor.userid}
+                    label={`${instructor.firstname} ${instructor.lastname}`}
+                    value={instructor.userid}
+                  />
+                ))}
+              </Picker>
             </View>
           </Card.Content>
           <Card.Actions>
@@ -275,6 +317,10 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     marginBottom: 10,
+  },
+  picker: {
+    backgroundColor: 'white',
+    color: 'black',
   },
 });
 
