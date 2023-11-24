@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable radix */
@@ -14,7 +15,7 @@ import {Provider, Card, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import DocumentPicker from 'react-native-document-picker';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 
 const CreateSection = ({navigation, route}: any) => {
   const [datefrom, setDateFrom] = useState('');
@@ -81,16 +82,15 @@ const CreateSection = ({navigation, route}: any) => {
   const maxSection = getMaxSectionNumber();
   const newSectionNum = maxSection + 1;
   const handleCreate = async () => {
-    const startDate = new Date(
-      `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
-    );
+    try {
+      const startDate = new Date(
+        `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
+      );
+      const endDate = new Date(
+        `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
+      );
 
-    const endDate = new Date(
-      `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
-    );
-
-    if (file != null) {
-      try {
+      if (file != null) {
         const formData = new FormData();
         formData.append('file', {
           uri: file[0].uri,
@@ -98,49 +98,57 @@ const CreateSection = ({navigation, route}: any) => {
           name: file[0].name || 'file',
         });
 
-        await axios
-          .post(
-            'https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+        const response = await axios.post(
+          'https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
             },
-          )
-          .then(async (res: any) => {
-            const responseData = res.data;
-            // console.log(responseData);
-            axios
-              .post(
-                ' https://d199-92-253-117-43.ngrok-free.app/api/Course/Create',
-                {
-                  datefrom: startDate,
-                  dateto: endDate,
-                  name: courseData[0].name,
-                  duration: parseInt(courseData[0].duration),
-                  sectionnum: newSectionNum,
-                  image: responseData,
-                  userid:parseInt(selectedInstructor.userid),
-                  coursenum: courseData[0].coursenum,
-                },
-                {
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                },
-              )
-              .then(() => {
-                Alert.alert('Created Successfully');
-              })
-              .catch(err => console.log(err));
-          });
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    } else {
-      axios
-        .post(
+          },
+        );
+
+        const responseData = response.data;
+
+        const sectionResponse = await axios.post(
+          ' https://d199-92-253-117-43.ngrok-free.app/api/Course/Create',
+          {
+            datefrom: startDate,
+            dateto: endDate,
+            name: courseData[0].name,
+            duration: parseInt(courseData[0].duration),
+            sectionnum: newSectionNum,
+            image: responseData,
+            userid: parseInt(selectedInstructor.userid),
+            coursenum: courseData[0].coursenum,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const createdSectionId = sectionResponse.data.courseid;
+
+        const attendanceData = {
+          courseid: createdSectionId,
+          attendanceid: 0,
+        };
+
+        await axios.post(
+          'https://d199-92-253-117-43.ngrok-free.app/api/Attendance',
+          attendanceData,
+        );
+
+        Alert.alert('Created Successfully', '', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('ManageSections'),
+          },
+        ]);
+      } else {
+        const sectionResponse = await axios.post(
           ' https://d199-92-253-117-43.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
@@ -158,24 +166,42 @@ const CreateSection = ({navigation, route}: any) => {
               'Content-Type': 'application/json',
             },
           },
-        )
-        .then(() => {
-          Alert.alert('Created Successfully');
-        })
-        .catch(err => console.log(err));
+        );
+
+        const createdSectionId = sectionResponse.data.courseid;
+
+        const attendanceData = {
+          courseid: createdSectionId,
+          attendanceid: 0,
+        };
+
+        await axios.post(
+          'https://d199-92-253-117-43.ngrok-free.app/api/Attendance',
+          attendanceData,
+        );
+
+        Alert.alert('Created Successfully', '', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('ManageSections'),
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error('Error creating section:', error);
     }
   };
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
         const fetchedInstructors = await axios.get(
-          'https://d199-92-253-117-43.ngrok-free.app/api/User'
+          'https://d199-92-253-117-43.ngrok-free.app/api/User',
         );
         const filteredInstructors = fetchedInstructors.data.filter(
-          instructor => instructor.roleid == '2'
+          instructor => instructor.roleid == '2',
         );
-  
-        console.log('Filtered Instructors:', filteredInstructors);
+
+        //console.log('Filtered Instructors:', filteredInstructors);
         setInstructors(filteredInstructors);
       } catch (error) {
         console.error('Error fetching instructors:', error);
@@ -183,7 +209,7 @@ const CreateSection = ({navigation, route}: any) => {
     };
     fetchInstructors();
   }, []);
-  
+
   const handleInstructorSelect = async instructorID => {
     const selectedUser = await getUserByID(instructorID);
     setSelectedInstructor(selectedUser);
@@ -258,9 +284,11 @@ const CreateSection = ({navigation, route}: any) => {
             <View>
               <Text>Select Instructor</Text>
               <Picker
-                selectedValue={selectedInstructor ? selectedInstructor.userid : ''}
+                selectedValue={
+                  selectedInstructor ? selectedInstructor.userid : ''
+                }
                 onValueChange={itemValue => handleInstructorSelect(itemValue)}
-                style={styles.picker} >
+                style={styles.picker}>
                 {instructors.map(instructor => (
                   <Picker.Item
                     key={instructor.userid}
