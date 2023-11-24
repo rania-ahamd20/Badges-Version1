@@ -65,7 +65,7 @@ const Criteria = ({navigation}: any) => {
       });
 
       const response = await axios.post(
-        'https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload',
+        ' https://3847-92-253-117-43.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -80,7 +80,7 @@ const Criteria = ({navigation}: any) => {
 
         axios
           .put(
-            'https://d199-92-253-117-43.ngrok-free.app/api/Badges/Update',
+            ' https://3847-92-253-117-43.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -141,7 +141,7 @@ const Criteria = ({navigation}: any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-        'https://d199-92-253-117-43.ngrok-free.app/api/Badges/Update',
+        ' https://3847-92-253-117-43.ngrok-free.app/api/Badges/Update',
         {
           badgesid: badge.badgesid,
           type: badge.type,
@@ -165,7 +165,7 @@ const Criteria = ({navigation}: any) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://d199-92-253-117-43.ngrok-free.app/api/Badges',
+          ' https://3847-92-253-117-43.ngrok-free.app/api/Badges',
         );
         const fetchedBadges = response.data;
         setBadges(fetchedBadges);

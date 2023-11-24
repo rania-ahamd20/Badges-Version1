@@ -65,7 +65,7 @@ const ManualBadges = ({route, navigation}: any) => {
     for (let i = 0; i < users.length; i++) {
       await axios
         .post(
-          'https://d199-92-253-117-43.ngrok-free.app/api/BadgesTr/Create',
+          ' https://3847-92-253-117-43.ngrok-free.app/api/BadgesTr/Create',
           badge[i],
           {
             headers: {

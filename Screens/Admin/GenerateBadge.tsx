@@ -16,7 +16,7 @@ const GenerateBadge = ({route, navigation}: any) => {
   const fetchDataUsers = async () => {
     try {
       const result = await axios.get(
-        'https://d199-92-253-117-43.ngrok-free.app/api/User',
+        ' https://3847-92-253-117-43.ngrok-free.app/api/User',
       );
       const filteredUsers = result.data.filter(user => user.roleid == '3');
       setUsers(filteredUsers);

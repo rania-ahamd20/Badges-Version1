@@ -20,7 +20,7 @@ const ProfileScreen = ({navigation}: any) => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       await axios
         .get(
-          `https://d199-92-253-117-43.ngrok-free.app/api/User/GetUserById/${parseInt(
+          ` https://3847-92-253-117-43.ngrok-free.app/api/User/GetUserById/${parseInt(
             id,
             10,
           )}`,

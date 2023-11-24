@@ -44,7 +44,7 @@ const Assignments = ({route , navigation}:any) => {
   const handleAddAssignment = () => {
     axios
       .post(
-        'https://d199-92-253-117-43.ngrok-free.app/api/Assignment',
+        ' https://3847-92-253-117-43.ngrok-free.app/api/Assignment',
         newAssignment,
       )
       .then((response) => {
@@ -68,7 +68,7 @@ const Assignments = ({route , navigation}:any) => {
   };
 
   const fetchAssignments = useCallback(() => {
-    fetch('https://d199-92-253-117-43.ngrok-free.app/api/Assignment')
+    fetch(' https://3847-92-253-117-43.ngrok-free.app/api/Assignment')
       .then((response) => response.json())
       .then((responseJson) => {
         const filteredAssignments = responseJson.filter(
@@ -99,7 +99,7 @@ const Assignments = ({route , navigation}:any) => {
     if (selectedAssignment) {
       axios
         .put(
-          'https://d199-92-253-117-43.ngrok-free.app/api/Assignment/Update',
+          ' https://3847-92-253-117-43.ngrok-free.app/api/Assignment/Update',
           selectedAssignment,
         )
         .then(response => {
@@ -132,7 +132,7 @@ const Assignments = ({route , navigation}:any) => {
       axios
         .delete(
 
-          `https://d199-92-253-117-43.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
+          ` https://3847-92-253-117-43.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
         )
         .then(() => {
           Alert.alert('Assignment Deleted Successfully');

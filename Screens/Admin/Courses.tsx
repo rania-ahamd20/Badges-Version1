@@ -23,7 +23,7 @@ const Courses = ({navigation}: any) => {
   const fetchDataCourses = () => {
     axios
       .get(
-        'https://d199-92-253-117-43.ngrok-free.app/api/Course',
+        ' https://3847-92-253-117-43.ngrok-free.app/api/Course',
       )
       .then(async result => {
         setCourses(result.data);

@@ -43,7 +43,7 @@ const UploadFileComponent = () => {
       });
 
 
-      const response = await axios.post('https://d199-92-253-117-43.ngrok-free.app/api/Upload/upload', formData, {
+      const response = await axios.post(' https://3847-92-253-117-43.ngrok-free.app/api/Upload/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
