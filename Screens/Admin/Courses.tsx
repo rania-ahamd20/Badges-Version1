@@ -8,11 +8,12 @@ import Cards from '../../Components/Card';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../../Components/Loading';
 
 const Courses = ({navigation}: any) => {
   const [Courses, setCourses] = useState([]);
   const [CoursesSec, setCoursesSec] = useState([]);
-  const [Users, setUsers] = useState();
+
 
   const logout = async () => {
     await AsyncStorage.clear();
@@ -23,7 +24,7 @@ const Courses = ({navigation}: any) => {
   const fetchDataCourses = () => {
     axios
       .get(
-        ' https://3847-92-253-117-43.ngrok-free.app/api/Course',
+        'https://916d-92-253-117-43.ngrok-free.app/api/Course',
       )
       .then(async result => {
         setCourses(result.data);
@@ -47,6 +48,7 @@ const Courses = ({navigation}: any) => {
   }, []);
 
   return (
+    Courses && CoursesSec ?(
     <ScrollView>
       <Cards
         courses={Courses}
@@ -54,6 +56,9 @@ const Courses = ({navigation}: any) => {
         navigation={navigation}
       />
     </ScrollView>
+    ): (
+      <Loading/>
+    )
   );
 };
 

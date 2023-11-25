@@ -73,7 +73,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     const handelGetAll = ()=>{
 
-    axios.get(' https://3847-92-253-117-43.ngrok-free.app/api/User')
+    axios.get(' https://916d-92-253-117-43.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
@@ -86,7 +86,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(` https://3847-92-253-117-43.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(` https://916d-92-253-117-43.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
@@ -96,7 +96,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
 
   const handelUpdate= async()=>{
-    axios.put(' https://3847-92-253-117-43.ngrok-free.app/api/User/Update',{
+    axios.put(' https://916d-92-253-117-43.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,
@@ -136,7 +136,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
                         <Text style={styles.label}>Email: {item.email}</Text>
                     </View>
                     <View style={styles.tableCell}>
-                    <Text style={styles.label}>Phone Number: {item.password}</Text>
+                    <Text style={styles.label}>Phone Number: {item.phone}</Text>
                     </View>
                     <View  style={styles.buttonContainer}>
                         <TouchableOpacity onPress={() => handelDelete(item.userid)}>

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -16,22 +17,40 @@ import Colors from '../../constants/Colors';
 import FontSize from '../../constants/FontSize';
 import Spacing from '../../constants/Spacing';
 import axios from 'axios';
+import Loading from '../../Components/Loading';
 
 const AddTraineeToCourse = ({route, navigation}: any) => {
+  // Assuming you have a list of user objects and checkbox values
   const [users, setUsers]: any = useState([]);
 
   const getdata = async () => {
-    const filtered: any = await Promise.all(
-      route.params.users.filter(
-        (user: any) =>
-          user.roleid == 3 &&
-          !route.params.usersR.some(
-            (excludedUser: any) => excludedUser.userid == user.userid,
-          ),
-      ),
-    );
+    await axios
+      .get('https://916d-92-253-117-43.ngrok-free.app/api/Course')
+      .then(async (courses: any) => {
+        const filterSection = courses.data.filter(
+          (c: any) => c.coursenum == route.params.coursenum);
+        const coursesid = filterSection.map((item: any) => item.courseid);
+        console.log(coursesid);
+        await axios
+          .get('https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee')
+          .then(async (coursesTr: any) => {
+            const usersIn = coursesTr.data.filter((tc: any) =>
+              coursesid.includes(tc.courseid),
+            );
 
-    setUsers(filtered);
+            const usersid = usersIn.map((item: any) => item.userid);
+            console.log(usersid);
+
+            const filtered: any = await Promise.all(
+              route.params.users.filter(
+                (user: any) =>
+                  user.roleid == 3 && !usersid.includes(user.userid),
+              ),
+            );
+
+            setUsers(filtered);
+          });
+      });
   };
 
   useEffect(() => {
@@ -41,7 +60,7 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
   const addUsers = async (userid: any) => {
     await axios
       .post(
-        ' https://3847-92-253-117-43.ngrok-free.app/api/CourseTrainee/Create',
+        'https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee/Create',
         {
           mark: 0,
           courseid: route.params.courseid,
@@ -61,7 +80,7 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
       });
   };
 
-  return (
+  return users ? (
     <ScrollView style={{padding: 20}}>
       <View
         style={{
@@ -92,6 +111,8 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
         </View>
       ))}
     </ScrollView>
+  ) : (
+    <Loading />
   );
 };
 

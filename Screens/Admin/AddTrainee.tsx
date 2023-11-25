@@ -68,7 +68,7 @@ const AddTrainee = async()=>{
     const { isValid, errorMessage } = validateUser();
 
     if (isValid) {
-        axios.post(' https://3847-92-253-117-43.ngrok-free.app/api/User/Create',{
+        axios.post('https://916d-92-253-117-43.ngrok-free.app/api/User/Create',{
             "Firstname":Firstname,
             "Lastname":Lastname,
             "Email":Email,

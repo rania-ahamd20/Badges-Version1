@@ -21,6 +21,7 @@ import Colors from '../../constants/Colors';
 import Font from '../../constants/Font';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Loading from '../../Components/Loading';
 
 function getdate(date: any) {
   const dateTime = new Date(date);
@@ -46,22 +47,22 @@ const CourseDetails = ({ route, navigation }: any) => {
     const [attendanceid, setattendance]: any = useState();
 
     const RemoveTr = async (ctid:any) => {
-      await axios.delete(' https://3847-92-253-117-43.ngrok-free.app/api/CourseTrainee/Delete/' + parseInt(ctid, 10))
+      await axios.delete('https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
       .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
 
 
-    };
+    }
 
     const fetchDataUsers = async () => {
-        await axios.get(' https://3847-92-253-117-43.ngrok-free.app/api/User')
+        await axios.get('https://916d-92-253-117-43.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get(' https://3847-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
+                await axios.get('https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -75,9 +76,9 @@ const CourseDetails = ({ route, navigation }: any) => {
 
     const fetchDataAt = async () => {
 
-        await axios.get(' https://3847-92-253-117-43.ngrok-free.app/api/Attendance')
+        await axios.get('https://916d-92-253-117-43.ngrok-free.app/api/Attendance')
             .then(async (result) => {
-                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
+                const id = result.data.find((c: any) => c.courseid == route.params.course.courseid)
                 setattendance(id.attendanceid);
             })
             .catch((err) => console.log(err));
@@ -87,17 +88,19 @@ const CourseDetails = ({ route, navigation }: any) => {
 
 
     useEffect(() => {
+ 
         fetchDataUsers();
         fetchDataAt();
 
     }, []);
 
     return (
+      Users && UsersC && instructor ?(
         <SafeAreaView style={{backgroundColor:'white' , flex:1}}>
             <ScrollView >
                 <View
                     style={{
-                        alignItems: 'center',
+                        alignItems: "center",
                     }}
                 >
                     <Image
@@ -106,7 +109,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                             width: '100%',
                             height: 200,
                             marginBottom: Spacing * 2,
-                            resizeMode: 'cover',
+                            resizeMode: 'cover'
                         }}
                     />
                     <Text style={styles.TitlePage}>{Course.name} ({Course.sectionnum})</Text>
@@ -133,7 +136,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                                 style={styles.button1}
                                 onPress={() => navigation.navigate('AddTraineeToCourse', {
                                     courseid: Course.courseid,
-                                    users: Users, usersR: UsersC,
+                                    users: Users, usersR: UsersC, coursenum:Course.coursenum
                                 })}>
 
                                 <Text style={styles.buttonText1}>Add Trinees</Text>
@@ -155,7 +158,7 @@ const CourseDetails = ({ route, navigation }: any) => {
                                     <Text style={styles.cell}>{item.firstname}</Text>
                                     <Text style={styles.cell}>{item.email}</Text>
                                     <Text style={styles.cell}>
-                                    <Icon name="times" size={25} color="red" onPress={()=>RemoveTr(item.ctid)}/>
+                                    <Icon name="times" size={25} color='red' onPress={()=>RemoveTr(item.ctid)}/>
                                     </Text>
                                 </View>
                             ))
@@ -181,9 +184,10 @@ const CourseDetails = ({ route, navigation }: any) => {
 
             </ScrollView>
         </SafeAreaView>
+      ):(<Loading/>)
     );
 
-};
+}
 
 
 const styles = StyleSheet.create({

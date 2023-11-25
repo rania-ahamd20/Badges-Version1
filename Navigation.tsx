@@ -36,6 +36,7 @@ import GenerateBadge from './Screens/Admin/GenerateBadge';
 import SimpleLineIconsI from 'react-native-vector-icons/SimpleLineIcons';
 import Leaderboards from './Screens/System/Leaderboards';
 import ManualBadges from './Screens/Admin/ManualBadges';
+import ShowBadges from './Screens/Trainee/ShowBadge';
 function navigation() {
   const StackIns = createNativeStackNavigator();
   const StackAdmin = createNativeStackNavigator();
@@ -71,6 +72,7 @@ function navigation() {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: Colors.secondary},
           headerTintColor: 'white',
+          headerShown: false,
         }}>
         <StackIns.Screen
           name="InstrctorPage"
@@ -97,6 +99,7 @@ function navigation() {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: Colors.secondary},
           headerTintColor: 'white',
+          headerShown: false,
         }}>
         <StackTrainee.Screen name="HomeTrainee" component={HomeTrainee} />
         <StackTrainee.Screen name="CDetails" component={CourseDetailsTr} />
@@ -112,6 +115,7 @@ function navigation() {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: Colors.secondary},
           headerTintColor: 'white',
+          headerShown: false,
         }}>
         <StackAdmin.Screen
           name="Criteria"
@@ -131,6 +135,7 @@ function navigation() {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: Colors.secondary},
           headerTintColor: 'white',
+          headerShown: false,
         }}>
         <StackAdmin.Screen name="Courses" component={Courses} />
         <StackAdmin.Screen name="Login" component={Login} />
@@ -154,6 +159,7 @@ function navigation() {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: Colors.secondary},
           headerTintColor: 'white',
+          headerShown: false,
         }}>
         <StackAdmin.Screen name="GetAllTrainee" component={GetAllTrainee} />
         <StackAdmin.Screen name="AddTrainee" component={AddTrainee} />
@@ -182,21 +188,11 @@ function navigation() {
 
         <Tap.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={StackAchivments}
           options={{
-            tabBarIcon: () => (
-              <Icon name="user-circle-o" color={'white'} size={25} />
-            ),
+            tabBarIcon: () => <Icon name="trophy" color={'white'} size={25} />,
           }}
         />
-
-        {/*<Tap.Screen
-          name="submit"
-          component={UploadFileComponent}
-          options={{
-            tabBarIcon: () => <Icon name="upload" color={'white'} size={25} />,
-          }}
-        />*/}
 
         <Tap.Screen
           name="Settings"
@@ -208,7 +204,22 @@ function navigation() {
       </Tap.Navigator>
     );
   };
+  const stackach = createNativeStackNavigator();
 
+  const StackAchivments = () => {
+    return (
+      <stackach.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: Colors.secondary},
+          headerTintColor: 'white',
+          headerShown: false,
+        }}>
+        <stackach.Screen name="profile" component={ProfileScreen} />
+        <stackach.Screen name="ShowBadges" component={ShowBadges} />
+      </stackach.Navigator>
+    );
+  };
   const Tap1 = createMaterialTopTabNavigator();
   const Tabadmin = () => {
     return (
