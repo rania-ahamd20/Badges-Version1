@@ -13,6 +13,7 @@ import {Provider, Card, Button} from 'react-native-paper';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
+import Loading from '../../Components/Loading';
 function getdate(date: any) {
   const dateTime = new Date(date);
 
@@ -36,7 +37,7 @@ const Sections = ({route, navigation}: any) => {
     const fetchUserData = async (id: any) => {
       try {
         const response = await axios.get(
-          `  https://916d-92-253-117-43.ngrok-free.app/api/User/GetUserById/${id}`,
+          `  https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/GetUserById/${id}`,
         );
         return response.data;
       } catch (error) {
@@ -46,13 +47,13 @@ const Sections = ({route, navigation}: any) => {
     };
 
     axios
-      .get(' https://916d-92-253-117-43.ngrok-free.app/api/Course')
+      .get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Course')
       .then(async response => {
         const filteredCourse = response.data.filter(
-          item => item.coursenum === route.params.coursenum,
+          (item:any) => item.coursenum === route.params.coursenum,
         );
-        const formattedData = await Promise.all(
-          filteredCourse.map(async item => {
+        const formattedData :any= await Promise.all(
+          filteredCourse.map(async (item:any) => {
             const user = await fetchUserData(item.userid);
             return {
               ...item,
@@ -74,7 +75,7 @@ const Sections = ({route, navigation}: any) => {
     if (selectedCourseId) {
       axios
         .delete(
-          ` https://916d-92-253-117-43.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
+          ` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
         )
         .then(() => {
           Alert.alert('Section Deleted Successfully');
@@ -96,6 +97,7 @@ const Sections = ({route, navigation}: any) => {
   };
 
   return (
+    dataSource ? (
     <Provider>
       <View style={styles.container}>
         <Text style={styles.heading}>Course Sections</Text>
@@ -161,6 +163,9 @@ const Sections = ({route, navigation}: any) => {
         </View>
       </Modal>
     </Provider>
+    ): (
+      <Loading/>
+    )
   );
 };
 

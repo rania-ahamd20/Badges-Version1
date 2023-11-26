@@ -14,7 +14,7 @@ const SettingsScreen = ({ navigation }: any) => {
     const [user, setUser]: any = useState();
     const getuserData = async () => {
         await AsyncStorage.getItem('userid').then(async (id: any) => {
-            await axios.get(` https://916d-92-253-117-43.ngrok-free.app/api/User/GetUserById/${parseInt(id, 10)}`)
+            await axios.get(` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/GetUserById/${parseInt(id, 10)}`)
                 .then(async (res: any) => {
 
                     //console.log('User : ', res.data);
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
         fontSize: FontSize.large * 1.2,
         fontWeight: 'bold',
         marginBottom: 20,
+        color:'gray'
     },
     setting: {
         flexDirection: 'row',
@@ -96,9 +97,11 @@ const styles = StyleSheet.create({
     },
     settingName: {
         fontSize: FontSize.large * 1.2,
+        color:'gray'
     },
     settingText: {
         fontSize: 18,
+        color:'gray'
     },
 
     profilePicture: {

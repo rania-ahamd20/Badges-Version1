@@ -27,12 +27,12 @@ const CreateSection = ({navigation, route}: any) => {
   const [coursenum, setCourseNum] = useState('');
   const [file, setFile]: any = useState(null);
   const {courseData} = route.params;
-  const [instructors, setInstructors] = useState([]);
-  const [selectedInstructor, setSelectedInstructor] = useState(null);
-  const getUserByID = async userID => {
+  const [instructors, setInstructors] :any = useState([]);
+  const [selectedInstructor, setSelectedInstructor] : any= useState(null);
+  const getUserByID = async (userID:any) => {
     try {
       const response = await axios.get(
-        ` https://916d-92-253-117-43.ngrok-free.app/api/User/GetUserById/${userID}`,
+        ` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/GetUserById/${userID}`,
       );
       return response.data;
     } catch (error) {
@@ -72,7 +72,7 @@ const CreateSection = ({navigation, route}: any) => {
   }
   const getMaxSectionNumber = () => {
     let maxSection = 0;
-    courseData.forEach(course => {
+    courseData.forEach((course : any) => {
       if (course.sectionnum > maxSection) {
         maxSection = course.sectionnum;
       }
@@ -99,7 +99,7 @@ const CreateSection = ({navigation, route}: any) => {
         });
 
         const response = await axios.post(
-          ' https://916d-92-253-117-43.ngrok-free.app/api/Upload/upload',
+          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Upload/upload',
           formData,
           {
             headers: {
@@ -111,7 +111,7 @@ const CreateSection = ({navigation, route}: any) => {
         const responseData = response.data;
 
         const sectionResponse = await axios.post(
-          '  https://916d-92-253-117-43.ngrok-free.app/api/Course/Create',
+          '  https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -137,7 +137,7 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://916d-92-253-117-43.ngrok-free.app/api/Attendance',
+          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
@@ -149,7 +149,7 @@ const CreateSection = ({navigation, route}: any) => {
         ]);
       } else {
         const sectionResponse = await axios.post(
-          '  https://916d-92-253-117-43.ngrok-free.app/api/Course/Create',
+          '  https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -176,7 +176,7 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://916d-92-253-117-43.ngrok-free.app/api/Attendance',
+          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
@@ -195,10 +195,10 @@ const CreateSection = ({navigation, route}: any) => {
     const fetchInstructors = async () => {
       try {
         const fetchedInstructors = await axios.get(
-          ' https://916d-92-253-117-43.ngrok-free.app/api/User',
+          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User',
         );
         const filteredInstructors = fetchedInstructors.data.filter(
-          instructor => instructor.roleid == '2',
+          (instructor : any) => instructor.roleid == '2',
         );
 
         //console.log('Filtered Instructors:', filteredInstructors);
@@ -210,11 +210,12 @@ const CreateSection = ({navigation, route}: any) => {
     fetchInstructors();
   }, []);
 
-  const handleInstructorSelect = async instructorID => {
+  const handleInstructorSelect = async (instructorID : any) => {
     const selectedUser = await getUserByID(instructorID);
     setSelectedInstructor(selectedUser);
   };
   return (
+    
     <Provider>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Card style={styles.card}>
@@ -297,7 +298,7 @@ const CreateSection = ({navigation, route}: any) => {
                 }
                 onValueChange={itemValue => handleInstructorSelect(itemValue)}
                 style={styles.picker}>
-                {instructors.map(instructor => (
+                {instructors.map((instructor:any) => (
                   <Picker.Item
                     key={instructor.userid}
                     label={`${instructor.firstname} ${instructor.lastname}`}

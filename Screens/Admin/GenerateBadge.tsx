@@ -55,7 +55,7 @@ const GenerateBadge = ({route, navigation}: any) => {
       });
 
       const response = await axios.post(
-        ' https://916d-92-253-117-43.ngrok-free.app/api/Upload/upload',
+        ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -70,7 +70,7 @@ const GenerateBadge = ({route, navigation}: any) => {
 
         axios
           .put(
-            ' https://916d-92-253-117-43.ngrok-free.app/api/Badges/Update',
+            ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -105,9 +105,9 @@ const GenerateBadge = ({route, navigation}: any) => {
   const fetchDataUsers = async () => {
     try {
       const result = await axios.get(
-        ' https://916d-92-253-117-43.ngrok-free.app/api/User',
+        ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User',
       );
-      const filteredUsers = result.data.filter(user => user.roleid == '3');
+      const filteredUsers = result.data.filter((user:any) => user.roleid == '3');
       setUsers(filteredUsers);
       //console.log(filteredUsers);
     } catch (error) {
@@ -166,7 +166,7 @@ const GenerateBadge = ({route, navigation}: any) => {
           )}
 
           <TouchableOpacity style={styles.button} onPress={pickDocument}>
-            <Text>Pick a Badge</Text>
+            <Text style={{color:'white'}}>Pick a Badge</Text>
           </TouchableOpacity>
         </View>
       </Modal>

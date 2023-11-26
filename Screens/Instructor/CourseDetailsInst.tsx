@@ -10,6 +10,7 @@ import FontSize from '../../constants/FontSize';
 import Colors from '../../constants/Colors';
 import Font from '../../constants/Font';
 import axios from 'axios';
+import Loading from '../../Components/Loading';
 
 function getdate(date: any) {
 
@@ -30,21 +31,19 @@ function getTime(date: any) {
 
 const CourseDetailsInst = ({ route, navigation }: any) => {
     const [Course, setCourse]: any = useState(route.params.course);
-    const [Users, setUsers]: any = useState([]);
-    const [instructor, setinst]: any = useState({});
+    const [instructor, setinst]: any = useState({}); 
     const [UsersC, setCt]: any = useState([]);
     const [Check, setCheck] = useState(false);
     const [attendanceid, setattendance]: any = useState();
-
+    const [Attendances , setattendances]: any = useState();
 
     const fetchDataUsers = async () => {
-        await axios.get(' https://916d-92-253-117-43.ngrok-free.app/api/User')
+        await axios.get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User')
             .then(async (result1) => {
-                setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get(' https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
+                await axios.get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -57,7 +56,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     };
     const fetchDataAt = async () => {
 
-        await axios.get(' https://916d-92-253-117-43.ngrok-free.app/api/Attendance')
+        await axios.get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);
@@ -65,35 +64,63 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
             .catch((err) => console.log(err));
     };
 
+    const GetattendanceCourse = async () => {
+
+        await axios
+                  .get(
+                    `https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
+                  )
+                  .then(async (AttendancesData: any) => {
+                    await setattendances(AttendancesData.data)
+                  })
+
+    }
 
 
 
     useEffect(() => {
         fetchDataUsers();
         fetchDataAt();
-
+        GetattendanceCourse();
     }, []);
 
     const checkattendance = () => {
+        const cDate = new Date();
+        const checkdate = Attendances.filter((a:any) => getdate(a.attendantedate)  == getdate(cDate)).length;
+        if(checkdate == 0){
+        
         const startdate: any = getdate(Course.datefrom);
         const enddate: any = getdate(Course.dateto);
-        const cDate = new Date();
+        
         const currentDate = getdate(cDate);
         if (startdate <= currentDate && currentDate <= enddate) {
             navigation.navigate('TakeAttendance', { users: UsersC, attendanceid: attendanceid });
         } else {
             Alert.alert('Sorry this Course not Started yet or End');
         }
+    }
+    else
+    {
+        Alert.alert('Sorry, you have already taken attendance today');
+    }
     };
 
+    function getnumattendance(id : any) {
+
+        const  number = Attendances.filter((a:any) => a.userid == id && a.checkat == 0).length;
+
+        return number;
+        
+    }
+
     return (
+        instructor &&  UsersC &&  attendanceid && Attendances ? (
         <SafeAreaView style={{backgroundColor:'white',flex:1}}>
             <ScrollView>
                 <View
                     style={{
                         alignItems: 'center',
-                    }}
-                >
+                    }}>
                     <Image
                         source={{ uri: Course.image }}
                         style={{
@@ -143,6 +170,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
                         <View key="header" style={styles.header}>
                             <Text style={styles.headerText}>FullName</Text>
                             <Text style={styles.headerText}>Email</Text>
+                            <Text style={styles.headerText}>Absents</Text>
                         </View>
                         {
 
@@ -151,6 +179,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
                                 <View key={item.userid} style={styles.row}>
                                     <Text style={styles.cell}>{item.firstname} {item.lastname}</Text>
                                     <Text style={styles.cell}>{item.email}</Text>
+                                    <Text style={styles.cell}>{getnumattendance(item.userid)}</Text>
                                 </View>
                             ))
                         }
@@ -175,6 +204,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
             </ScrollView>
         </SafeAreaView>
+        ):(<Loading/>)
     );
 
 };

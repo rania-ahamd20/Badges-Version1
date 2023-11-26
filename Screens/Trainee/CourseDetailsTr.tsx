@@ -28,6 +28,7 @@ import Modal from 'react-native-modal';
 import Colors from '../../constants/Colors';
 import { Card, Icon } from 'react-native-elements';
 import DocumentPicker from 'react-native-document-picker';
+import Loading from '../../Components/Loading';
 const openURL = (url: string) => {
   Linking.openURL(url).catch(err => console.error('Error opening URL'));
 };
@@ -51,7 +52,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
   const [instructor, setinst]: any = useState({});
   const [Check, setCheck] = useState(false);
-
+  const [Attendances, setattendances]: any = useState();
   const [User, setUser]: any = useState();
   const [Assignments, setAssignments]: any = useState([]);
   const [selectedAssignment, setSelectedAssignment]: any = useState(null);
@@ -93,7 +94,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       });
 
       const response = await axios.post(
-        ' https://916d-92-253-117-43.ngrok-free.app/api/Upload/upload',
+        ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -104,54 +105,52 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
       const responseData = response.data;
       if (response.status === 200) {
-        if(!Assignment.atid)
-        {
-        axios
-          .post(
-            ' https://916d-92-253-117-43.ngrok-free.app/api/AssignmentTr',
-            {
-              submitdate: new Date(),
-              mark: -1,
-              assignmentsid: Assignment.assignmentsid,
-              userid: User,
-              assignmenturl: responseData,
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          .then(() => {
-            Alert.alert('Submitted Successfully');
-            setIsVisible(false);
-          })
-          .catch(err => console.log(err));
-        }
-        else
-        {
+        if (!Assignment.atid) {
           axios
-          .put(
-            ' https://916d-92-253-117-43.ngrok-free.app/api/AssignmentTr/Update',
-            {
-              atid: Assignment.atid,
-              submitdate: new Date(),
-              mark: -1,
-              assignmentsid: Assignment.assignmentsid,
-              userid: User,
-              assignmenturl: responseData,
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
+            .post(
+              ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/AssignmentTr',
+              {
+                submitdate: new Date(),
+                mark: -1,
+                assignmentsid: Assignment.assignmentsid,
+                userid: User,
+                assignmenturl: responseData,
               },
-            },
-          )
-          .then(() => {
-            Alert.alert('ReSubmitted Successfully');
-            setIsVisible(false);
-          })
-          .catch(err => console.log(err));
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            )
+            .then(() => {
+              Alert.alert('Submitted Successfully');
+              setIsVisible(false);
+            })
+            .catch(err => console.log(err));
+        }
+        else {
+          axios
+            .put(
+              ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/AssignmentTr/Update',
+              {
+                atid: Assignment.atid,
+                submitdate: new Date(),
+                mark: -1,
+                assignmentsid: Assignment.assignmentsid,
+                userid: User,
+                assignmenturl: responseData,
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            )
+            .then(() => {
+              Alert.alert('ReSubmitted Successfully');
+              setIsVisible(false);
+            })
+            .catch(err => console.log(err));
         }
 
         await setFile(null);
@@ -165,7 +164,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
   const fetchDataUsers = async () => {
     await axios
-      .get(' https://916d-92-253-117-43.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
+      .get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
       .then(async result1 => {
 
         setinst(result1.data);
@@ -184,7 +183,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       await setUser(id);
       await axios
         .get(
-          ` https://916d-92-253-117-43.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
+          ` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
         )
         .then(async (res: any) => {
           setAssignments(res.data);
@@ -192,12 +191,33 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
     });
   };
 
+  const GetattendanceCourse = async () => {
+
+    await axios
+      .get(
+        `https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
+      )
+      .then(async (AttendancesData: any) => {
+        await setattendances(AttendancesData.data)
+      })
+
+  }
+
   useEffect(() => {
     fetchDataUsers();
     getuserData();
-
+    GetattendanceCourse();
   }, []);
+
+  function getnumattendance(id: any) {
+    
+    const number = Attendances.filter((a: any) => a.userid == id && a.checkat == 0).length;
+
+    return number;
+
+  }
   return (
+    Attendances && User && Assignments && instructor ? (
     <SafeAreaView>
       <ScrollView>
         <View
@@ -254,10 +274,10 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
                 style={styles.assignmentCard}>
                 <Text style={styles.assignmentTitle}>{assignment.name}</Text>
                 <Text>Deadline: {getdate(assignment.deadline)}</Text>
-                <Text>Mark : {assignment.traineeMark == -1?<Text>Ungraded</Text>
-                :assignment.traineeMark < parseInt(assignment.traineeMark)*80/100? <Text style={{color:'red'}}>{assignment.traineeMark}</Text>
-                :<Text style={{color:'#0bda51'}}>{assignment.traineeMark} </Text>}
-                 / {assignment.assignmentMark}</Text>
+                <Text>Mark : {assignment.traineeMark == -1 ? <Text>Ungraded</Text>
+                  : assignment.traineeMark < parseInt(assignment.traineeMark) * 80 / 100 ? <Text style={{ color: 'red' }}>{assignment.traineeMark}</Text>
+                    : <Text style={{ color: '#0bda51' }}>{assignment.traineeMark} </Text>}
+                  / {assignment.assignmentMark}</Text>
                 <Text>Description: {assignment.description}</Text>
 
 
@@ -304,6 +324,10 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
             <Text style={styles.Text1}>
               Time : {getTime(Course.datefrom)} - {getTime(Course.dateto)}{' '}
             </Text>
+            <Text style={styles.Text1}>
+              Absents : {getnumattendance(User)}
+            </Text>
+
           </ScrollView>
         )}
       </ScrollView>
@@ -333,6 +357,10 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         </View>
       </Modal>
     </SafeAreaView>
+    ):
+    (
+      <Loading/>
+    )
   );
 };
 

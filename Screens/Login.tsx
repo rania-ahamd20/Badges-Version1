@@ -61,7 +61,7 @@ const Login = ({navigation}: any) => {
     }
   };
 
-  (globalThis as any).url = ' https://916d-92-253-117-43.ngrok-free.app/api';
+  (globalThis as any).url = ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api';
 
   const CheckValidation = async () => {
     axios
@@ -135,6 +135,8 @@ const Login = ({navigation}: any) => {
           }}>
           <TextInput
             placeholder="UserName or Email"
+            cursorColor={'black'}
+            placeholderTextColor={'gray'}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             onChangeText={username => setUserName(username)}
@@ -146,11 +148,13 @@ const Login = ({navigation}: any) => {
                 backgroundColor:'white',
                 borderRadius: Spacing,
                 marginVertical: Spacing,
+                color:'black',
               },
               focused && {
                 borderWidth: 3,
                 borderColor: Colors.primary,
                 backgroundColor:'white',
+                color:'black',
                 shadowOffset: {width: 4, height: Spacing},
                 shadowColor: Colors.primary,
                 shadowOpacity: 0.2,
@@ -161,6 +165,8 @@ const Login = ({navigation}: any) => {
           <TextInput
             placeholder="Password"
             onFocus={() => setFocused1(true)}
+            cursorColor={'black'}
+            placeholderTextColor={'gray'}
             onBlur={() => setFocused1(false)}
             onChangeText={password => setPassword(password)}
             secureTextEntry={passwordVisible}
@@ -172,10 +178,12 @@ const Login = ({navigation}: any) => {
                 backgroundColor: 'white',
                 borderRadius: Spacing,
                 marginVertical: Spacing,
+                color:'black',
               },
               focused1 && {
                 borderWidth: 3,
                 borderColor: Colors.primary,
+                color:'black',
                 shadowOffset: {width: 4, height: Spacing},
                 shadowColor: Colors.primary,
                 shadowOpacity: 0.2,

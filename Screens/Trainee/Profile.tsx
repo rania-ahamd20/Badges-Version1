@@ -27,6 +27,7 @@ const ProfileScreen = ({ navigation }: any) => {
   const [badgesTr, setBadgesTr]: any = useState();
   const [visibleTexts, setVisibleTexts]: any = useState([]);
   const [assignmentuser, setAssignments]: any = useState();
+  const [adminbadges, setbadgesAdmin]: any = useState();
 
   const toggleTextVisibility = (index: any) => {
     const newVisibleTexts = [...visibleTexts];
@@ -35,16 +36,16 @@ const ProfileScreen = ({ navigation }: any) => {
   };
 
   const getAssignments = async () => {
-    await axios.get('https://916d-92-253-117-43.ngrok-free.app/api/Assignment')
-    .then(async (res: any) => {
-      setAssignments(res.data);
-    });
+    await axios.get('https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Assignment')
+      .then(async (res: any) => {
+        setAssignments(res.data);
+      });
 
   }
 
   const getuserData = async () => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
-      await axios.get(`https://916d-92-253-117-43.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
+      await axios.get(`https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
         .then(async (res: any) => {
 
           await setUser(res.data)
@@ -53,17 +54,28 @@ const ProfileScreen = ({ navigation }: any) => {
 
       await axios
         .get(
-          'https://916d-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
+          'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
           parseInt(id)
         )
-        .then(async courses => {
-          setCourses(courses.data);
+        .then(async Co => {
+          const obj = {
+            name: "You earned",
+            userid: id,
+          };
+        
+          const data = [...Co.data , obj];
+        
+          setCourses(data);
 
 
           await axios.get(
-            'https://916d-92-253-117-43.ngrok-free.app/api/Badges',
+            'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Badges',
           ).then(async (badge: any) => {
             const fetchedBadges = badge.data;
+
+            const fetchedAdmin = fetchedBadges.filter((fa:any) => fa.type.includes('ByAdmin'));
+            const badgesid = fetchedAdmin.map((item: any) => item.badgesid);
+            setbadgesAdmin(badgesid);
 
             const criteriacourse = fetchedBadges.find((c: any) => c.type.includes('course') && c.text.includes('Heigh Mark'))
 
@@ -73,14 +85,14 @@ const ProfileScreen = ({ navigation }: any) => {
             setBadges(fetchedBadges);
 
             await axios.get(
-              'https://916d-92-253-117-43.ngrok-free.app/api/BadgesTr',
+              'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/BadgesTr',
             ).then((badgeTr: any) => {
               const fetchedBadgesTr = badgeTr.data;
 
               setBadgesTr(fetchedBadgesTr);
 
 
-              courses.data.map(async (item: any) => {
+              Co.data.map(async (item: any) => {
 
                 if (criteriacourse.activecriteria) {
                   if (item.mark >= 90) {
@@ -93,7 +105,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
                 await axios
                   .get(
-                    `https://916d-92-253-117-43.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(item.courseid)}`,
+                    `https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(item.courseid)}`,
                   )
                   .then(async (fetchassignment: any) => {
                     const assignments = fetchassignment.data;
@@ -127,7 +139,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
                 await axios
                   .get(
-                    `https://916d-92-253-117-43.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(item.courseid)}`,
+                    `https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(item.courseid)}`,
                   )
                   .then(async (AttendancesData: any) => {
                     const Attendances = AttendancesData.data.filter((at: any) => at.userid == id && at.checkat == 0).length;
@@ -145,6 +157,7 @@ const ProfileScreen = ({ navigation }: any) => {
                   })
 
               })
+
             })
           });
         })
@@ -155,7 +168,7 @@ const ProfileScreen = ({ navigation }: any) => {
   const createbadgescourse = async (Dbadgesid: any, Dcourseid: any, Duserid: any) => {
     console.log('Dcourseid', Dcourseid, 'badgesid', Dbadgesid, 'userid', Duserid)
     await axios.post(
-      'https://916d-92-253-117-43.ngrok-free.app/api/BadgesTr/Create',
+      'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/BadgesTr/Create',
       {
         courseid: Dcourseid,
         badgesid: Dbadgesid,
@@ -175,7 +188,7 @@ const ProfileScreen = ({ navigation }: any) => {
   const createbadgesAssignments = async (Dbadgesid: any, Dcourseid: any, Duserid: any, Dassignmentsid: any) => {
     console.log('Dcourseid', Dcourseid, 'badgesid', Dbadgesid, 'userid', Duserid, 'Dassignmentsid', Dassignmentsid)
     await axios.post(
-      'https://916d-92-253-117-43.ngrok-free.app/api/BadgesTr/Create',
+      'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/BadgesTr/Create',
       {
         courseid: Dcourseid,
         badgesid: Dbadgesid,
@@ -198,63 +211,100 @@ const ProfileScreen = ({ navigation }: any) => {
     getuserData();
   }, []);
 
-  function getbadges(id : any)
-  {
-    const cou = badges.find((b:any) => b.badgesid == id)
+  function getbadges(id: any) {
+    const cou = badges.find((b: any) => b.badgesid == id)
     return cou;
   }
 
-  function getAssignment(id : any)
-  {
-    const assi = assignmentuser.find((a:any) => a.assignmentsid == id)
+  function getAssignment(id: any) {
+    const assi = assignmentuser.find((a: any) => a.assignmentsid == id)
     return assi;
   }
 
   return (
-    user && courses && badgesTr && assignmentuser ?(
-      <ScrollView style={{backgroundColor:'white'}}>
+    user && courses && badgesTr && assignmentuser ? (
+      <ScrollView style={{ backgroundColor: 'white' }}>
         <Picture imageuser={user.image} />
         <Text style={styles.title}>{user.firstname} {user.lastname}</Text>
 
         <ScrollView style={styles.container}>
           <Text style={styles.header}>Your Achievements</Text>
           {courses.map((course: any, index: any) => (
-            
+            course.name != 'You earned'?(
             <View style={{ marginBottom: 30 }} key={index}>
               <TouchableOpacity style={styles.card}
                 onPress={() => toggleTextVisibility(index)}>
-                       
-                  <Text style={styles.title2}>{course.name}</Text>
-                  <Icon  name={!visibleTexts[index]?'arrow-down':'arrow-up'} size={20} />
-                
-              </TouchableOpacity>
-              
-              <View style={styles.color}> 
-              {badgesTr.filter((bt:any) => bt.courseid == course.courseid && bt.userid == user.userid).map((badge: any, index1: any) => (
-               visibleTexts[index] && 
-               <View key={index1} style={styles.container2}>
-                
-              <Image  source={{uri : getbadges(badge.badgesid).image}} style={styles.icon} />
-               {getbadges(badge.badgesid).type == 'Assignment'?(
-                <Text>{getbadges(badge.badgesid).text} in Assignment {getAssignment(badge.assignmentsid).name}</Text>
-                ):(
-                <Text>{getbadges(badge.badgesid).text} in Course</Text>
-                )
-                }
-              
-               <TouchableOpacity
-                      style={styles.button}
-                      onPress={()=>navigation.navigate('ShowBadges' , 
-                        {coursename : course.name , image : getbadges(badge.badgesid).image , username : `${user.firstname} ${user.lastname}` })}>
 
-                    <Text style={styles.buttonText}>Show</Text>
+                <Text style={styles.title2}>{course.name}</Text>
+                <Icon name={!visibleTexts[index] ? 'arrow-down' : 'arrow-up'} size={20} />
+
+              </TouchableOpacity>
+
+              <View style={styles.color}>
+                {badgesTr.filter((bt: any) => bt.courseid == course.courseid && bt.userid == user.userid).map((badge: any, index1: any) => (
+                  visibleTexts[index] &&
+                  <View key={index1} style={styles.container2}>
+
+                    <Image source={{ uri: getbadges(badge.badgesid).image }} style={styles.icon} />
+                    {getbadges(badge.badgesid).type == 'Assignment' ? (
+                      <Text>{getbadges(badge.badgesid).text} in Assignment {getAssignment(badge.assignmentsid).name}</Text>
+                    ) : (
+                      <Text>{getbadges(badge.badgesid).text} in Course</Text>
+                    )
+                    }
+
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => navigation.navigate('ShowBadges',
+                        {
+                          coursename: course.name, image: getbadges(badge.badgesid).image,
+                          username: `${user.firstname} ${user.lastname}`, assiname: badge.assignmentsid ? getAssignment(badge.assignmentsid).name : '0'
+                        })}>
+
+                      <Text style={styles.buttonText}>Show</Text>
                     </TouchableOpacity>
+                  </View>
+                ))
+                }
               </View>
-              ))
-              }
-            </View>
-          </View>
+            </View>)
+            :
+            (
+              <View style={{ marginBottom: 30 }} key={index}>
+              <TouchableOpacity style={styles.card}
+                onPress={() => toggleTextVisibility(index)}>
+
+                <Text style={styles.title2}>{course.name}</Text>
+                <Icon name={!visibleTexts[index] ? 'arrow-down' : 'arrow-up'} size={20} />
+
+              </TouchableOpacity>
+
+              <View style={styles.color}>
+                {badgesTr.filter((bt: any) => adminbadges.includes(bt.badgesid) && bt.userid == user.userid)
+                .map((badge: any, index1: any) => (visibleTexts[index] &&
+                  <View key={index1} style={styles.container2}>
+
+                    <Image source={{ uri: getbadges(badge.badgesid).image }} style={styles.icon} />
+                      <Text>{getbadges(badge.badgesid).text}</Text>
+                      
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => navigation.navigate('ShowBadges',
+                        {
+                          coursename: getbadges(badge.badgesid).text, image: getbadges(badge.badgesid).image ,
+                          username: `${user.firstname} ${user.lastname}`, assiname: badge.assignmentsid ? getAssignment(badge.assignmentsid).name : '0'
+                        })}>
+                      
+                      <Text style={styles.buttonText}>Show</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))
+                }
+              </View>
+              </View>
+            )
           ))}
+
         </ScrollView>
       </ScrollView>
     ) : (<Loading />)
@@ -275,12 +325,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 16
   },
   card: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     padding: 16,
     borderRadius: 15,
     alignItems: 'center',
@@ -289,13 +339,13 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 16,
-    width:50,
-    height:50
+    width: 50,
+    height: 50
   },
   title2: {
     fontSize: 16,
     fontWeight: 'bold',
-  
+
   },
   container1: {
     flex: 1,
@@ -311,12 +361,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     padding: 15,
     borderRadius: 15
   },
-  color:{
-    marginTop:10 ,
+  color: {
+    marginTop: 10,
     backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -325,11 +375,11 @@ const styles = StyleSheet.create({
     borderWidth: 2, // Adjust the border width as needed
     borderColor: Colors.secondary, // Set the default border color here
     padding: 4,
-    paddingLeft:10,
-    paddingRight:10,
+    paddingLeft: 10,
+    paddingRight: 10,
     borderRadius: 12,
     alignItems: 'center',
-    marginRight:5
+    marginRight: 5
   },
   buttonText: {
     fontSize: FontSize.medium / 1.2,

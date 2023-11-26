@@ -28,19 +28,20 @@ const ShowBadges = ({route}: any) => {
   };
 
   return (
-    <View style={{backgroundColor: 'white'}}>
+    <View style={{backgroundColor: 'white' , height:'100%'}}>
       <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 30, textAlign: 'center'}}>
-          Badges {route.params.coursename}
+        <Text style={{fontSize: 30, textAlign: 'center' , marginTop:20}}>
+        {route.params.username}
         </Text>
+        
         <Text
           style={{
             fontSize: 25,
-            marginTop: 20,
-            marginBottom: 30,
+            marginTop: 10,
+            marginBottom: 20,
             textAlign: 'center',
           }}>
-          {route.params.username}
+            {route.params.coursename} Badge { route.params.assiname != 0?route.params.assiname:''}     
         </Text>
       </View>
       <View style={{marginBottom: 50}}>
@@ -73,7 +74,7 @@ const ShowBadges = ({route}: any) => {
             fontSize: FontSize.large,
             position: 'absolute',
             top: '82%',
-            left: '42%',
+            left: '40%',
             color: 'white',
           }}>
           {route.params.coursename}

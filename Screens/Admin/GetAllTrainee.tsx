@@ -73,7 +73,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     const handelGetAll = ()=>{
 
-    axios.get(' https://916d-92-253-117-43.ngrok-free.app/api/User')
+    axios.get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
@@ -86,17 +86,17 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(` https://916d-92-253-117-43.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
 
   };
 
-
+ 
 
   const handelUpdate= async()=>{
-    axios.put(' https://916d-92-253-117-43.ngrok-free.app/api/User/Update',{
+    axios.put(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,
@@ -253,7 +253,6 @@ const styles = StyleSheet.create({
         padding:10,
         borderWidth:1,
         borderRadius:10,
-        borderColor:'@c0c0c0',
         paddingLeft:20,      
     },
     inputContainer: {
