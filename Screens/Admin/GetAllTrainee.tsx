@@ -73,7 +73,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     const handelGetAll = ()=>{
 
-    axios.get(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User')
+    axios.get(' https://bb39-92-253-117-43.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
@@ -86,7 +86,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(` https://bb39-92-253-117-43.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
@@ -96,7 +96,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
  
 
   const handelUpdate= async()=>{
-    axios.put(' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/User/Update',{
+    axios.put(' https://bb39-92-253-117-43.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,

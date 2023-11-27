@@ -28,7 +28,7 @@ const CardsTr = (props: any) => {
     <ScrollView style={styles.container}>
       <View style={styles.section}>
         <Image
-          source={require('../Assets/images/study.png')}
+          source={require('../Assets/images/Trainee.png')}
           style={[styles.image, styles.center]}
         />
 

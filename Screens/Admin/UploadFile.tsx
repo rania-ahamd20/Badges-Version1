@@ -47,7 +47,7 @@ const UploadFile = ({route}:any) => {
       });
 
       const response = await axios.post(
-        ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Upload/upload',
+        ' https://bb39-92-253-117-43.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -62,7 +62,7 @@ const UploadFile = ({route}:any) => {
 
         axios
         .put(
-          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Badges/Update',
+          ' https://bb39-92-253-117-43.ngrok-free.app/api/Badges/Update',
           {
             'badgesid':Badge.badgesid,
             'type': Badge.type,

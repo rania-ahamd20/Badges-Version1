@@ -44,7 +44,7 @@ const Assignments = ({route , navigation}:any) => {
   const handleAddAssignment = () => {
     axios
       .post(
-        ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Assignment',
+        ' https://bb39-92-253-117-43.ngrok-free.app/api/Assignment',
         newAssignment,
       )
       .then((response) => {
@@ -68,7 +68,7 @@ const Assignments = ({route , navigation}:any) => {
   };
 
   const fetchAssignments = useCallback(() => {
-    fetch('https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Assignment')
+    fetch('https://bb39-92-253-117-43.ngrok-free.app/api/Assignment')
       .then((response) => response.json())
       .then((responseJson) => {
         const filteredAssignments = responseJson.filter(
@@ -99,7 +99,7 @@ const Assignments = ({route , navigation}:any) => {
     if (selectedAssignment) {
       axios
         .put(
-          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Assignment/Update',
+          ' https://bb39-92-253-117-43.ngrok-free.app/api/Assignment/Update',
           selectedAssignment,
         )
         .then(response => {
@@ -132,7 +132,7 @@ const Assignments = ({route , navigation}:any) => {
       axios
         .delete(
 
-          ` https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
+          ` https://bb39-92-253-117-43.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
         )
         .then(() => {
           Alert.alert('Assignment Deleted Successfully');

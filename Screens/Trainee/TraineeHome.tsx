@@ -14,7 +14,7 @@ const HomeTrainee = ({navigation, route}: any) => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
       await axios
         .get(
-          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
+          ' https://bb39-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
             parseInt(id, 10),
         )
         .then(async result => {

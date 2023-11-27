@@ -25,14 +25,14 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
 
   const getdata = async () => {
     await axios
-      .get('https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/Course')
+      .get('https://bb39-92-253-117-43.ngrok-free.app/api/Course')
       .then(async (courses: any) => {
         const filterSection = courses.data.filter(
           (c: any) => c.coursenum == route.params.coursenum);
         const coursesid = filterSection.map((item: any) => item.courseid);
         console.log(coursesid);
         await axios
-          .get('https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/CourseTrainee')
+          .get('https://bb39-92-253-117-43.ngrok-free.app/api/CourseTrainee')
           .then(async (coursesTr: any) => {
             const usersIn = coursesTr.data.filter((tc: any) =>
               coursesid.includes(tc.courseid),
@@ -60,7 +60,7 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
   const addUsers = async (userid: any) => {
     await axios
       .post(
-        'https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/CourseTrainee/Create',
+        'https://bb39-92-253-117-43.ngrok-free.app/api/CourseTrainee/Create',
         {
           mark: 0,
           courseid: route.params.courseid,

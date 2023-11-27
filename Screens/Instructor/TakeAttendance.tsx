@@ -68,7 +68,7 @@ const TakeAttendance = ({route, navigation}: any) => {
     for (let i = 0; i < users.length; i++) {
       await axios
         .post(
-          ' https://7df1-2a01-9700-1091-6200-5159-9f77-3e8f-df36.ngrok-free.app/api/AttendanceTr',
+          ' https://bb39-92-253-117-43.ngrok-free.app/api/AttendanceTr',
           attendance[i],
           {
             headers: {
