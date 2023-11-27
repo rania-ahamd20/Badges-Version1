@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable eqeqeq */
 import React, {useEffect, useState} from 'react';
@@ -107,7 +108,9 @@ const GenerateBadge = ({route, navigation}: any) => {
       const result = await axios.get(
         ' https://bb39-92-253-117-43.ngrok-free.app/api/User',
       );
-      const filteredUsers = result.data.filter((user:any) => user.roleid == '3');
+      const filteredUsers = result.data.filter(
+        (user: any) => user.roleid == '3',
+      );
       setUsers(filteredUsers);
       //console.log(filteredUsers);
     } catch (error) {
@@ -122,55 +125,66 @@ const GenerateBadge = ({route, navigation}: any) => {
   const badge: any[] = route.params?.ba || [];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Generate Badges</Text>
-      {badge.map((badgeItem: any) => (
-        <View style={styles.card} key={badgeItem.badgesid}>
-          <Text style={styles.cardHeader}>{badgeItem.text}</Text>
-          <View style={styles.badge}>
-            <Image source={{uri: badgeItem.image}} style={styles.badgeImage} />
-            <View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ManualBadges', {
-                    badge: badgeItem,
-                    users: users,
-                  })
-                }>
-                <Text style={styles.button}>View Trainee's</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => Upload(badgeItem)}>
-                <Text style={styles.button}>Change Badge</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      ))}
-      <Modal isVisible={isVisible} onBackdropPress={closeModal}>
-        <View style={styles.card}>
-          {file && (
-            <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Icon
-                  name="file"
-                  type="font-awesome"
-                  size={30}
-                  style={{marginRight: 10}}
-                />
-                <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
-              </View>
-              <TouchableOpacity onPress={() => handleFileUpload(selectedBadge)}>
-                <Text style={styles.button}>Upload</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <TouchableOpacity style={styles.button} onPress={pickDocument}>
-            <Text style={{color:'white'}}>Pick a Badge</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.header}>Generate Badges</Text>
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('CreateBadge')}>
+            <Text style={styles.button}>Create new Badge</Text>
           </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+        {badge.map((badgeItem: any) => (
+          <View style={styles.card} key={badgeItem.badgesid}>
+            <Text style={styles.cardHeader}>{badgeItem.text}</Text>
+            <View style={styles.badge}>
+              <Image
+                source={{uri: badgeItem.image}}
+                style={styles.badgeImage}
+              />
+              <View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ManualBadges', {
+                      badge: badgeItem,
+                      users: users,
+                    })
+                  }>
+                  <Text style={styles.button}>View Trainee's</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Upload(badgeItem)}>
+                  <Text style={styles.button}>Change Badge</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        ))}
+        <Modal isVisible={isVisible} onBackdropPress={closeModal}>
+          <View style={styles.card}>
+            {file && (
+              <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Icon
+                    name="file"
+                    type="font-awesome"
+                    size={30}
+                    style={{marginRight: 10}}
+                  />
+                  <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => handleFileUpload(selectedBadge)}>
+                  <Text style={styles.button}>Upload</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            <TouchableOpacity style={styles.button} onPress={pickDocument}>
+              <Text style={{color: 'white'}}>Pick a Badge</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
+    </ScrollView>
   );
 };
 

@@ -1,5 +1,5 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable prettier/prettier */
+/* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable radix */
 import React, {useState, useEffect} from 'react';

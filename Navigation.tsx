@@ -37,6 +37,7 @@ import SimpleLineIconsI from 'react-native-vector-icons/SimpleLineIcons';
 import Leaderboards from './Screens/System/Leaderboards';
 import ManualBadges from './Screens/Admin/ManualBadges';
 import ShowBadges from './Screens/Trainee/ShowBadge';
+import CreateBadge from './Screens/Admin/CreateBadge';
 function navigation() {
   const StackIns = createNativeStackNavigator();
   const StackAdmin = createNativeStackNavigator();
@@ -123,6 +124,7 @@ function navigation() {
           component={Criteria}
         />
         <StackAdmin.Screen name="GenerateBadge" component={GenerateBadge} />
+        <StackAdmin.Screen name="CreateBadge" component={CreateBadge} />
         <StackAdmin.Screen name="ManualBadges" component={ManualBadges} />
       </StackAdmin.Navigator>
     );
