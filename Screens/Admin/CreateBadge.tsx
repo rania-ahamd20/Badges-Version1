@@ -75,7 +75,7 @@ const CreateBadge = ({navigation}: any) => {
         Alert.alert('Created Successfully');
         navigation.navigate('GenerateBadge');
       } else {
-        Alert.alert('Error uploading file', responseData.message);
+        Alert.alert('Error uploading file', uploadResponse.message);
       }
 
     } catch (err) {
