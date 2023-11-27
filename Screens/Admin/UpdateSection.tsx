@@ -5,8 +5,8 @@ import {View, StyleSheet, TextInput, Text, ScrollView, Alert} from 'react-native
 import {Provider, Card, Button} from 'react-native-paper';
 import axios from 'axios';
 
-const UpdateSection = (props: any) => {
-  const {item} = props.route.params;
+const UpdateSection = ({route,navigation}: any) => {
+  const {item} = route.params;
   const [courseid] = useState(item.courseid);
   const [datefrom, setDateFrom] = useState(item.datefrom);
   const [dateto, setDateTo] = useState(item.dateto);
@@ -40,10 +40,7 @@ const UpdateSection = (props: any) => {
       )
       .then(() => {
         Alert.alert('Updated Successfully');
-        props.navigation.reset({
-          index: 0,
-          routes: [{name: 'Sections'}],
-        });
+        navigation.navigate('ManageSections');
       })
       .catch(err => console.log(err));
   };
