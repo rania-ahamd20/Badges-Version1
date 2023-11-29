@@ -15,7 +15,7 @@ import axios from 'axios';
 
 const CreateBadge = ({navigation}: any) => {
   const [textInput, setTextInput] = useState('');
-  const [file, setFile] = useState(null);
+  const [file, setFile] :any = useState(null);
 
   const pickDocument = async () => {
     try {
@@ -45,8 +45,8 @@ const CreateBadge = ({navigation}: any) => {
         name: file[0].name || 'image.jpg',
       });
 
-      const uploadResponse = await axios.post(
-        'https://bb39-92-253-117-43.ngrok-free.app/api/Upload/upload',
+      const uploadResponse :any = await axios.post(
+        'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -57,7 +57,7 @@ const CreateBadge = ({navigation}: any) => {
       const uploadedImageUrl = uploadResponse.data;
       if (uploadResponse.status === 200) {
         const badgeCreationResponse = await axios.post(
-          'https://bb39-92-253-117-43.ngrok-free.app/api/Badges/Create',
+          'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges/Create',
           {
             type: 'ByAdmin',
             text: textInput,
@@ -75,7 +75,7 @@ const CreateBadge = ({navigation}: any) => {
         Alert.alert('Created Successfully');
         navigation.navigate('GenerateBadge');
       } else {
-        Alert.alert('Error uploading file', responseData.message);
+        Alert.alert('Error uploading file', uploadResponse.message);
       }
 
     } catch (err) {

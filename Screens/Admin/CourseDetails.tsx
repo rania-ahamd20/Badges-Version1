@@ -47,7 +47,7 @@ const CourseDetails = ({ route, navigation }: any) => {
     const [attendanceid, setattendance]: any = useState();
 
     const RemoveTr = async (ctid:any) => {
-      await axios.delete('https://bb39-92-253-117-43.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
+      await axios.delete('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/CourseTrainee/Delete/'+parseInt(ctid))
       .then(res=>{
         Alert.alert('deleted');
     }).catch(err=>console.log(err));
@@ -56,13 +56,13 @@ const CourseDetails = ({ route, navigation }: any) => {
     }
 
     const fetchDataUsers = async () => {
-        await axios.get('https://bb39-92-253-117-43.ngrok-free.app/api/User')
+        await axios.get('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setUsers(result1.data);
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get('https://bb39-92-253-117-43.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
+                await axios.get('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -76,7 +76,7 @@ const CourseDetails = ({ route, navigation }: any) => {
 
     const fetchDataAt = async () => {
 
-        await axios.get('https://bb39-92-253-117-43.ngrok-free.app/api/Attendance')
+        await axios.get('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid)
                 setattendance(id.attendanceid);

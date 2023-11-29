@@ -32,7 +32,7 @@ const CreateSection = ({navigation, route}: any) => {
   const getUserByID = async (userID:any) => {
     try {
       const response = await axios.get(
-        ` https://bb39-92-253-117-43.ngrok-free.app/api/User/GetUserById/${userID}`,
+        ` https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User/GetUserById/${userID}`,
       );
       return response.data;
     } catch (error) {
@@ -99,7 +99,7 @@ const CreateSection = ({navigation, route}: any) => {
         });
 
         const response = await axios.post(
-          ' https://bb39-92-253-117-43.ngrok-free.app/api/Upload/upload',
+          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Upload/upload',
           formData,
           {
             headers: {
@@ -111,7 +111,7 @@ const CreateSection = ({navigation, route}: any) => {
         const responseData = response.data;
 
         const sectionResponse = await axios.post(
-          '  https://bb39-92-253-117-43.ngrok-free.app/api/Course/Create',
+          '  https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -137,7 +137,7 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://bb39-92-253-117-43.ngrok-free.app/api/Attendance',
+          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
@@ -149,7 +149,7 @@ const CreateSection = ({navigation, route}: any) => {
         ]);
       } else {
         const sectionResponse = await axios.post(
-          '  https://bb39-92-253-117-43.ngrok-free.app/api/Course/Create',
+          '  https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -176,7 +176,7 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://bb39-92-253-117-43.ngrok-free.app/api/Attendance',
+          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
@@ -195,7 +195,7 @@ const CreateSection = ({navigation, route}: any) => {
     const fetchInstructors = async () => {
       try {
         const fetchedInstructors = await axios.get(
-          ' https://bb39-92-253-117-43.ngrok-free.app/api/User',
+          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User',
         );
         const filteredInstructors = fetchedInstructors.data.filter(
           (instructor : any) => instructor.roleid == '2',
