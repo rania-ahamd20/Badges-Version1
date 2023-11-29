@@ -11,7 +11,6 @@ const UpdateSection = ({route,navigation}: any) => {
   const [datefrom, setDateFrom] = useState(item.datefrom);
   const [dateto, setDateTo] = useState(item.dateto);
   const [name, setName] = useState(item.name);
-  const [duration, setDuration] = useState(item.duration);
   const [sectionnum, setSectionNum] = useState(item.sectionnum);
   const [image, setImage] = useState(item.image);
   const [userid] = useState(item.userid);
@@ -26,7 +25,7 @@ const UpdateSection = ({route,navigation}: any) => {
           datefrom: datefrom,
           dateto: dateto,
           name: name,
-          duration: parseInt(duration),
+          duration: '1',
           sectionnum: parseInt(sectionnum),
           image: image,
           userid: userid,
@@ -104,16 +103,6 @@ const UpdateSection = ({route,navigation}: any) => {
               value={dateto}
               onChangeText={(text) => setDateTo(text)}
               placeholder="End Date"
-            />
-          </View>
-          <View>
-            <Text>Duration</Text>
-            <TextInput
-              style={styles.input}
-              value={duration.toString()}
-              onChangeText={(text) => setDuration(text)}
-              keyboardType="numeric"
-              placeholder="Duration"
             />
           </View>
         </Card.Content>

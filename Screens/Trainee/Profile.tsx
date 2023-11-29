@@ -166,7 +166,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
 
   const createbadgescourse = async (Dbadgesid: any, Dcourseid: any, Duserid: any) => {
-    console.log('Dcourseid', Dcourseid, 'badgesid', Dbadgesid, 'userid', Duserid)
+
     await axios.post(
       'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/BadgesTr/Create',
       {
