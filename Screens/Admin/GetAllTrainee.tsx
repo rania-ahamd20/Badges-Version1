@@ -16,13 +16,15 @@ import {
   View,
   Alert,
   TouchableOpacity,
-  Modal,
+
   TextInput,
 } from 'react-native';
+import Modal from 'react-native-modal' ;
 import axios from 'axios';
 import Colors from '../../constants/Colors';
 import  Icon  from 'react-native-vector-icons/FontAwesome';
-import { Card,  PaperProvider, Portal } from 'react-native-paper';
+import { Button, Card,  PaperProvider, Portal } from 'react-native-paper';
+import FontSize from '../../constants/FontSize';
 
 
 
@@ -31,9 +33,9 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     
     const [selectedItem, setSelectedItem] = useState<any>(null);
-
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [visible, setVisible] = React.useState(false);
-
+    const [selectedId, setSelectedId] = useState(0);
     const [Userid,setUserid] = useState('');
     const [Firstname,setFName] = useState('');
     const [Lastname,setLname] = useState('');
@@ -49,7 +51,6 @@ function GetAllTrainee({navigation}:any): JSX.Element {
     const showModal = (item: any) => {
         setVisible(true);
         setSelectedItem(item);
-
         setUserid(item.userid);
         setFName(item.firstname);
         setLname(item.lastname);
@@ -62,23 +63,31 @@ function GetAllTrainee({navigation}:any): JSX.Element {
       };
 
     const hideModal = () => setVisible(false);
+    const hideModaldelete = () => setShowConfirmation(false);
     const [data,setData] = useState([]);
 
-   
+      const showmodel = (id:any) => {
+
+        setSelectedId(id);
+        setShowConfirmation(true);
+
+      } 
 
     useEffect(  () => {
         handelGetAll();
+
+        navigation.addListener('focus', handelGetAll );
       },[]);
 
 
     const handelGetAll = ()=>{
 
-    axios.get(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User')
+    axios.get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
         setData(filteredData);
-       // console.log('Filtered data:', filteredData);
+       
 
     }).catch(err=>console.log(err));
 
@@ -86,9 +95,10 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(` https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
-        Alert.alert('deleted');
+        Alert.alert('Deleted Successfully');
+        setShowConfirmation(false);
     }).catch(err=>console.log(err));
 
   };
@@ -96,7 +106,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
  
 
   const handelUpdate= async()=>{
-    axios.put(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User/Update',{
+    axios.put(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,
@@ -139,26 +149,29 @@ function GetAllTrainee({navigation}:any): JSX.Element {
                     <Text style={styles.label}>Phone Number: {item.phone}</Text>
                     </View>
                     <View  style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={() => handelDelete(item.userid)}>
+                        <TouchableOpacity onPress={() => showmodel(item.userid)}>
                             <Icon style={{marginRight:20,}} name="times" size={30} color="red" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => showModal(item)}>
                             <Icon name="edit" size={29} color={Colors.secondary} />
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </Card.Content>
         </Card>
+       
         </View>
+        
     ))}
 
-    {/* Modal */}
+
     <PaperProvider>
         <Portal>
-            <Modal visible={visible} transparent animationType="slide">
-                <View style={styles.modalContainer}>
+            <Modal isVisible={visible}  >
+                <View style={styles.modalContainer1}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.label}>UPDATE TRAINEE</Text>
+                        <Text style={styles.labelTitle}>UPDATE TRAINEE</Text>
                         {selectedItem && (
                 <View>
                   <View style={styles.inputContainer}>
@@ -201,9 +214,20 @@ function GetAllTrainee({navigation}:any): JSX.Element {
                     </View>
                 </View>
             </Modal>
+            <Modal isVisible={showConfirmation}>
+        <View style={styles.modalContainer1}>
+          <Text>Are you sure you want to delete this Trainee?</Text>
+          <View style={styles.modalButtons1}>
+            <Button textColor={Colors.primary} onPress={() => handelDelete(selectedId)}>Delete</Button>
+            <Button textColor={Colors.primary} onPress={hideModaldelete}>Cancel</Button>
+          </View>
+        </View>
+      </Modal>
         </Portal>
     </PaperProvider>
+   
 </ScrollView>
+
   );
 }
 
@@ -242,12 +266,10 @@ const styles = StyleSheet.create({
       },
       modalContent: {
         backgroundColor: 'white',
-        padding: 20,
         borderRadius: 10,
         marginHorizontal: 20,
       },
       textInput:{
-     
         height:50,
         margin:5,
         padding:10,
@@ -260,6 +282,11 @@ const styles = StyleSheet.create({
       },
       label: {
         fontWeight: 'bold',
+      },
+      labelTitle: {
+        fontWeight: 'bold',
+        marginBottom: 20,
+        fontSize:FontSize.large /1.2
       },
       buttonContainer: {
         flexDirection: 'row',
@@ -294,5 +321,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         marginBottom:10,
     },
+    modalContainer1: {
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      padding: 20,
+    },
+    modalButtons1: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      marginTop: 20,
+    }
   });
 export default GetAllTrainee;

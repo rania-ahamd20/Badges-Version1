@@ -38,12 +38,12 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     const [Attendances , setattendances]: any = useState();
 
     const fetchDataUsers = async () => {
-        await axios.get(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User')
+        await axios.get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
+                await axios.get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -56,7 +56,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     };
     const fetchDataAt = async () => {
 
-        await axios.get(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance')
+        await axios.get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);
@@ -68,7 +68,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
         await axios
                   .get(
-                    `https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
+                    `https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
                   )
                   .then(async (AttendancesData: any) => {
                     await setattendances(AttendancesData.data)

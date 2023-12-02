@@ -14,6 +14,7 @@ import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../../Components/Loading';
+import Colors from '../../constants/Colors';
 function getdate(date: any) {
   const dateTime = new Date(date);
 
@@ -33,37 +34,46 @@ const Sections = ({route, navigation}: any) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  useEffect(() => {
-    const fetchUserData = async (id: any) => {
-      try {
-        const response = await axios.get(
-          `  https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User/GetUserById/${id}`,
-        );
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        return null;
-      }
-    };
+const fetchDataCourses = () => {
+  axios
+  .get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course')
+  .then(async response => {
+    const filteredCourse = response.data.filter(
+      (item:any) => item.coursenum === route.params.coursenum,
+    );
+    const formattedData :any= await Promise.all(
+      filteredCourse.map(async (item:any) => {
+        const user = await fetchUserData(item.userid);
+        return {
+          ...item,
+          user: user || {},
+        };
+      }),
+    );
+    setDataSource(formattedData);
+  })
+  .catch(error => console.error('Error fetching course data:', error));
+}
 
-    axios
-      .get(' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Course')
-      .then(async response => {
-        const filteredCourse = response.data.filter(
-          (item:any) => item.coursenum === route.params.coursenum,
-        );
-        const formattedData :any= await Promise.all(
-          filteredCourse.map(async (item:any) => {
-            const user = await fetchUserData(item.userid);
-            return {
-              ...item,
-              user: user || {},
-            };
-          }),
-        );
-        setDataSource(formattedData);
-      })
-      .catch(error => console.error('Error fetching course data:', error));
+const fetchUserData = async (id: any) => {
+  try {
+    const response = await axios.get(
+      `  https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/GetUserById/${id}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return null;
+  }
+};
+
+  useEffect(() => {
+    
+    fetchDataCourses();
+    
+
+    navigation.addListener('focus', fetchDataCourses );
+
   }, []);
 
   const handleDelete = (id: any) => {
@@ -75,7 +85,7 @@ const Sections = ({route, navigation}: any) => {
     if (selectedCourseId) {
       axios
         .delete(
-          ` https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
+          ` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
         )
         .then(() => {
           Alert.alert('Section Deleted Successfully');
@@ -157,8 +167,8 @@ const Sections = ({route, navigation}: any) => {
         <View style={styles.modalContainer}>
           <Text>Are you sure you want to delete this course section?</Text>
           <View style={styles.modalButtons}>
-            <Button onPress={confirmDelete}>Delete</Button>
-            <Button onPress={cancelDelete}>Cancel</Button>
+            <Button textColor={Colors.primary} onPress={confirmDelete}>Delete</Button>
+            <Button textColor={Colors.primary} onPress={cancelDelete}>Cancel</Button>
           </View>
         </View>
       </Modal>

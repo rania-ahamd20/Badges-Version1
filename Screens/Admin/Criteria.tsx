@@ -19,6 +19,7 @@ import Colors from '../../constants/Colors';
 import {Card, Icon} from 'react-native-elements';
 import DocumentPicker from 'react-native-document-picker';
 import Loading from '../../Components/Loading';
+import { useFocusEffect } from '@react-navigation/native';
 //import {withNavigation} from 'react-navigation';
 
 const Criteria = ({navigation}: any) => {
@@ -66,7 +67,7 @@ const Criteria = ({navigation}: any) => {
       });
 
       const response = await axios.post(
-        ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Upload/upload',
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -81,7 +82,7 @@ const Criteria = ({navigation}: any) => {
 
         axios
           .put(
-            ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges/Update',
+            ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -100,7 +101,7 @@ const Criteria = ({navigation}: any) => {
           navigation.navigate('Criteria');
            Alert.alert('Updated Successfully');
             setIsVisible(false);
-
+            fetchData();
           })
           .catch(err => console.log(err));
 
@@ -142,7 +143,7 @@ const Criteria = ({navigation}: any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-        ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges/Update',
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges/Update',
         {
           badgesid: badge.badgesid,
           type: badge.type,
@@ -154,32 +155,37 @@ const Criteria = ({navigation}: any) => {
       );
       console.log('Successfully saved for the badge', selectedBadge.badgesid);
       closeModal();
+      fetchData();
     } catch (error) {
       console.error('Error :', error);
     }
   };
   const closeModal = () => {
-    setIsModalVisible(false);
+    setIsVisible(false);
     setCriteriaArray([]);
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges',
-        );
-        const fetchedBadges = response.data;
-        setBadges(fetchedBadges);
-        const fetchedBadgesGen = fetchedBadges.filter((b:any) => b.type == 'ByAdmin');
-        setgenBadges(fetchedBadgesGen);
-        //console.log(fetchedBadgesGen);
-      } catch (error) {
-        console.error('Error fetching badges:', error);
-      }
-    };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges',
+      );
+      const fetchedBadges = response.data;
+      setBadges(fetchedBadges);
+      const fetchedBadgesGen = fetchedBadges.filter((b:any) => b.type == 'ByAdmin');
+      setgenBadges(fetchedBadgesGen);
+      //console.log(fetchedBadgesGen);
+    } catch (error) {
+      console.error('Error fetching badges:', error);
+    }
+  };
+
+
+  useEffect(() => {
     fetchData();
   }, []);
+
+
 
   return (
     badges && genBadges ? (
@@ -238,8 +244,13 @@ const Criteria = ({navigation}: any) => {
 
       <Modal isVisible={isVisible} onBackdropPress={closeModal}>
         <View style={styles.card}>
+
+        <TouchableOpacity  onPress={pickDocument}>
+            <Text style={styles.button}>Pick a Badge</Text>
+          </TouchableOpacity>
+
           {file && (
-            <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
+            <View style={{padding: 20, borderRadius: 10, marginBottom: 10}}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Icon
                   name="file"
@@ -255,9 +266,7 @@ const Criteria = ({navigation}: any) => {
             </View>
           )}
 
-          <TouchableOpacity style={styles.button} onPress={pickDocument}>
-            <Text>Pick a Badge</Text>
-          </TouchableOpacity>
+          
         </View>
       </Modal>
 

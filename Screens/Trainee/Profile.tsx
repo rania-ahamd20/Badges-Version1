@@ -36,7 +36,7 @@ const ProfileScreen = ({ navigation }: any) => {
   };
 
   const getAssignments = async () => {
-    await axios.get('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Assignment')
+    await axios.get('https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Assignment')
       .then(async (res: any) => {
         setAssignments(res.data);
       });
@@ -45,7 +45,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
   const getuserData = async () => {
     await AsyncStorage.getItem('userid').then(async (id: any) => {
-      await axios.get(`https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
+      await axios.get(`https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/GetUserById/${parseInt(id)}`)
         .then(async (res: any) => {
 
           await setUser(res.data)
@@ -54,7 +54,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
       await axios
         .get(
-          'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
+          'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/CourseTrainee/GetCoursesUser/' +
           parseInt(id)
         )
         .then(async Co => {
@@ -69,7 +69,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
 
           await axios.get(
-            'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges',
+            'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges',
           ).then(async (badge: any) => {
             const fetchedBadges = badge.data;
 
@@ -85,7 +85,7 @@ const ProfileScreen = ({ navigation }: any) => {
             setBadges(fetchedBadges);
 
             await axios.get(
-              'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/BadgesTr',
+              'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/BadgesTr',
             ).then((badgeTr: any) => {
               const fetchedBadgesTr = badgeTr.data;
 
@@ -105,7 +105,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
                 await axios
                   .get(
-                    `https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(item.courseid)}`,
+                    `https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(item.courseid)}`,
                   )
                   .then(async (fetchassignment: any) => {
                     const assignments = fetchassignment.data;
@@ -139,7 +139,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
                 await axios
                   .get(
-                    `https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(item.courseid)}`,
+                    `https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(item.courseid)}`,
                   )
                   .then(async (AttendancesData: any) => {
                     const Attendances = AttendancesData.data.filter((at: any) => at.userid == id && at.checkat == 0).length;
@@ -168,7 +168,7 @@ const ProfileScreen = ({ navigation }: any) => {
   const createbadgescourse = async (Dbadgesid: any, Dcourseid: any, Duserid: any) => {
 
     await axios.post(
-      'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/BadgesTr/Create',
+      'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/BadgesTr/Create',
       {
         courseid: Dcourseid,
         badgesid: Dbadgesid,
@@ -188,7 +188,7 @@ const ProfileScreen = ({ navigation }: any) => {
   const createbadgesAssignments = async (Dbadgesid: any, Dcourseid: any, Duserid: any, Dassignmentsid: any) => {
     console.log('Dcourseid', Dcourseid, 'badgesid', Dbadgesid, 'userid', Duserid, 'Dassignmentsid', Dassignmentsid)
     await axios.post(
-      'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/BadgesTr/Create',
+      'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/BadgesTr/Create',
       {
         courseid: Dcourseid,
         badgesid: Dbadgesid,

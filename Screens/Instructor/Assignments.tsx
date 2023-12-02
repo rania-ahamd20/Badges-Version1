@@ -44,7 +44,7 @@ const Assignments = ({route , navigation}:any) => {
   const handleAddAssignment = () => {
     axios
       .post(
-        ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Assignment',
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Assignment',
         newAssignment,
       )
       .then((response) => {
@@ -68,7 +68,7 @@ const Assignments = ({route , navigation}:any) => {
   };
 
   const fetchAssignments = useCallback(() => {
-    fetch('https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Assignment')
+    fetch('https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Assignment')
       .then((response) => response.json())
       .then((responseJson) => {
         const filteredAssignments = responseJson.filter(
@@ -99,7 +99,7 @@ const Assignments = ({route , navigation}:any) => {
     if (selectedAssignment) {
       axios
         .put(
-          ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Assignment/Update',
+          ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Assignment/Update',
           selectedAssignment,
         )
         .then(response => {
@@ -132,7 +132,7 @@ const Assignments = ({route , navigation}:any) => {
       axios
         .delete(
 
-          ` https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
+          ` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Assignment/Delete/${selectedAssignmentId}`,
         )
         .then(() => {
           Alert.alert('Assignment Deleted Successfully');

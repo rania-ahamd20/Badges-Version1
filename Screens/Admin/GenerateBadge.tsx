@@ -16,16 +16,19 @@ import Modal from 'react-native-modal';
 import {Card, Icon} from 'react-native-elements';
 import Colors from '../../constants/Colors';
 import axios from 'axios';
+import Loading from '../../Components/Loading';
 const GenerateBadge = ({route, navigation}: any) => {
   const [users, setUsers] = useState([]);
   const [selectedBadge, setSelectedBadge]: any = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [file, setFile]: any = useState(null);
+  const [badge, setBadges] = useState(route.params?.ba);
+
   const Upload = (badge: any) => {
     setSelectedBadge(badge);
     setIsVisible(true);
   };
-
+  
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.pick({
@@ -56,7 +59,7 @@ const GenerateBadge = ({route, navigation}: any) => {
       });
 
       const response = await axios.post(
-        ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Upload/upload',
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -71,7 +74,7 @@ const GenerateBadge = ({route, navigation}: any) => {
 
         axios
           .put(
-            ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges/Update',
+            ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -89,6 +92,7 @@ const GenerateBadge = ({route, navigation}: any) => {
           .then(() => {
             Alert.alert('Updated Successfully');
             setIsVisible(false);
+            fetchData();
           })
           .catch(err => console.log(err));
 
@@ -103,10 +107,25 @@ const GenerateBadge = ({route, navigation}: any) => {
   const closeModal = () => {
     setIsVisible(false);
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges',
+      );
+      const fetchedBadgesGen = response.data.filter((b:any) => b.type == 'ByAdmin');
+      setBadges(fetchedBadgesGen);
+      //console.log(fetchedBadgesGen);
+    } catch (error) {
+      console.error('Error fetching badges:', error);
+    }
+  };
+
+
   const fetchDataUsers = async () => {
     try {
       const result = await axios.get(
-        ' https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/User',
+        ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User',
       );
       const filteredUsers = result.data.filter(
         (user: any) => user.roleid == '3',
@@ -119,13 +138,15 @@ const GenerateBadge = ({route, navigation}: any) => {
   };
 
   useEffect(() => {
+    fetchData();
     fetchDataUsers();
   }, []);
 
-  const badge: any[] = route.params?.ba || [];
+  
 
   return (
-    <ScrollView>
+    badge ? (
+    <ScrollView style={{backgroundColor:'white'}}>
       <View style={styles.container}>
         <Text style={styles.header}>Generate Badges</Text>
         <View>
@@ -159,32 +180,35 @@ const GenerateBadge = ({route, navigation}: any) => {
           </View>
         ))}
         <Modal isVisible={isVisible} onBackdropPress={closeModal}>
-          <View style={styles.card}>
-            {file && (
-              <View style={{padding: 20, borderRadius: 10, marginBottom: 40}}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Icon
-                    name="file"
-                    type="font-awesome"
-                    size={30}
-                    style={{marginRight: 10}}
-                  />
-                  <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => handleFileUpload(selectedBadge)}>
-                  <Text style={styles.button}>Upload</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+        <View style={styles.card}>
 
-            <TouchableOpacity style={styles.button} onPress={pickDocument}>
-              <Text style={{color: 'white'}}>Pick a Badge</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        <TouchableOpacity  onPress={pickDocument}>
+            <Text style={styles.button}>Pick a Badge</Text>
+          </TouchableOpacity>
+
+          {file && (
+            <View style={{padding: 20, borderRadius: 10, marginBottom: 10}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Icon
+                  name="file"
+                  type="font-awesome"
+                  size={30}
+                  style={{marginRight: 10}}
+                />
+                <Text style={{flex: 1}}>{file[0].name || 'Unknown'}</Text>
+              </View>
+              <TouchableOpacity onPress={()=>handleFileUpload(selectedBadge)}>
+                <Text style={styles.button}>Upload</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          
+        </View>
+      </Modal>
       </View>
     </ScrollView>
+    ):(<Loading/>)
   );
 };
 
@@ -193,7 +217,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   header: {
     fontSize: 24,

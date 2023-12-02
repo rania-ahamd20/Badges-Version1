@@ -23,7 +23,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import InstrctorPage from './Screens/Instructor/InstructorPage';
 import Assignments from './Screens/Instructor/Assignments';
 import MarkAssignments from './Screens/Instructor/MarkAssignments';
-import UploadFileComponent from './Screens/Trainee/Uploadfile';
 import Criteria from './Screens/Admin/Criteria';
 import HomeTrainee from './Screens/Trainee/TraineeHome';
 import CourseDetailsTr from './Screens/Trainee/CourseDetailsTr';
@@ -184,6 +183,7 @@ function navigation() {
           name="Stack"
           component={NavigatorStackForTrainee}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="book" color={'white'} size={25} />,
           }}
         />
@@ -192,6 +192,7 @@ function navigation() {
           name="Profile"
           component={StackAchivments}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="trophy" color={'white'} size={25} />,
           }}
         />
@@ -200,6 +201,7 @@ function navigation() {
           name="Settings"
           component={SettingsScreen}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="cog" color={'white'} size={25} />,
           }}
         />
@@ -237,6 +239,7 @@ function navigation() {
           name="Stack"
           component={NavigatorStackForAdmin}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="book" color={'white'} size={25} />,
           }}
         />
@@ -244,6 +247,7 @@ function navigation() {
           name="Profile"
           component={NavigatorManageTrainee}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => (
               <Icon name="user-circle" color={'white'} size={25} />
             ),
@@ -254,7 +258,7 @@ function navigation() {
           name="Badges"
           component={NavigatorManageBadges}
           options={{
-            title: 'Badges',
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => (
               <SimpleLineIconsI name="badge" color={'white'} size={25} />
             ),
@@ -265,6 +269,7 @@ function navigation() {
           name="Settings"
           component={SettingsScreen}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="cog" color={'white'} size={25} />,
           }}
         />
@@ -288,6 +293,7 @@ function navigation() {
           name="Stack"
           component={NavigatorInstractor}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="book" color={'white'} size={25} />,
           }}
         />
@@ -296,6 +302,7 @@ function navigation() {
           name="Settings"
           component={SettingsScreen}
           options={{
+            tabBarIconStyle:{width:'auto',height:'auto'} ,
             tabBarIcon: () => <Icon name="cog" color={'white'} size={25} />,
           }}
         />

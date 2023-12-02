@@ -46,7 +46,7 @@ const CreateBadge = ({navigation}: any) => {
       });
 
       const uploadResponse :any = await axios.post(
-        'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Upload/upload',
+        'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -57,7 +57,7 @@ const CreateBadge = ({navigation}: any) => {
       const uploadedImageUrl = uploadResponse.data;
       if (uploadResponse.status === 200) {
         const badgeCreationResponse = await axios.post(
-          'https://e803-2a01-9700-1091-6200-2821-f5f8-78b-db71.ngrok-free.app/api/Badges/Create',
+          'https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Badges/Create',
           {
             type: 'ByAdmin',
             text: textInput,
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
+    
   },
   input: {
     height: 40,
