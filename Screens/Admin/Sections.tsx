@@ -36,7 +36,7 @@ const Sections = ({route, navigation}: any) => {
 
 const fetchDataCourses = () => {
   axios
-  .get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course')
+  .get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course')
   .then(async response => {
     const filteredCourse = response.data.filter(
       (item:any) => item.coursenum === route.params.coursenum,
@@ -58,7 +58,7 @@ const fetchDataCourses = () => {
 const fetchUserData = async (id: any) => {
   try {
     const response = await axios.get(
-      `  https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/GetUserById/${id}`,
+      `  https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/${id}`,
     );
     return response.data;
   } catch (error) {
@@ -85,7 +85,7 @@ const fetchUserData = async (id: any) => {
     if (selectedCourseId) {
       axios
         .delete(
-          ` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
+          ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course/Delete/${selectedCourseId}`,
         )
         .then(() => {
           Alert.alert('Section Deleted Successfully');

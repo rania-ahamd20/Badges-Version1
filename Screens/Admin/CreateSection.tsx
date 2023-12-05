@@ -29,10 +29,15 @@ const CreateSection = ({navigation, route}: any) => {
   const {courseData} = route.params;
   const [instructors, setInstructors] :any = useState([]);
   const [selectedInstructor, setSelectedInstructor] : any= useState(null);
+
+
+ 
+
+
   const getUserByID = async (userID:any) => {
     try {
       const response = await axios.get(
-        ` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/GetUserById/${userID}`,
+        ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/${userID}`,
       );
       return response.data;
     } catch (error) {
@@ -64,12 +69,8 @@ const CreateSection = ({navigation, route}: any) => {
     return formattedDate;
   }
 
-  function getTime(date: any) {
-    const dateTime = new Date(date);
-    const formattedTime = dateTime.toLocaleTimeString();
 
-    return formattedTime;
-  }
+
   const getMaxSectionNumber = () => {
     let maxSection = 0;
     courseData.forEach((course : any) => {
@@ -81,14 +82,64 @@ const CreateSection = ({navigation, route}: any) => {
   };
   const maxSection = getMaxSectionNumber();
   const newSectionNum = maxSection + 1;
+
+
+
+
   const handleCreate = async () => {
+
+  let checkf = false;
+  let checkl = false;
+
+  const startDate = new Date(
+    `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
+  );
+  startDate.setHours(startDate.getHours() - 3);
+
+
+
+  const endDate = new Date(
+    `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
+  );
+  endDate.setHours(endDate.getHours() - 3);
+ 
+
+
+  const start_s = startDate.getHours();
+  const end_s = endDate.getHours();
+
+  if(start_s >= end_s || start_s < 8 || end_s > 17)  checkf = true ;
+
+  if(!checkf)
+  {
+  courseData.map((course:any) => {
+
+    const start = new Date(course.datefrom).getHours();
+    const end = new Date(course.dateto).getHours();
+   
+    if(checkl)
+    {
+      return;
+    }
+
+    if((start_s >= start && start_s < end ) || (end_s > start && end_s <= end) )
+    checkl = true;   
+  
+  })
+  }
+  else{
+    Alert.alert("You entered a time that is outside working hours or is invalid");
+  }
+
+
+
+
+    
+
+if(!checkl && !checkf)
+{
     try {
-      const startDate = new Date(
-        `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
-      );
-      const endDate = new Date(
-        `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
-      );
+     
 
       if (file != null) {
         const formData = new FormData();
@@ -99,7 +150,7 @@ const CreateSection = ({navigation, route}: any) => {
         });
 
         const response = await axios.post(
-          ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Upload/upload',
+          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Upload/upload',
           formData,
           {
             headers: {
@@ -107,11 +158,13 @@ const CreateSection = ({navigation, route}: any) => {
             },
           },
         );
-
+        
         const responseData = response.data;
 
+
+
         const sectionResponse = await axios.post(
-          '  https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course/Create',
+          '  https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -137,11 +190,11 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Attendance',
+          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
-        Alert.alert('Created Successfully', '', [
+        Alert.alert('Created Section Successfully', '', [
           {
             text: 'OK',
             onPress: () => navigation.navigate('ManageSections'),
@@ -149,7 +202,7 @@ const CreateSection = ({navigation, route}: any) => {
         ]);
       } else {
         const sectionResponse = await axios.post(
-          '  https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Course/Create',
+          '  https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -176,7 +229,7 @@ const CreateSection = ({navigation, route}: any) => {
         };
 
         await axios.post(
-          ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/Attendance',
+          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance',
           attendanceData,
         );
 
@@ -190,12 +243,17 @@ const CreateSection = ({navigation, route}: any) => {
     } catch (error) {
       console.error('Error creating section:', error);
     }
+  }
+  else if(!checkf)
+  {
+    Alert.alert("We sorry in this time there is another section");
+  }
   };
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
         const fetchedInstructors = await axios.get(
-          ' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User',
+          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User',
         );
         const filteredInstructors = fetchedInstructors.data.filter(
           (instructor : any) => instructor.roleid == '2',

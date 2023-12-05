@@ -82,7 +82,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
     const handelGetAll = ()=>{
 
-    axios.get(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User')
+    axios.get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User')
     .then(result=>{
 
         const filteredData = result.data.filter((item:any) => item.roleid === 3);
@@ -95,7 +95,7 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   const handelDelete = (id:any)=>{
 
-    axios.delete(` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/Delete/${id}`)
+    axios.delete(` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/Delete/${id}`)
     .then(res=>{
         Alert.alert('Deleted Successfully');
         setShowConfirmation(false);
@@ -103,10 +103,10 @@ function GetAllTrainee({navigation}:any): JSX.Element {
 
   };
 
- 
+  
 
   const handelUpdate= async()=>{
-    axios.put(' https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/Update',{
+    axios.put(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/Update',{
         "userid":Userid,
         "firstname":Firstname,
         "lastname":Lastname,

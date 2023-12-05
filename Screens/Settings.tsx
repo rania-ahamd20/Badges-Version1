@@ -14,7 +14,7 @@ const SettingsScreen = ({ navigation }: any) => {
     const [user, setUser]: any = useState();
     const getuserData = async () => {
         await AsyncStorage.getItem('userid').then(async (id: any) => {
-            await axios.get(` https://c090-2a01-9700-1091-6200-1488-cf3c-ec44-b1a7.ngrok-free.app/api/User/GetUserById/${parseInt(id, 10)}`)
+            await axios.get(` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/${parseInt(id, 10)}`)
                 .then(async (res: any) => {
 
                     //console.log('User : ', res.data);
