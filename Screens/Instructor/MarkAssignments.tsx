@@ -30,7 +30,7 @@ function MarkAssignments({route}:any) {
       try {
         const response = await axios.get(
 
-          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/AssignmentTr',
+          ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/AssignmentTr',
         );
         const responseJson = response.data;
         const filteredData = responseJson.filter(
@@ -70,7 +70,7 @@ function MarkAssignments({route}:any) {
   const markAnswer = async (item:any) => {
     try {
       const getAss = await axios.get(
-        ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Assignment/GetAssignmentById/${item.assignmentsid}`
+        ` https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Assignment/GetAssignmentById/${item.assignmentsid}`
       );
       const Assignment = getAss.data;
   if (parseInt(mark, 10) > parseInt(Assignment.mark, 10)) {
@@ -78,7 +78,7 @@ function MarkAssignments({route}:any) {
       return;
     }
       await axios.put(
-        ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/AssignmentTr/Update',
+        ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/AssignmentTr/Update',
         {
           atid: item.atid,
           submitdate: item.submitdate,
@@ -103,7 +103,7 @@ function MarkAssignments({route}:any) {
   const GetUser = (id:any) => {
     return axios
       .get(
-        ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/${id}`,
+        ` https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User/GetUserById/${id}`,
       )
       .then(response => {
         return response.data;

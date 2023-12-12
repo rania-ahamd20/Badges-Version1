@@ -25,14 +25,14 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
 
   const getdata = async () => {
     await axios
-      .get('https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course')
+      .get('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Course')
       .then(async (courses: any) => {
         const filterSection = courses.data.filter(
           (c: any) => c.coursenum == route.params.coursenum);
         const coursesid = filterSection.map((item: any) => item.courseid);
         console.log(coursesid);
         await axios
-          .get('https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/CourseTrainee')
+          .get('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/CourseTrainee')
           .then(async (coursesTr: any) => {
             const usersIn = coursesTr.data.filter((tc: any) =>
               coursesid.includes(tc.courseid),
@@ -60,7 +60,7 @@ const AddTraineeToCourse = ({route, navigation}: any) => {
   const addUsers = async (userid: any) => {
     await axios
       .post(
-        'https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/CourseTrainee/Create',
+        'https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/CourseTrainee/Create',
         {
           mark: 0,
           courseid: route.params.courseid,

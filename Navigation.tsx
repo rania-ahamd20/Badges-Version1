@@ -80,9 +80,9 @@ function navigation() {
           options={{title: 'My Courses'}}
         />
         <StackIns.Screen
-          name="CourseDetailsInst"
-          component={CourseDetailsInst}
-          options={{title: 'Info'}}
+          name = "CourseDetailsInst"
+          component = {CourseDetailsInst}
+          options = {{title: 'Info'}}
         />
         <StackIns.Screen name="Assignments" component={Assignments} />
         <StackIns.Screen name="TakeAttendance" component={TakeAttendance} />

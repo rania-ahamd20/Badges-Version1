@@ -67,7 +67,7 @@ const AddTrainee = ({ navigation, route }: any) => {
       });
 
 
-      const response = await axios.post('https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Upload/upload', formData, {
+      const response = await axios.post('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Upload/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -79,7 +79,7 @@ const AddTrainee = ({ navigation, route }: any) => {
       if (response.status === 200) {
           console.log(responseData)
         if (isValid) {
-          axios.post('https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/Create', {
+          axios.post('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User/Create', {
             "Firstname": Firstname,
             "Lastname": Lastname,
             "Email": Email,
@@ -112,7 +112,7 @@ const AddTrainee = ({ navigation, route }: any) => {
     } catch (error) {
 
       if (isValid) {
-        axios.post('https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/Create', {
+        axios.post('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User/Create', {
           "Firstname": Firstname,
           "Lastname": Lastname,
           "Email": Email,

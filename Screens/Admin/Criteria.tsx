@@ -67,7 +67,7 @@ const Criteria = ({navigation}: any) => {
       });
 
       const response = await axios.post(
-        ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Upload/upload',
+        ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -82,7 +82,7 @@ const Criteria = ({navigation}: any) => {
 
         axios
           .put(
-            ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Badges/Update',
+            ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Badges/Update',
             {
               badgesid: badge.badgesid,
               type: badge.type,
@@ -143,7 +143,7 @@ const Criteria = ({navigation}: any) => {
     const selectedCriteriasString = selectedCriterias.join(', ');
     try {
       await axios.put(
-        ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Badges/Update',
+        ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Badges/Update',
         {
           badgesid: badge.badgesid,
           type: badge.type,
@@ -168,7 +168,7 @@ const Criteria = ({navigation}: any) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Badges',
+        ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Badges',
       );
       const fetchedBadges = response.data;
       setBadges(fetchedBadges);

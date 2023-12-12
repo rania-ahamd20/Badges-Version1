@@ -38,12 +38,12 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     const [Attendances , setattendances]: any = useState();
 
     const fetchDataUsers = async () => {
-        await axios.get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User')
+        await axios.get(' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User')
             .then(async (result1) => {
                 setinst(result1.data.find((us: any) => us.userid === Course.userid));
 
 
-                await axios.get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
+                await axios.get(' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/CourseTrainee/GetUserCourse/' + parseInt(Course.courseid, 10))
                     .then(async (result) => {
 
                         setCt(result.data);
@@ -56,7 +56,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
     };
     const fetchDataAt = async () => {
 
-        await axios.get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance')
+        await axios.get(' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Attendance')
             .then(async (result) => {
                 const id = result.data.find((c: any) => c.courseid == route.params.course.courseid);
                 setattendance(id.attendanceid);
@@ -68,7 +68,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
 
         await axios
                   .get(
-                    `https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
+                    `https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
                   )
                   .then(async (AttendancesData: any) => {
                     await setattendances(AttendancesData.data)
@@ -82,6 +82,8 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
         fetchDataUsers();
         fetchDataAt();
         GetattendanceCourse();
+
+        navigation.addListener('focus',  GetattendanceCourse   );
     }, []);
 
     const checkattendance = () => {
@@ -94,7 +96,7 @@ const CourseDetailsInst = ({ route, navigation }: any) => {
         
         const currentDate = getdate(cDate);
         if (startdate <= currentDate && currentDate <= enddate) {
-            navigation.navigate('TakeAttendance', { users: UsersC, attendanceid: attendanceid });
+            navigation.navigate('TakeAttendance', { users: UsersC, attendanceid: attendanceid , course: Course});
         } else {
             Alert.alert('Sorry this Course not Started yet or End');
         }

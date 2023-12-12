@@ -37,7 +37,7 @@ const CreateSection = ({navigation, route}: any) => {
   const getUserByID = async (userID:any) => {
     try {
       const response = await axios.get(
-        ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/${userID}`,
+        ` https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User/GetUserById/${userID}`,
       );
       return response.data;
     } catch (error) {
@@ -94,14 +94,14 @@ const CreateSection = ({navigation, route}: any) => {
   const startDate = new Date(
     `${courseData[0].datefrom.split('T')[0]}T${datefrom}:00.000Z`,
   );
-  startDate.setHours(startDate.getHours() - 3);
+  startDate.setHours(startDate.getHours());
 
 
 
   const endDate = new Date(
     `${courseData[0].dateto.split('T')[0]}T${dateto}:00.000Z`,
   );
-  endDate.setHours(endDate.getHours() - 3);
+  endDate.setHours(endDate.getHours());
  
 
 
@@ -150,7 +150,7 @@ if(!checkl && !checkf)
         });
 
         const response = await axios.post(
-          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Upload/upload',
+          ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Upload/upload',
           formData,
           {
             headers: {
@@ -164,7 +164,7 @@ if(!checkl && !checkf)
 
 
         const sectionResponse = await axios.post(
-          '  https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course/Create',
+          '  https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -181,18 +181,26 @@ if(!checkl && !checkf)
             },
           },
         );
+        
+        await axios.get('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Course')
+        .then(
+          (res:any)  => {
+            
+            const createdSectionId =  res.data.find((as:any) => as.sectionnum == newSectionNum &&
+            as.coursenum == courseData[0].coursenum).courseid;
+            console.log(createdSectionId);
+             axios.post(
+              ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Attendance',
+              {courseid: createdSectionId},
+            );
+          }
+        )
 
-        const createdSectionId = sectionResponse.data.courseid;
+        
 
-        const attendanceData = {
-          courseid: createdSectionId,
-          attendanceid: 0,
-        };
+        
 
-        await axios.post(
-          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance',
-          attendanceData,
-        );
+        
 
         Alert.alert('Created Section Successfully', '', [
           {
@@ -202,7 +210,7 @@ if(!checkl && !checkf)
         ]);
       } else {
         const sectionResponse = await axios.post(
-          '  https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Course/Create',
+          '  https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Course/Create',
           {
             datefrom: startDate,
             dateto: endDate,
@@ -221,17 +229,21 @@ if(!checkl && !checkf)
           },
         );
 
-        const createdSectionId = sectionResponse.data.courseid;
+        await axios.get('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Course')
+        .then(
+          (res:any)  => {
+            
+            const createdSectionId =  res.data.find((as:any) => as.sectionnum == newSectionNum &&
+            as.coursenum == courseData[0].coursenum).courseid;
+            console.log(createdSectionId);
+             axios.post(
+              ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Attendance',
+              {courseid: createdSectionId},
+            );
+          }
+        )
 
-        const attendanceData = {
-          courseid: createdSectionId,
-          attendanceid: 0,
-        };
-
-        await axios.post(
-          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance',
-          attendanceData,
-        );
+        
 
         Alert.alert('Created Successfully', '', [
           {
@@ -253,7 +265,7 @@ if(!checkl && !checkf)
     const fetchInstructors = async () => {
       try {
         const fetchedInstructors = await axios.get(
-          ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User',
+          ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User',
         );
         const filteredInstructors = fetchedInstructors.data.filter(
           (instructor : any) => instructor.roleid == '2',

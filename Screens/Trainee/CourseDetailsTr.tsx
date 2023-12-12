@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 import Spacing from '../../constants/Spacing';
 import {
   Alert,
-  FlatList,
   Image,
   SafeAreaView,
   ScrollView,
@@ -94,7 +93,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       });
 
       const response = await axios.post(
-        ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Upload/upload',
+        ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Upload/upload',
         formData,
         {
           headers: {
@@ -108,7 +107,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         if (!Assignment.atid) {
           axios
             .post(
-              ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/AssignmentTr',
+              ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/AssignmentTr',
               {
                 submitdate: new Date(),
                 mark: -1,
@@ -131,7 +130,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
         else {
           axios
             .put(
-              ' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/AssignmentTr/Update',
+              ' https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/AssignmentTr/Update',
               {
                 atid: Assignment.atid,
                 submitdate: new Date(),
@@ -164,7 +163,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
   const fetchDataUsers = async () => {
     await axios
-      .get(' https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/User/GetUserById/' + parseInt(Course.userid))
+      .get('https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/User/GetUserById/'+parseInt(Course.userid))
       .then(async result1 => {
 
         setinst(result1.data);
@@ -183,7 +182,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
       await setUser(id);
       await axios
         .get(
-          ` https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
+          ` https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/AssignmentTr/GetAU/${parseInt(id)}/${parseInt(route.params.course.courseid)}`,
         )
         .then(async (res: any) => {
           setAssignments(res.data);
@@ -195,7 +194,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
 
     await axios
       .get(
-        `https://a1e8-2a01-9700-1108-6f00-69b2-6829-7765-ea85.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
+        `https://f369-2a01-9700-11e9-d000-9d57-1fc5-6cda-63a6.ngrok-free.app/api/Attendance/GetattendanceCourse/${parseInt(Course.courseid)}`,
       )
       .then(async (AttendancesData: any) => {
         await setattendances(AttendancesData.data)
@@ -207,6 +206,7 @@ const CourseDetailsTr = ({ route, navigation }: any) => {
     fetchDataUsers();
     getuserData();
     GetattendanceCourse();
+    navigation.addListener('focus' , getuserData);
   }, []);
 
   function getnumattendance(id: any) {
